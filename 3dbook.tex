@@ -1,0 +1,268 @@
+
+\documentclass[
+  fontsize=10pt, % Base font size
+  twoside=true, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
+  % open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
+  secnumdepth=1, % How deep to number headings. Defaults to 1 (sections)
+  %chapterprefix=true, % Uncomment to use the word "Chapter" before chapter numbers everywhere they appear
+  %chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
+  numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
+  % draft=true, % If uncommented, rulers will be added in the header and footer
+  % overfullrule=true, % If uncommented, overly long lines will be marked by a black box; useful for correcting spacing problems
+]{kaobook}
+
+% Choose the language
+\usepackage[english]{babel} % Load characters and hyphenation
+\usepackage[english=british]{csquotes}  % English quotes
+
+% Load packages for testing
+\usepackage{blindtext}
+%\usepackage{showframe} % Uncomment to show boxes around the text area, margin, header and footer
+%\usepackage{showlabels} % Uncomment to output the content of \label commands to the document where they are used
+
+% Load the bibliography package
+% \usepackage{styles/kaobiblio}
+% \addbibresource{book-template.bib} % Bibliography file
+
+% Load the package for hyperreferences
+\usepackage{styles/kaorefs}
+
+% Load mathematical packages for theorems and related environments. NOTE: choose only one between 'mdftheorems' and 'plaintheorems'.
+\usepackage{styles/mdftheorems}
+%\usepackage{styles/plaintheorems}
+
+% \graphicspath{{images/}{./}} % Paths in which to look for images
+
+\makeindex[columns=3, title=Alphabetical Index, intoc] % Make LaTeX produce the files required to compile the index
+
+\makeglossaries % Make LaTeX produce the files required to compile the glossary
+
+\makenomenclature % Make LaTeX produce the files required to compile the nomenclature
+
+
+
+%----------------------------------------
+% HL
+%----------------------------------------
+
+% \usepackage[backend=biber,natbib=true,maxcitenames=2,maxbibnames=10,giveninits=true,isbn=false,doi=false,url=false,defernumbers=true,style=numeric,sorting=ydnt]{biblatex} 
+\usepackage[backend=bibtex,natbib=true,style=authoryear,citestyle=authoryear,maxcitenames=2,maxbibnames=10,giveninits=true,isbn=false,doi=false,dashed=false]{biblatex}
+\bibliography{refs/3db} % Bibliography file
+%-- remove the In:
+\renewbibmacro{in:}{}
+%-- remove the "" before/after the title of the paper
+\DeclareFieldFormat[article, inbook, incollection, inproceedings, misc, thesis, unpublished]{title}{#1}
+
+
+
+% Command to print a citation in the margins
+\newcommand{\sidecitet}[1]{% The optional parameter is the 
+%vertical shift; 
+%the mandatory one is the citation key
+  \citet{#1}% With this we print the marker in the text and add the item to the 
+  %bibliography at the end \margincitation
+  \marginnote{\citeauthor*{#1} (\citeyear{#1}), \citetitle{#1}\\}% 
+  %Create a marginnote for each item
+}
+
+\newcommand{\sidecitep}[1]{% The optional parameter is the 
+%vertical shift; 
+%the mandatory one is the citation key
+  \citep{#1}% With this we print the marker in the text and add the item to the 
+  %bibliography at the end \margincitation
+  \marginnote{\citeauthor*{#1} (\citeyear{#1}), \citetitle{#1}\\}% 
+  %Create a marginnote for each item
+}
+
+\renewcommand{\ie}{ie}
+\renewcommand{\eg}{eg}
+% \newcommand{\reffig}[1]{Figure~\ref{#1}}
+% \newcommand{\refsec}[1]{Section~\ref{#1}}
+\newcommand{\refchap}[1]{Chapter~\ref{#1}}
+
+\setcounter{margintocdepth}{1}
+\setcounter{tocdepth}{1}
+
+\usepackage{subcaption}
+\usepackage{fontawesome}
+\usepackage{boxedminipage}
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle,basicstyle=\ttfamily\footnotesize,breaklines=true}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{breaklinks=true}
+
+\setcounter{secnumdepth}{3}
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+% BOOK INFORMATION
+%----------------------------------------------------------------------------------------
+
+
+\title{3D modelling of the built environment}
+\author{Ken Arroyo Ohori \hspace{7mm} Hugo Ledoux \hspace{7mm} Ravi Peters}
+\date{\texttt{v0.1}}
+
+% \publishers{\includegraphics[width=\linewidth]{front-back/saba.png}}
+
+%----------------------------------------------------------------------------------------
+
+\frontmatter % Denotes the start of the pre-document content, uses roman numerals
+
+%----------------------------------------------------------------------------------------
+% OPENING PAGE
+%----------------------------------------------------------------------------------------
+
+%\makeatletter
+%\extratitle{
+% % In the title page, the title is vspaced by 9.5\baselineskip
+% \vspace*{9\baselineskip}
+% \vspace*{\parskip}
+% \begin{center}
+%   % In the title page, \huge is set after the komafont for title
+%   \usekomafont{title}\huge\@title
+% \end{center}
+%}
+%\makeatother
+
+%----------------------------------------------------------------------------------------
+% COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\input{front-back/pre}
+
+
+
+%----------------------------------------------------------------------------------------
+% OUTPUT TITLE PAGE AND PREVIOUS
+%----------------------------------------------------------------------------------------
+
+% Note that \maketitle outputs the pages before here
+
+% If twoside=false, \uppertitleback and \lowertitleback are not printed
+% To overcome this issue, we set twoside=semi just before printing the title pages, and set it back to false just after the title pages
+\KOMAoptions{twoside=semi}
+\maketitle
+\KOMAoptions{twoside=false}
+
+%----------------------------------------------------------------------------------------
+% PREFACE
+%----------------------------------------------------------------------------------------
+
+\input{front-back/preface.tex}
+
+%----------------------------------------------------------------------------------------
+% TABLE OF CONTENTS & LIST OF FIGURES/TABLES
+%----------------------------------------------------------------------------------------
+
+\begingroup % Local scope for the following commands
+
+% Define the style for the TOC, LOF, and LOT
+%\setstretch{1} % Uncomment to modify line spacing in the ToC
+%\hypersetup{linkcolor=blue} % Uncomment to set the colour of links in the ToC
+\setlength{\textheight}{23cm} % Manually adjust the height of the ToC pages
+
+% Turn on compatibility mode for the etoc package
+\etocstandarddisplaystyle % "toc display" as if etoc was not loaded
+\etocstandardlines % "toc lines as if etoc was not loaded
+
+\tableofcontents % Output the table of contents
+
+% \listoffigures % Output the list of figures
+
+% Comment both of the following lines to have the LOF and the LOT on different pages
+% \let\cleardoublepage\bigskip
+% \let\clearpage\bigskip
+
+% \listoftables % Output the list of tables
+
+\endgroup
+
+%----------------------------------------------------------------------------------------
+% MAIN BODY
+%----------------------------------------------------------------------------------------
+
+\mainmatter 
+\setchapterstyle{kao} % Choose the default chapter heading style
+
+\include{dmds/dmds}
+\include{brep/brep}
+\include{dtvd3d/dtvd3d}
+\include{voxels/voxels}
+\include{csg_nef/csg_nef}
+\include{curves/curves}
+\include{mat/mat}
+\include{gmaps/gmaps}
+\include{iso19107/iso19107}
+\include{3dcm/3dcm}
+\include{bim/bim}
+\include{LoD2recon/LoD2recon}
+\include{conversion/conversion}
+\include{apps/apps}
+%----------------------------------------------------------------------------------------
+
+
+\backmatter % Denotes the end of the main document content
+\setchapterstyle{plain} % Output plain chapters from this point onwards
+
+%----------------------------------------------------------------------------------------
+% BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+% The bibliography needs to be compiled with biber using your LaTeX editor, or on the command line with 'biber main' from the template directory
+
+% \defbibnote{bibnote}{Here are the references in citation order.\par\bigskip} % Prepend this text to the bibliography
+\printbibliography[heading=bibintoc, title=Bibliography] % Add the bibliography heading to the ToC, set the title of the bibliography and output the bibliography note
+
+%----------------------------------------------------------------------------------------
+% INDEX
+%----------------------------------------------------------------------------------------
+
+% The index needs to be compiled on the command line with 'makeindex main' from the template directory
+
+\printindex % Output the index
+
+%----------------------------------------------------------------------------------------
+% BACK COVER
+%----------------------------------------------------------------------------------------
+
+% If you have a PDF/image file that you want to use as a back cover, uncomment the following lines
+
+%\clearpage
+%\thispagestyle{empty}
+%\null%
+%\clearpage
+%\includepdf{cover-back.pdf}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
