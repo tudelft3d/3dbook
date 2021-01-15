@@ -1,4 +1,5 @@
 %!TEX root = ../3dbook.tex
+% chktex-file 46
 
 \setchapterpreamble[u]{\margintoc}
 
@@ -17,7 +18,7 @@ Having unambiguous definitions for the geometric primitives is important to fost
 
 %%%
 %
-\section{Are you polyhedra the same as my polyhedra?}
+\section[Same as my polyhedra?]{Are your polyhedra the same as my polyhedra?}%
 \label{sec:definition}
 
 In the scientific literature, there is no single definition for a solid or a polyhedron (notice that these two terms are often used interchangeably).
@@ -33,12 +34,12 @@ An obvious example is the surface of the Earth, for which near to every point th
 %An example of a 3-manifold is the entire Earth (its interior) because the neighbourhood of every point is equivalent to a sphere (see Figure~\ref{fig:manifolds}(b)). 
 %The concept of neighbourhood, or locality, is such that a manifold can actually be constructed by `gluing' separate Euclidean spaces together.
 Representing and storing a 2-manifold, even in $\mathbb{R}^3$, can be done with data structures that are intrinsically 2D since: (1) each edge is guaranteed to have a maximum of two incident faces; (2) around each vertex the incident faces form one `umbrella' (Figure~\ref{fig:nonmanifold}).
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.35\linewidth]{figs/nonmanifold}
-  \caption{An example of an invalid 2-manifold: one edge and one vertex are non-manifold (the red ones).}
+  \includegraphics[width=0.9\linewidth]{figs/nonmanifold}
+  \caption{An example of an invalid 2-manifold: one edge and one vertex are non-manifold (the red ones).}%
 \label{fig:nonmanifold}
-\end{figure}
+\end{marginfigure}
 The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, can thus be used.
 
 
@@ -50,12 +51,12 @@ The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, ca
 The geometric primitives as used in 3D GIS are based on the ISO 19107 definitions, and the definition of a polyhedra there is broader than that of a 2-manifold, to allow us to represent all the real-world features.
 
 As shown in Figure~\ref{fig:isoprimitives}, 
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.8\linewidth]{figs/isoprimitives.pdf}
-  \caption{ISO 19017 primitives.}
+  \includegraphics[width=\linewidth]{figs/isoprimitives.pdf}
+  \caption{ISO 19017 primitives relevant for the modeling of the built environment.}%
 \label{fig:isoprimitives}
-\end{figure}
+\end{marginfigure}
 the ISO 19107 geometric primitives for representing an object are: a 0D primitive is a \texttt{GM\_Point}, a 1D a \texttt{GM\_Curve}, a 2D a \texttt{GM\_Surface}, and a 3D a \texttt{GM\_Solid}.
 A $d$-dimensional primitive is built with a set of $(d-1)$-dimensional primitives, \eg\ a \texttt{GM\_Solid} is formed by several \texttt{GM\_Surfaces}, which are formed of several \texttt{GM\_Curves}, which are themselves formed of \texttt{GM\_Point}.
 Observe that the ISO19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed
@@ -91,34 +92,34 @@ To be a valid shell, the 2-manifold should be closed, \ie\ there should not be `
 %
 
 Figure~\ref{fig:onesolid} shows a solid that respects that definition.
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.5\textwidth]{figs/isosolid.pdf}
+  \includegraphics[width=0.95\textwidth]{figs/isosolid.pdf}
   \caption{One solid which respects the ISO 19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
 \label{fig:onesolid}
-\end{figure}
+\end{marginfigure}
 First observe that the solid is composed of two shells (both forming its boundaries), one being the exterior and one being the interior shell.
 The exterior shell has eleven surfaces, and the interior one six.
 An interior shell creates a cavity in the solid---cavities are also referred to as ``voids'' or holes in a solid.
 A solid can have no inner shells, or several.
 Observe that a cavity is not the same as a hole in a torus (a donut) such as that in Figure~\ref{fig:torus}: it can be represented with one exterior shell having a genus of 1\footnote{The genus of an (orientable) surface embedded is the number of ``handles'' that it has. For instance, a donut and a mug have a genus of 1.} and no interior shell.
 Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one inner ring, but that other surfaces ``fill'' that hole so that the exterior shell is closed.
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.35\linewidth]{figs/torus.pdf}
-  \caption{A `squared torus' is modelled with one exterior boundary formed of ten surfaces. Notice that there are no interior boundary.}
+  \includegraphics[width=0.8\linewidth]{figs/torus.pdf}
+  \caption{A `squared torus' is modelled with one exterior boundary formed of ten surfaces. Notice that there are no interior boundary.}%
 \label{fig:torus}
-\end{figure}
+\end{marginfigure}
 
 
 %%%
 %
-\section{Primitives used in practice (CityGML)}
+\section[Primitives used in practice]{Primitives used in practice (CityGML)}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{figs/geomprimitives.pdf}
-  \caption{Some of the CityGML primitives, including aggregates and composites. Orange primitives are those representing inner boundaries. The \texttt{Shell} is not a class in GML, but it is implied when a \texttt{CompositeSurface} is used to define the boundary of a \texttt{Solid}.}
+  \caption{Some of the CityGML primitives, including aggregates and composites. Orange primitives are those representing inner boundaries. The \texttt{Shell} is not a class in GML, but it is implied when a \texttt{CompositeSurface} is used to define the boundary of a \texttt{Solid}.}%
 \label{fig:geomprimitives}
 \end{figure}
 
@@ -145,7 +146,7 @@ The most relevant example in our context is a \texttt{CompositeSurface}, which i
 
 %%%
 %
-\section{Implementation specifications for the 3D primitives}
+\section[Implementation specifications]{Implementation specifications for the 3D primitives}
 
 
 Observe that for a primitive to be valid, all its lower-dimensionality primitives have to be valid.
@@ -160,28 +161,28 @@ These rules are verified by first projecting each \texttt{Polygon} to a plane, t
 A \texttt{Polygon} must also be \emph{planar} to be valid: its points (used for both the exterior and interior rings) have to lie on a plane.
 \begin{figure}
   \centering
-\begin{boxedminipage}{.9\textwidth}
-  {\small
-\begin{enumerate}
-  \item Polygons are topologically closed;
-  \item The boundary of a Polygon consists of a set of LinearRings that make up its exterior and interior boundaries;
-  \item No two Rings in the boundary cross and the Rings in the boundary of a Polygon may intersect at a Point but only as a tangent, \eg\
-    \[
-       \forall P \in Polygon, \forall c1, c2 \in P.Boundary(), c1 \neq c2,
-    \]
-    \[
-        \forall p, q \in Point, p, q \in c1, p \neq q, [p \in c2 \Rightarrow q \notin c2];
-    \]
-  \item A Polygon may not have cut lines, spikes or punctures \eg:
-    \[
-       \forall P \in Polygon, P = P.Interior.Closure;
-    \]
-  \item The interior of every Polygon is a connected point set;
-  \item The exterior of a Polygon with 1 or more holes is not connected. Each hole defines a connected component of the exterior.
-\end{enumerate}
-}
-\end{boxedminipage}
-\caption{The six assertions for the validity of a 2D polygon, according to \emph{Simple Features}.}
+  \begin{boxedminipage}{.9\textwidth}
+    {\small
+  \begin{enumerate}
+    \item Polygons are topologically closed;
+    \item The boundary of a Polygon consists of a set of LinearRings that make up its exterior and interior boundaries;
+    \item No two Rings in the boundary cross and the Rings in the boundary of a Polygon may intersect at a Point but only as a tangent, \eg\
+      \[
+         \forall P \in Polygon, \forall c1, c2 \in P.Boundary(), c1 \neq c2,
+      \]
+      \[
+          \forall p, q \in Point, p, q \in c1, p \neq q, [p \in c2 \Rightarrow q \notin c2];
+      \]
+    \item A Polygon may not have cut lines, spikes or punctures \eg:
+      \[
+         \forall P \in Polygon, P = P.Interior.Closure;
+      \]
+    \item The interior of every Polygon is a connected point set;
+    \item The exterior of a Polygon with 1 or more holes is not connected. Each hole defines a connected component of the exterior.
+  \end{enumerate}
+  }
+  \end{boxedminipage}
+\caption{The six assertions for the validity of a 2D polygon, according to \emph{Simple Features}.}%
 \label{fig:ogcsf_definitions}
 \end{figure}
 
@@ -211,7 +212,7 @@ To further explain what the assertions are in 3D, Figure~\ref{fig:validornot}
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{figs/validornot.pdf}
-  \caption{Twelve solids with the numbers in parentheses next to each indicating which OGC assertions are broken if invalid. For solid $s_9$ the colour of the exterior shell is not shown to highlight the interior shell.}
+  \caption{Twelve solids with the numbers in parentheses next to each indicating which OGC assertions are broken if invalid. For solid $s_9$ the colour of the exterior shell is not shown to highlight the interior shell.}%
 \label{fig:validornot}
 \end{figure}
 shows 12 solids, some of them valid, some not (all the statements below refer to solids in this figure).
@@ -248,12 +249,12 @@ Lastly, the orientation of the polygons must be considered.
 In 2D, the only requirement for a polygon is that its exterior ring must have the opposite orientation of that of its interior ring(s) (\eg\ clockwise versus counterclockwise).
 In 3D, if one polygon is used to construct a shell, its exterior ring must be oriented in such as way that when viewed from outside the shell the points are ordered counterclockwise.
 Figure~\ref{fig:orientation} shows an example.
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.35\linewidth]{figs/orientation.pdf}
-  \caption{One solid and the orientation of 3 of its polygons (different colours).}
+  \includegraphics[width=0.8\linewidth]{figs/orientation.pdf}
+  \caption{One solid and the orientation of 3 of its polygons (different colours).}%
 \label{fig:orientation}
-\end{figure}
+\end{marginfigure}
 In other words, the normal of the surface must point outwards if a right-hand system is used, \ie\ when the ordering of points follows the direction of rotation of the curled fingers of the right hand, then the thumb points towards the outside.
 If the polygon has interior rings, then these have to be ordered clockwise.
 
@@ -297,7 +298,7 @@ A \texttt{CompositeSolid}, formed by the \texttt{Solids} $A$ and $B$, should ful
 %
 \section{Notes and comments}
 
-The title ``Are you polyhedra the same as as polyhedra?'' is taken from the (excellent) paper from \citet{Grunbaum03}.
+The title ``Are your polyhedra the same as as polyhedra?'' is taken from the (excellent) paper from \citet{Grunbaum03}.
 
 The 2D GIS data structures that can be used for storing 2-manifolds are, for instance, the half-edge~\citep{Mantyla88}, the quad-edge~\citep{Guibas85}, and the doubly-connected edge list (DCEL)~\citep{Muller78}; all of these store the edge of a polyhedron as the atom, with links to its adjacent edges and incident faces.
 
