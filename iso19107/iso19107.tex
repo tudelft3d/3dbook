@@ -10,9 +10,11 @@
 
 To facilitate and encourage the exchange and interoperability of geographical information, the ISO (International Organization for Standardization: \url{www.iso.org}) and the OGC (Open Geospatial Consortium: \url{www.opengeospatial.org}) have developed in recent years standards that define what the basic geographical primitives are (the abstract specifications of ISO 19107), and also how they can be represented in a computer (the implementation specifications of GML and \emph{Simple Features}). 
 While the abstract definitions for the primitives are not restricted to two dimensions (2D), most of the efforts for the representation and storage of the geographical primitives have been done only in 2D; the \emph{Simple Features} specifications are well-defined, used, and implemented across the GIS community.
+\marginnote{Simple Features specifications}\index{Simple Features specifications}
 
 This document gives an overview of the primitives in 3D, both from the ISO 19107 and the GML point-of-views.
 Although the topic might appear trivial---``a polyhedron is simply a polyhedron, no?''---it is in practice a problem because several definitions exist and different software packages use different ones.
+\marginnote{polyhedron}\index{polyhedron}
 
 Having unambiguous definitions for the geometric primitives is important to foster interoperability, because most GIS operations (\eg\ calculation of the area of polygons; creation of buffers; conversion to other formats; Boolean operations such as intersection, union, etc.) require that the input primitives be according to certain definitions, otherwise the output of the operation is not guaranteed.
 
@@ -22,17 +24,19 @@ Having unambiguous definitions for the geometric primitives is important to fost
 \label{sec:definition}
 
 In the scientific literature, there is no single definition for a solid or a polyhedron (notice that these two terms are often used interchangeably).
-Even in the field of mathematics, opinions differ as to what constitutes the term `polyhedron'; many simply characterise the term as ``difficult to define''. 
+Even in the field of mathematics, opinions differ as to what constitutes the term \emph{polyhedron}; many simply characterise the term as ``difficult to define''. 
 Some researchers use it only for a regular polyhedron, or only for a convex one, and some consider non-planar faces as part of the definition.
 
 %
 
 The most common definition used is probably this simple one: a polyhedron is a 3D solid bounded by planar faces. 
 The bounding faces are surfaces embedded in $\mathbb{R}^3$, the three-dimen\-si\-o\-nal Euclidean space, and together the bounding surfaces form a \emph{closed two-dimensional manifold} (or 2-manifold for short).
+\marginnote{2-manifold}\index{2-manifold}
 A 2-manifold is a topological space that is topologically equivalent to $\mathbb{R}^2$. 
 An obvious example is the surface of the Earth, for which near to every point the surrounding area is topologically equivalent to a plane. 
-%An example of a 3-manifold is the entire Earth (its interior) because the neighbourhood of every point is equivalent to a sphere (see Figure~\ref{fig:manifolds}(b)). 
-%The concept of neighbourhood, or locality, is such that a manifold can actually be constructed by `gluing' separate Euclidean spaces together.
+An example of a 3-manifold is the entire Earth (its interior) because the neighbourhood of every point is equivalent to a sphere. 
+\marginnote{3-manifold}\index{3-manifold}
+The concept of neighbourhood, or locality, is such that a manifold can actually be constructed by `gluing' separate Euclidean spaces together.
 Representing and storing a 2-manifold, even in $\mathbb{R}^3$, can be done with data structures that are intrinsically 2D since: (1) each edge is guaranteed to have a maximum of two incident faces; (2) around each vertex the incident faces form one `umbrella' (Figure~\ref{fig:nonmanifold}).
 \begin{marginfigure}
   \centering
@@ -46,7 +50,7 @@ The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, ca
 
 %%%
 %
-\section{ISO 19107}
+\section{The standard ISO 19107}
 
 The geometric primitives as used in 3D GIS are based on the ISO 19107 definitions, and the definition of a polyhedra there is broader than that of a 2-manifold, to allow us to represent all the real-world features.
 
@@ -102,7 +106,7 @@ First observe that the solid is composed of two shells (both forming its boundar
 The exterior shell has eleven surfaces, and the interior one six.
 An interior shell creates a cavity in the solid---cavities are also referred to as ``voids'' or holes in a solid.
 A solid can have no inner shells, or several.
-Observe that a cavity is not the same as a hole in a torus (a donut) such as that in Figure~\ref{fig:torus}: it can be represented with one exterior shell having a genus of 1\footnote{The genus of an (orientable) surface embedded is the number of ``handles'' that it has. For instance, a donut and a mug have a genus of 1.} and no interior shell.
+Observe that a cavity is not the same as a hole in a torus (a donut) such as that in Figure~\ref{fig:torus}: it can be represented with one exterior shell having a genus of 1\marginnote{The \textbf{genus} of an (orientable) surface embedded is the number of ``handles'' that it has. For instance, a donut and a mug have a genus of 1.} and no interior shell.
 Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one inner ring, but that other surfaces ``fill'' that hole so that the exterior shell is closed.
 \begin{marginfigure}
   \centering
@@ -114,7 +118,7 @@ Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one
 
 %%%
 %
-\section[Primitives used in practice]{Primitives used in practice (CityGML)}
+\section{Primitives used in practice}
 
 \begin{figure}
   \centering
@@ -125,7 +129,7 @@ Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one
 
 %
 
-CityGML uses a subset of ISO 19107, with the following two restrictions: 
+CityGML, the international standard for 3D modelling of cities (see Chapter~\ref{chap:3dcm}), uses a subset of ISO 19107, with the following two restrictions: 
 \begin{enumerate}
   \item \texttt{GM\_Curves} can only be \emph{linear} (thus only \texttt{LineStrings} and \texttt{LinearRings} are used); 
   \item \texttt{GM\_Surfaces} can only be \emph{planar} (thus \texttt{Polygons} are used).
@@ -140,6 +144,7 @@ GML (and CityGML) has classes for each dimensionality (\texttt{Multi*}), the mos
 An aggregate does not prescribe any topological relationships between the primitives.
 
 A composite of dimension $d$ is a collection of $d$-dimensional primitives that form a $d$-manifold. 
+\marginnote{$d$-manifold}\index{$d$-manifold}
 The most relevant example in our context is a \texttt{CompositeSurface}, which is a 2-manifold.
 
 
@@ -161,7 +166,7 @@ These rules are verified by first projecting each \texttt{Polygon} to a plane, t
 A \texttt{Polygon} must also be \emph{planar} to be valid: its points (used for both the exterior and interior rings) have to lie on a plane.
 \begin{figure}
   \centering
-  \begin{boxedminipage}{.9\textwidth}
+  \begin{boxedminipage}{\textwidth}
     {\small
   \begin{enumerate}
     \item Polygons are topologically closed;
@@ -197,7 +202,7 @@ Validating a \texttt{MultiSurface} simply means that each \texttt{Polygon} is va
 %%%
 \subsection{\texttt{CompositeSurface}}
 Besides that each \texttt{Polygon} must be individually valid, the \texttt{Polygon}s forming a \texttt{Composite\-Surface} are not allowed to overlap and/or to be disjoint.
-Furthermore, if we store a \texttt{Com\-po\-site\-Surface} in a data structure, each edge is guaranteed to have a maximum of two incident surfaces (except those on the boundary), and around each vertex the incident faces form one ``umbrella''.
+Furthermore, if we store a \texttt{Com\-po\-site\-Surface} in a data structure, each edge is guaranteed to have a maximum of two incident surfaces (except those on the boundary), and around each vertex the incident faces form one ``umbrella'' (see Figure~\ref{fig:nonmanifold}).
 
 
 %%%
@@ -229,6 +234,7 @@ If the interior of the two interior shells intersects (as in $s_4$) the solid is
 Notice also that $s_5$ is not valid since one surface of its cavity intersects with one surface of the exterior shell (they ``share a surface''); $s_5$ should be represented with one single exterior shell (having a `dent'), and no interior shell.
 
 The fourth assertion states that a shell is a 2-manifold and that no dangling pieces can exist (such as that of $s_6$); it is equivalent to the \emph{regularisation} of a point-set in $\mathbb{R}^3$.
+\marginnote{regularisation}\index{regularisation}
 
 The fifth assertion states that the interior of a solid must form a connected point-set (in $\mathbb{R}^3$).
 Consider the solid $s_7$, it is valid since its interior is connected and it fulfils the other assertions; notice that it is a 2-manifold but that unlike other solids in Figure~\ref{fig:validornot} (except $s_8$) its genus is 1.
