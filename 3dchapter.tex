@@ -235,21 +235,43 @@
   {}%
   {}%
 }
+\renewpagestyle{plain.scrheadings}{
+  {}%
+  {}%
+  {}
+}{
+  {\thepage}%
+  {\parbox[t][0cm][c]{\overflowingheadlen}{\ccbysa\ Ken Arroyo Ohori, Hugo Ledoux and Ravi Peters. This work is licensed under a Creative Commons Attribution 4.0 International License (\url{http://creativecommons.org/licenses/by/4.0/})\newline(last update: \today)}}%
+  {}
+}
 \pagestyle{scrheadings}
 
-\include{dmds/dmds}
-% \include{brep/brep}
+% \include{dmds/dmds}
+\setcounter{chapter}{1}
+\include{brep/brep}
+\setcounter{chapter}{2}
 % \include{dtvd3d/dtvd3d}
+\setcounter{chapter}{3}
 % \include{voxels/voxels}
+\setcounter{chapter}{4}
 % \include{csg_nef/csg_nef}
+\setcounter{chapter}{5}
 % \include{curves/curves}
+\setcounter{chapter}{6}
 % \include{mat/mat}
+\setcounter{chapter}{7}
 % \include{gmaps/gmaps}
+\setcounter{chapter}{8}
 % \include{iso19107/iso19107}
+\setcounter{chapter}{9}
 % \include{3dcm/3dcm}
+\setcounter{chapter}{10}
 % \include{bim/bim}
+\setcounter{chapter}{11}
 % \include{LoD2recon/LoD2recon}
+\setcounter{chapter}{12}
 % \include{conversion/conversion}
+\setcounter{chapter}{13}
 % \include{apps/apps}
 %----------------------------------------------------------------------------------------
 
@@ -272,7 +294,7 @@
 
 % The index needs to be compiled on the command line with 'makeindex main' from the template directory
 
-\printindex % Output the index
+% \printindex % Output the index
 
 %----------------------------------------------------------------------------------------
 % BACK COVER
