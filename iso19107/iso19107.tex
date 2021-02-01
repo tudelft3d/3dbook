@@ -20,7 +20,7 @@ Having unambiguous definitions for the geometric primitives is important to fost
 
 %%%
 %
-\section[Same as my polyhedra?]{Are your polyhedra the same as my polyhedra?}%
+\section[Same polyhedra?]{Are your polyhedra the same as my polyhedra?}%
 \label{sec:definition}
 
 In the scientific literature, there is no single definition for a solid or a polyhedron (notice that these two terms are often used interchangeably).
@@ -58,7 +58,7 @@ As shown in Figure~\ref{fig:isoprimitives},
 \begin{marginfigure}
   \centering
   \includegraphics[width=\linewidth]{figs/isoprimitives.pdf}
-  \caption{ISO 19017 primitives relevant for the modeling of the built environment.}%
+  \caption{ISO 19017 primitives relevant for the modelling of the built environment.}%
 \label{fig:isoprimitives}
 \end{marginfigure}
 the ISO 19107 geometric primitives for representing an object are: a 0D primitive is a \texttt{GM\_Point}, a 1D a \texttt{GM\_Curve}, a 2D a \texttt{GM\_Surface}, and a 3D a \texttt{GM\_Solid}.
@@ -106,7 +106,7 @@ First observe that the solid is composed of two shells (both forming its boundar
 The exterior shell has eleven surfaces, and the interior one six.
 An interior shell creates a cavity in the solid---cavities are also referred to as ``voids'' or holes in a solid.
 A solid can have no inner shells, or several.
-Observe that a cavity is not the same as a hole in a torus (a donut) such as that in Figure~\ref{fig:torus}: it can be represented with one exterior shell having a genus of 1\marginnote{The \textbf{genus} of an (orientable) surface embedded is the number of ``handles'' that it has. For instance, a donut and a mug have a genus of 1.} and no interior shell.
+Observe that a cavity is not the same as a hole in a torus (a doughnut) such as that in Figure~\ref{fig:torus}: it can be represented with one exterior shell having a genus of 1\marginnote{The \textbf{genus} of an (orientable) surface embedded is the number of ``handles'' that it has. For instance, a doughnut and a mug have a genus of 1.} and no interior shell.
 Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one inner ring, but that other surfaces ``fill'' that hole so that the exterior shell is closed.
 \begin{marginfigure}
   \centering
@@ -129,7 +129,8 @@ Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one
 
 %
 
-CityGML, the international standard for 3D modelling of cities (see Chapter~\ref{chap:3dcm}), uses a subset of ISO 19107, with the following two restrictions: 
+% TODO : chapter/lesson number
+CityGML, the international standard for 3D modelling of cities (see Lesson~4.1), uses a subset of ISO 19107, with the following two restrictions: 
 \begin{enumerate}
   \item \texttt{GM\_Curves} can only be \emph{linear} (thus only \texttt{LineStrings} and \texttt{LinearRings} are used); 
   \item \texttt{GM\_Surfaces} can only be \emph{planar} (thus \texttt{Polygons} are used).
@@ -247,13 +248,14 @@ That is, each surface of the shells has to be individually valid according to th
 An example of an invalid surface would be one having a hole (an inner ring) overlapping the exterior ring (see $s_{10}$).
 
 It should also be noticed that when validating a solid both the combinatorial consistency and the geometric consistency of the representation should be valid.
+\marginnote{combinatorial consistency}\index{combinatorial consistency}
 A solid such as $s_{11}$ is valid, but if the location of only one of its vertices is modified (for instance if the apex of the pyramid of $s_{11}$ is moved downwards to form $s_{12}$) then it becomes invalid. 
 Both $s_{11}$ and $s_{12}$ can be represented with a graph having exactly the same topology (which is valid for both), but if we consider the geometry then the latter solid is not valid since its exterior shell is not simple.
 Enforcing simplicity requires calculating the intersections between the surfaces.
 
 Lastly, the orientation of the polygons must be considered.
-In 2D, the only requirement for a polygon is that its exterior ring must have the opposite orientation of that of its interior ring(s) (\eg\ clockwise versus counterclockwise).
-In 3D, if one polygon is used to construct a shell, its exterior ring must be oriented in such as way that when viewed from outside the shell the points are ordered counterclockwise.
+In 2D, the only requirement for a polygon is that its exterior ring must have the opposite orientation of that of its interior ring(s) (\eg\ clockwise versus counter-clockwise).
+In 3D, if one polygon is used to construct a shell, its exterior ring must be oriented in such as way that when viewed from outside the shell the points are ordered counter-clockwise.
 Figure~\ref{fig:orientation} shows an example.
 \begin{marginfigure}
   \centering
@@ -304,7 +306,7 @@ A \texttt{CompositeSolid}, formed by the \texttt{Solids} $A$ and $B$, should ful
 %
 \section{Notes and comments}
 
-The title ``Are your polyhedra the same as as polyhedra?'' is taken from the (excellent) paper from \citet{Grunbaum03}.
+The title ``\emph{Are your polyhedra the same as as polyhedra?}'' is taken from the (excellent) paper from \citet{Grunbaum03}.
 
 The 2D GIS data structures that can be used for storing 2-manifolds are, for instance, the half-edge~\citep{Mantyla88}, the quad-edge~\citep{Guibas85}, and the doubly-connected edge list (DCEL)~\citep{Muller78}; all of these store the edge of a polyhedron as the atom, with links to its adjacent edges and incident faces.
 
