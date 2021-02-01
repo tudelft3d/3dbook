@@ -1,4 +1,5 @@
 %!TEX root = ../3dchapter.tex
+% chktex-file 46
 
 \setchapterpreamble[u]{\margintoc}
 
@@ -7,12 +8,9 @@
 \newcommand{\Orient}{O\textsc{rient}\xspace}
 \newcommand{\Insphere}{I\textsc{n}S\textsc{phere}\xspace}
 
-\chapter{Tetrahedralisations and 3D Voronoi diagrams}%
+\chapter[Tetrahedralisations and 3D Voronoi diagrams]{Tetrahedralisations and \\3D Voronoi diagrams}%
 \label{chap:dtvd3d}
 
-\begin{kaobox}[frametitle=\faExternalLink\ To read or to watch.]
-  The reader is advised to first read the Chapter \emph{Triangulations \& Voronoi diagram} in the book \href{https://github.com/tudelft3d/terrainbook/releases}{\emph{Computational modelling of terrains}}, where the 2D concepts are introduced.
-\end{kaobox}
 
 The Delaunay triangulation (DT) and the Voronoi diagram (VD) are fundamental data structures when dealing with spatial datasets, many computer scientists and mathematicians consider the VD as being the most fundamental spatial structure (or spatial model) because it is very simple, and yet is so powerful that it helps in solving many theoretical problems, as well as many real-world applications.
 
@@ -21,10 +19,13 @@ We describe in this chapter the concepts in $\mathbb{R}^{3}$, and also discuss t
 
 We also discuss how the constrained and conforming DT can be generalised to $\mathbb{R}^{3}$.
 
+\begin{kaobox}[frametitle=\faExternalLink\ To read or to watch.]
+  The reader is advised to first read the Chapter \emph{Triangulations \& Voronoi diagram} in the book \href{https://github.com/tudelft3d/terrainbook/releases}{\emph{Computational modelling of terrains}}, where the 2D concepts are introduced.
+\end{kaobox}
 
 %%%
 %
-\section{The three-dimensional Voronoi Diagram}
+\section[3D Voronoi diagram]{The three-dimensional Voronoi Diagram}
 
 Let $S$ be a set of points in $\mathbb{R}^d$. 
 The Voronoi cell of a point $p \in S$, defined $\mathcal{V}_{p}$, is the set of points $x \in \mathbb{R}^d$ that are closer to $p$ than to any other point in $S$; that is:
@@ -34,46 +35,48 @@ The Voronoi cell of a point $p \in S$, defined $\mathcal{V}_{p}$, is the set of 
 The union of the Voronoi cells of all generating points $p \in S$ form the Voronoi diagram of $S$, defined VD($S$). 
 If $S$ contains only two points $p$ and $q$, then VD($S$) is formed by a single hyperplane defined by all the points $x \in \mathbb{R}^d$ that are equidistant from $p$ and $q$. 
 This hyperplane is the perpendicular bisector of the line segment from $p$ to $q$, and splits the space into two (open) half-spaces. $\mathcal{V}_p$ is formed by the half-space containing $p$, and $\mathcal{V}_q$ by the one containing $q$. 
-\begin{figure}
-  \centering
-  \begin{subfigure}[b]{0.21\linewidth}
-    \includegraphics[width=\textwidth]{figs/halfspaces}
-    \caption{}
-  \end{subfigure}%
-  \qquad
-  \begin{subfigure}[b]{0.21\linewidth}
-    \includegraphics[width=\textwidth]{figs/vd2d}
-    \caption{}
-  \end{subfigure}%
-  \qquad
-  \begin{subfigure}[b]{0.21\linewidth}
-    \includegraphics[width=\textwidth]{figs/vd3d}
-    \caption{}
-  \end{subfigure}%
-  \qquad
-  \begin{subfigure}[b]{0.21\linewidth}
-    \includegraphics[width=\textwidth]{figs/vd3d_onecell}
-    \caption{}
-  \end{subfigure}%
-  \caption{\textbf{(a)} The Voronoi cell $\mathcal{V}_p$ is formed by the intersection of all the half-planes between $p$ and the other points. \textbf{(b)} The VD for a set $S$ of points in the plane (the black points). \textbf{(c)} Two Voronoi cells adjacent to each other in $\mathbb{R}^3$, they share the grey face. \textbf{(d)} The Voronoi cell for the red vertex, the red edges are the Delaunay edges that are dual to the Voronoi facets.}
-\label{fig:vd}
-\end{figure}
 
 %
 
-As shown in Figure~\ref{fig:vd}a, when $S$ contains more than two points (let us say it contains $n$ points), the Voronoi cell of a given point $p \in S$ is obtained by the intersection of $n-1$ half-spaces defined by $p$ and the other points $q \in S$. 
+As shown in Figure~\ref{fig:halfspaces}, 
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figs/halfspaces}
+  \caption{The Voronoi cell $\mathcal{V}_p$ is formed by the intersection of all the half-planes between $p$ and the other points.}%
+\label{fig:halfspaces}
+\end{marginfigure}
+when $S$ contains more than two points (let us say it contains $n$ points), the Voronoi cell of a given point $p \in S$ is obtained by the intersection of $n-1$ half-spaces defined by $p$ and the other points $q \in S$. 
 That means that $\mathcal{V}_{p}$ is always convex, in any dimensions. Notice also that every point $x \in \mathbb{R}^d$ has at least one nearest point in $S$, which means that VD($S$) covers the entire space.
 
 %
 
-As shown in Figures~\ref{fig:vd}b, the VD of a set $S$ of points in $\mathbb{R}^2$ is a planar graph, but it can also be seen as a two-dimensional cell complex where each 2-cell is a (convex) polygon. 
+As shown in Figures~\ref{fig:vd2d}, 
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figs/vd2d}
+  \caption{The VD for a set $S$ of points in the plane (the black points).}%
+\label{fig:vd2d}
+\end{marginfigure}
+the VD of a set $S$ of points in $\mathbb{R}^2$ is a planar graph, but it can also be seen as a two-dimensional cell complex where each 2-cell is a (convex) polygon. 
 Two Voronoi cells, $\mathcal{V}_{p}$ and $\mathcal{V}_{q}$, lie on the opposite sides of the perpendicular bisector separating the points $p$ and $q$. 
 
 %
 
 In $\mathbb{R}^3$, VD($S$) is a three-dimensional cell complex. 
 The Voronoi cell of a point $p$ is formed by the intersection of all the half-spaces (three-dimensional planes) between $p$ and the other points in $S$. 
-Drawing a picture of the three-dimensional case is not easy, thus Figure~\ref{fig:vd}c shows two adjacent Voronoi cells (which are convex polyhedra), and Figure~\ref{fig:vd}d one cell with its incident Delaunay edges.
+Drawing a picture of the three-dimensional case is not easy, thus Figure~\ref{fig:vd3d} shows two adjacent Voronoi cells (which are convex polyhedra), and Figure~\ref{fig:vd3d_onecell} one cell with its incident Delaunay edges.
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figs/vd3d}
+  \caption{Two Voronoi cells adjacent to each other in $\mathbb{R}^3$, they share the grey face.}%
+\label{fig:vd3d}
+\end{marginfigure}
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=\textwidth]{figs/vd3d_onecell}
+  \caption{The Voronoi cell for the red vertex, the red edges are the Delaunay edges that are dual to the Voronoi facets.}%
+\label{fig:vd3d_onecell}
+\end{marginfigure}
 
 %
 
@@ -92,24 +95,22 @@ What follows is a list of the most relevant properties:
 
 %%%
 %
-\section{The Delaunay tetrahedralisation}
+\section[Delaunay tetrahedralisation]{The Delaunay tetrahedralisation}
 
 The Delaunay triangulation of a set $S$ of points in $\mathbb{R}^d$ is a simplicial complex where each $d$-simplex $\sigma$, formed by $d+1$ vertices in $S$, has an empty \emph{circumball} (a ball is said to be \emph{empty} when no points are in its interior). 
-For $\mathbb{R}^3$, it is called the \emph{Delaunay tetrahedralisation}: the space is tessellation into non-overlapping tetrahedra having an empty \emph{circumsphere} (as shown in Figure~\ref{fig:dt}b).
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \begin{subfigure}[b]{0.45\linewidth}
-    \includegraphics[width=\textwidth]{figs/dt2d_2}
-    \caption{}
-  \end{subfigure}%
-  \qquad
-  \begin{subfigure}[b]{0.25\linewidth}
-    \includegraphics[width=\textwidth]{figs/dt3d}
-    \caption{}
-  \end{subfigure}%
-  \caption{\textbf{(a)} The DT of a set of points in the plane. \textbf{(b)} A Delaunay tetrahedron has an empty circumsphere.}
-\label{fig:dt}
-\end{figure}
+  \includegraphics[width=\textwidth]{figs/dt2d_2}
+  \caption{The DT of a set of points in the plane.}%
+  \label{fig:dt2d_2}
+\end{marginfigure}
+For $\mathbb{R}^3$, it is called the \emph{Delaunay tetrahedralisation}: the space is tessellation into non-overlapping tetrahedra having an empty \emph{circumsphere} (as shown in Figure~\ref{fig:dt3d}).
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figs/dt3d}
+  \caption{A Delaunay tetrahedron has an empty circumsphere.}%
+\label{fig:dt3d}
+\end{marginfigure}
 
 
 %%%
@@ -126,7 +127,7 @@ The duality between the VD and the DT in $\mathbb{R}^3$ are thus as follows:
 \begin{figure}
   \centering
   \includegraphics[width=1.0\textwidth]{figs/duality_3d}
-  \caption{Duality in $\mathbb{R}^{3}$ between the elements of the VD and the DT.}
+  \caption{Duality in $\mathbb{R}^{3}$ between the elements of the VD and the DT.}%
 \label{fig:duality_3d}
 \end{figure}
 \begin{itemize}
@@ -145,17 +146,17 @@ The boundary of a convex hull in 3D is formed of a set of triangles.
 Figure~\ref{fig:dt2} shows an example.
 \begin{figure}
   \centering
-  \begin{subfigure}[b]{0.3\linewidth}
+  \begin{subfigure}[b]{0.29\linewidth}
     \includegraphics[width=\textwidth]{figs/t1}
     \caption{}
   \end{subfigure}%
   \qquad
-  \begin{subfigure}[b]{0.3\linewidth}
+  \begin{subfigure}[b]{0.29\linewidth}
     \includegraphics[width=\textwidth]{figs/t2}
     \caption{}
   \end{subfigure}%
   \qquad
-  \begin{subfigure}[b]{0.3\linewidth}
+  \begin{subfigure}[b]{0.29\linewidth}
     \includegraphics[width=\textwidth]{figs/t3}
     \caption{}
   \end{subfigure}%
@@ -223,12 +224,12 @@ Observe that, for the two-dimensional case, the paraboloid in three dimensions d
 
 The relationship is the following: every facet (a $d$-dimensional simplex) of the lower envelope of conv($S^{+}$) projects to a $d$-simplex of the Delaunay triangulation of $S$. 
 This is illustrated in Figure~\ref{fig:paraboloid} for the construction of the DT in $\mathbb{R}^{2}$. 
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.4\textwidth]{figs/paraboloid}
-  \caption{The parabolic lifting map for a set $S$ of points $\mathbb{R}^2$.}
+  \includegraphics[width=0.95\textwidth]{figs/paraboloid}
+  \caption{The parabolic lifting map for a set $S$ of points $\mathbb{R}^2$.}%
 \label{fig:paraboloid}
-\end{figure}
+\end{marginfigure}
 
 %
 
@@ -237,7 +238,7 @@ In practice, since it is easier to construct convex hulls (especially in higher 
 
 
 %%%
-\subsection{Degeneracies}
+\subsection{Degeneracies}%
 \label{sec:degeneracies}
 
 The previous definitions of the VD and the DT assumed that the set $S$ of points is in general position, \ie\ the distribution of points does not create any ambiguity in the two structures. 
@@ -248,7 +249,7 @@ This implies that DT($S$) is not unique; VD($S$) is still unique, but it has dif
 
 %%%
 %
-\section{Construction of the 3D DT/VD}
+\section[Construction of 3D DT/VD]{Construction of the 3D DT/VD}
 
 As is the case in 2D, there exist several algorithms to construct either the DT or the VD from a set of points in 3D.
 
@@ -284,12 +285,13 @@ The algorithm described here is a generalisation to 3D of the flip-based increme
 
 Most steps can be generalised in a direct way.
 Figure~\ref{fig:insertion_steps} shows the steps from the 2D algorithm (as seen in GEO1015), which are conceptually the same for the 3D generalisation of the algorithm (and it is more difficult to draw these steps in 3D).
-\begin{figure}
+\begin{figure*}
   \centering
-  \includegraphics[width=0.9\textwidth]{figs/insertion_steps}
-  \caption{Step-by-step insertion, with flips, of a single point in a DT in two dimensions.}
+  \includegraphics[width=1.4\textwidth]{figs/insertion_steps}
+  \caption{Step-by-step insertion, with flips, of a single point in a DT in two dimensions.}%
 \label{fig:insertion_steps}
-\end{figure}
+\end{figure*}
+
 The algorithm is described in Algorithm~\ref{algo:insert1pt}.
 \begin{algorithm}[tb] 
   \DontPrintSemicolon
@@ -340,12 +342,12 @@ In 2D, for 4 points, a flip (called \emph{flip22}), modifies the configuration o
 In 3D, there are 2 kinds of flips: flip23 and flip32.
 Consider the set $S = \{a, b, c, d, e\}$ of points in general position in $\mathbb{R}^{3}$ and its convex hull conv($S$). 
 There exist two possible configurations, as shown in Figure~\ref{fig:flips3d}:
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.9\textwidth]{figs/flips3d}
-  \caption{The 4 different kinds of flips in 3D.} 
+  \includegraphics[width=\textwidth]{figs/flips3d}
+  \caption{The 4 different kinds of flips in 3D.}% 
 \label{fig:flips3d}
-\end{figure}
+\end{marginfigure}
 \begin{enumerate}
   \item the five points of $S$ lie on the boundary of conv($S$); see Figure~\ref{fig:flips3d}(a). There are exactly two ways to tetrahedralise such a polyhedron: either with two or three tetrahedra. In the first case, the two tetrahedra share a triangular face $bcd$, and in the latter case the three tetrahedra all have a common edge $ae$.
   \item one point $e$ of $S$ does not lie on the boundary of conv($S$), thus conv($S$) forms a tetrahedron; see Figure~\ref{fig:flips3d}(b). The only way to tetrahedralise $S$ is with four tetrahedra all incident to $e$.
@@ -357,7 +359,7 @@ If $S$ is tetrahedralized with two tetrahedra and the triangular face $bcd$ is n
 A flip14 refers to the operation of inserting a vertex inside a tetrahedron, and splitting it into four tetrahedra; and a flip41 is the inverse operation that deletes a vertex.
 
 Flips can not always be applied during an insertion, it depends on the local configuration.
-For example, in Figure~\ref{fig:flips3d}(a), a flip23 is possible on the two adjacent tetrahedra $abcd$ and $bcde$ if and only if the line $ae$ passes through the triangular face $bcd$ (which also means that the union of $abcd$ and $bcde$ is a convex polyhedron). 
+For example, in Figure~\ref{fig:flips3d}a, a flip23 is possible on the two adjacent tetrahedra $abcd$ and $bcde$ if and only if the line $ae$ passes through the triangular face $bcd$ (which also means that the union of $abcd$ and $bcde$ is a convex polyhedron). 
 If not, then a flip32 is possible if and only if there exists in the tetrahedralisation a third tetrahedron adjacent to both $abcd$ and $bcde$.
 
 
@@ -368,12 +370,12 @@ If not, then a flip32 is possible if and only if there exists in the tetrahedral
 The `orientation' of points in three dimensions is somewhat tricky because, unlike in two dimensions, we can not simply rely on the counter-clockwise orientation. 
 In three dimensions, the orientation is always relative to another point of reference, \ie\ given three points we cannot say if a fourth one is left of right, this depends on the orientation of the three points.
 When dealing with a single tetrahedron $\tau$ formed by the four vertices $a$, $b$, $c$ and $d$ (as in Figure~\ref{fig:orient}), 
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.25\textwidth]{figs/orient}
-  \caption{The tetrahedron $abcd$ is correctly oriented since \Orient($a,b,c,d$) returns a positive result. The arrow indicates the correct orientation for the face $\sigma_a$, so that \Orient($\sigma_a,a$) returns a positive result.}
+  \includegraphics[width=0.9\textwidth]{figs/orient}
+  \caption{The tetrahedron $abcd$ is correctly oriented since \Orient($a,b,c,d$) returns a positive result. The arrow indicates the correct orientation for the face $\sigma_a$, so that \Orient($\sigma_a,a$) returns a positive result.}%
 \label{fig:orient}
-\end{figure}
+\end{marginfigure}
 we say that $\tau$ is correctly oriented if \Orient($a,b,c,d$) returns a positive value. 
 Notice that if two vertices are swapped in the order, then the result is the opposite (\ie\ \Orient($a,c,b,d$) returns a negative value). 
 
@@ -416,7 +418,7 @@ It is simply transformed into a four-dimensional \Orient\ test: $p$ is inside (o
     d_{x} & d_{y} & d_{z} & d^{2}_{x} + d^{2}_{y} + d^{2}_{z} & 1 \\
     p_{x} & p_{y} & p_{z} & p^{2}_{x} + p^{2}_{y} + p^{2}_{z} & 1 
   \end{array} 
-  \right|
+  \right|%
 \label{eq:insphere}
 \end{equation}
 
@@ -427,7 +429,7 @@ All of them must be oriented correctly (as is the case in 2D where they are all 
 
 
 %%%
-\subsection{Extracting the VD from the DT}
+\subsection{Extracting the VD from the DT}%
 \label{sec:extraction_vddt}
 
 Let $\mathcal{T}$ be the DT of a set $S$ of points in $\mathbb{R}^3$. 
@@ -446,7 +448,7 @@ Given $\mathcal{T}$, we must obviously visit all its 3-simplices to be able to e
 
 %%%
 %
-\section{Applications of the DT and the VD}
+\section[Applications]{Applications of the DT and the VD}
 % TODO : section about applications of the 3D VD/DT?
   % - relationships in 3D between points
   % - interpolation of 3D samples
@@ -467,9 +469,9 @@ One advantage is that the VD will adapt to the anisotropic distribution of the s
 In practice, the samples can be very hard and expensive to collect because of the difficulties encountered and the technologies involved. 
 To collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere must be collected by devices attached to balloons or aircraft. 
 As shown in Figure\ref{fig:watercolumns}, samples are often abundant vertically but very sparse horizontally. 
-\begin{figure}
+\begin{figure*}
   \centering
-  \begin{subfigure}[b]{0.4\linewidth}
+  \begin{subfigure}[b]{0.38\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/watercolumns1.pdf}
     \caption{}
@@ -480,9 +482,9 @@ As shown in Figure\ref{fig:watercolumns}, samples are often abundant vertically 
     \includegraphics[width=\textwidth]{figs/watercolumns2.pdf}
     \caption{}
   \end{subfigure}
-\caption{\textbf{(a)} Example of a dataset in geology, where samples were collected by drilling a hole in the ground. Each sample has a location in 3D space ($x-y-z$ coordinates) and one or more attributes attached to it. \textbf{(b)} An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m, but water columns are about 35km from each other.}
-\label{fig:watercolumns}
-\end{figure}
+\caption{\textbf{(a)} Example of a dataset in geology, where samples were collected by drilling a hole in the ground. Each sample has a location in 3D space ($x-y-z$ coordinates) and one or more attributes attached to it. \textbf{(b)} An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m, but water columns are about 35km from each other.}%
+\label{fig:watercolumns}%
+\end{figure*}
 
 Another advantage is that the VD can be efficiently and robustly reconstructed, and that based on it the samples can be interpolated to obtain an estimation of the attribute at any location, see below for details.
 
@@ -492,7 +494,7 @@ Finally, the tessellations of the VD (and the DT) make possible, and even optimi
 
 
 %%%
-\subsection{Spatial interpolation}
+\subsection{Spatial interpolation}%
 \label{sec:interpol}
 
 Given a set of samples, embedded in three-dimension, to which an attribute $a$ is attached, spatial interpolation permits us to reconstruct the field that was sampled.
@@ -517,15 +519,15 @@ The volume of a $d$-dimensional Voronoi cell is computed by decomposing it into 
 The volume of a $d$-simplex $\sigma$ is easily computed:
 \begin{equation}
 vol(\sigma) = \frac{1}{d \, !} \left| \,  
-                            det \, \left( 
+                            \det \, \left( 
                                   \begin{array}{ccc}
-                                    v^{0} & \ldots & v^{d} \\
-                                    1     & \ldots & 1 \\
+                                    v^{0} & \cdots & v^{d} \\
+                                    1     & \cdots & 1 \\
                                   \end{array}
                                 \right)
                         \right|
 \end{equation}  
-where $v^{i}$ is a $d$-dimensional vector representing the coordinates of a vertex and $det$ is the determinant of the matrix. 
+where $v^{i}$ is a $d$-dimensional vector representing the coordinates of a vertex and $\det()$ is the determinant of the matrix. 
 Triangulating a Voronoi cell is easily performed since it is a convex polytope.
 
 
@@ -533,12 +535,12 @@ Triangulating a Voronoi cell is easily performed since it is a convex polytope.
 \paragraph{Linear interpolation in tetrahedra.}
 This is the generalisation of the popular linear interpolation in TINs where the tetrahedra of the DT are used. 
 The barycentric coordinates can be used to linearly interpolate inside a tetrahedron, as shown in Figure~\ref{fig:barycentric} the volume of 4 tetrahedra is used (instead of the area for the 2D case.)
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.5\textwidth]{figs/barycentric}
-  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge.} 
+  \includegraphics[width=0.9\textwidth]{figs/barycentric}
+  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge.}% 
 \label{fig:barycentric}
-\end{figure}
+\end{marginfigure}
 As explained above, finding tetrahedra having a good shape is not as easy as in two dimensions, and the presence of slivers yield bad results for the interpolation process. 
 To be used in practice, the shape of the tetrahedra is usually improved with techniques involving the insertion of new points and/or applying flips.
 
@@ -548,28 +550,29 @@ To be used in practice, the shape of the tetrahedra is usually improved with tec
 Given a set of samples from a trivariate field $f(x,y,z) = a$, an isosurface is the set of points in space where $f(x,y,z) = a_0$, where $a_0$ is a constant. 
 Isosurfaces, also called \emph{level sets}, are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps.
 Figure~\ref{fig:isosurface} shows one concrete example.
-\begin{figure}
+\begin{figure*}
   \centering
-  \begin{subfigure}[b]{0.3\linewidth}
+  \begin{subfigure}[b]{0.28\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/isosurface2}
     \caption{}
   \end{subfigure}%
   \qquad
-  \begin{subfigure}[b]{0.3\linewidth}
+  \begin{subfigure}[b]{0.28\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/isosurface25}
     \caption{}
   \end{subfigure}
   \qquad
-  \begin{subfigure}[b]{0.3\linewidth}
+  \begin{subfigure}[b]{0.28\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/isosurface3}
     \caption{}
   \end{subfigure}
-\caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}
+\caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
 \label{fig:isosurface}
-\end{figure}
+\end{figure*}
+
 
 % TODO : update lesson number
 As explained in Lesson~7.1, iso-surfaces can be extracted automatically from the DT\@.
@@ -578,7 +581,7 @@ As explained in Lesson~7.1, iso-surfaces can be extracted automatically from the
 
 %%%
 %
-\section{Constrained tetrahedralisations}
+\section[Adding constraints]{Constrained tetrahedralisations}%
 \label{sec:cdt}
 
 % p.95 of the delaunay book
@@ -598,13 +601,20 @@ A PLC $\mathcal{P}$ is a set of linear $d$-cells (where $0 \leq d \leq 3$), that
   \item the boundary of a $d$-cell in $\mathcal{P}$ is a union of cells in $\mathcal{P}$
   \item if two distinct cell $f, g \in \mathcal{P}$ intersect, their intersection is a union of cells in $\mathcal{P}$.
 \end{enumerate}
-As shown in Figure~\ref{fig:plc}, 
-\begin{figure}
+Figure~\ref{fig:plc} shows one example.
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.65\linewidth]{figs/plc}
-  \caption{\textbf{Left:} a PLC representing a solid (with a genus of 1) and having one dangling left; notice also that one extra edge is on a polygon. \textbf{Right:} These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}
+  \includegraphics[width=0.95\linewidth]{figs/plc}
+  \caption{A PLC representing a solid (with a genus of 1) and having one dangling left; notice also that one extra edge is on a polygon. \textbf{Right:} These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
 \label{fig:plc}
-\end{figure}
+\end{marginfigure}
+As shown in Figure~\ref{fig:plc_not}, 
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{figs/plc_not}
+  \caption{These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
+\label{fig:plc_not}
+\end{marginfigure}
 in practice this means that polygons cannot intersect other polygons (there needs to be a vertex and/or edges), but there are otherwise no restriction on the shapes that can be represented.
 Observe also that a PLC is flexible and allows unconnected (\ie\ `floating') vertices, edges, and faces (an edge can for instance be inside a polygon).
 Dangling edges, such as the one in Figure~\ref{fig:plc}, are also allowed.
@@ -615,12 +625,12 @@ The domain represented by a PLC does not have to represent a volume, it can be s
 
 While any polygon in two dimensions can be triangulated, some arbitrary polyhedra cannot be tetrahedralised without the addition of extra vertices, the so-called Steiner points. 
 Figure~\ref{fig:schonhardt}
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.35\textwidth]{figs/schonhardt}
-  \caption{The Schönhardt polyhedron is impossible to tetrahedralise without adding extra vertices inside.}
+  \includegraphics[width=0.95\textwidth]{figs/schonhardt}
+  \caption{The Schönhardt polyhedron is impossible to tetrahedralise without adding extra vertices inside.}%
 \label{fig:schonhardt}
-\end{figure}
+\end{marginfigure}
 shows a simple example, called the Schönhardt polyhedron after the mathematician who first described the case.
 This polyhedron is formed by twisting the top face of a triangular prism to form a 6-vertex polyhedron having eight triangular faces (each one of the three quadrilateral faces adjacent to the top face will fold into two triangles). 
 It is impossible to select four vertices of the polyhedron such that a tetrahedron is totally contained inside the polyhedron, as none of the vertices of the bottom face can directly `see' the three vertices of the top triangular face.
@@ -667,12 +677,12 @@ The empty circumsphere for a ConsDT is less strict: a tetrahedron is Delaunay if
 %
 
 Thus, the ConsDT aims at keeping the Delaunay properties, but relaxes them to be able to respect the constraints (edges and polygons in the PLC).
-\begin{figure}
+\begin{figure*}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/cdt_tudelft}
-  \caption{The LoD1 3D model of the TU Delft where each building is represented with the ConsDT of its PLC.}
+  \caption{The LoD1 3D model of the TU Delft where each building is represented with the ConsDT of its PLC.}%
 \label{fig:cdt_tudelft}
-\end{figure}
+\end{figure*}
 
 %
 
