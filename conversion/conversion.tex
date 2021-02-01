@@ -23,7 +23,6 @@ The lesson is divided into two distinct parts:
 
 
 
-\newpage
 %%%
 %
 \section{Conversions for fields}
@@ -42,6 +41,51 @@ Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
 \end{figure}
 
 All the interpolation methods discussed during GEO1015 (Chapters~4 and~5) generalise to three dimensions.
+
+While most of the two-dimensional interpolation methods used in GIS intuitively extend to three dimensions, it is not obvious that they preserve their properties or are appropriate for geoscientific datasets.
+
+%%%
+\paragraph{Nearest neighbour.} 
+The method, based on the VD, generalises in a straightforward manner to 3D.
+It suffices to build the VD and to identify inside which cell the interpolation point lies.
+The VD can be bypassed if a three-dimensional $k$d-tree is used.
+
+%%%
+\paragraph{Natural neighbour interpolation.}
+The theory of this method also generalises in a straightforward manner to 3D.
+Instead of having stolen areas, we have stolen \emph{volumes}.
+However, although the concepts behind the method are simple and easy to understand, its implementation for the 3D case is far from being straightforward. 
+The main reasons are that it requires the computation of two VDs---one with and one without the interpolation point---and also the computation of volumes of Voronoi cells. 
+This involves algorithms for both constructing a VD and deleting a point from it.
+
+The volume of a $d$-dimensional Voronoi cell is computed by decomposing it into $d$-simplices---not necessarily Delaunay simplices---and summing their volumes. 
+The volume of a $d$-simplex $\sigma$ is easily computed:
+\begin{equation}
+vol(\sigma) = \frac{1}{d \, !} \left| \,  
+                            \det \, \left( 
+                                  \begin{array}{ccc}
+                                    v^{0} & \cdots & v^{d} \\
+                                    1     & \cdots & 1 \\
+                                  \end{array}
+                                \right)
+                        \right|
+\end{equation}  
+where $v^{i}$ is a $d$-dimensional vector representing the coordinates of a vertex and $\det()$ is the determinant of the matrix. 
+Triangulating a Voronoi cell is easily performed since it is a convex polytope.
+
+
+%%%
+\paragraph{Linear interpolation in tetrahedra.}
+This is the generalisation of the popular linear interpolation in TINs where the tetrahedra of the DT are used. 
+The barycentric coordinates can be used to linearly interpolate inside a tetrahedron, as shown in Figure~\ref{fig:barycentric} the volume of 4 tetrahedra is used (instead of the area for the 2D case.)
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{figs/barycentric}
+  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge.}% 
+\label{fig:barycentric}
+\end{marginfigure}
+As explained above, finding tetrahedra having a good shape is not as easy as in two dimensions, and the presence of slivers yield bad results for the interpolation process. 
+To be used in practice, the shape of the tetrahedra is usually improved with techniques involving the insertion of new points and/or applying flips.
 
 %%%
 \paragraph{Nearest neighbour.} 
