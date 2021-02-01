@@ -21,23 +21,24 @@ This lesson discusses the main 3D city models formats, and focuses on \emph{sema
 \section{Semantic 3D city models}
 
 Consider the 3D city model of Helsinki in Figure~\ref{fig:mesh}a (one part of it),
-\begin{figure}
+\begin{figure*}
   \centering
-  \begin{subfigure}[b]{0.8\linewidth}
+  \begin{subfigure}[b]{0.48\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/mesh01.png}
     \caption{}
   \end{subfigure}
-  \begin{subfigure}[b]{0.8\linewidth}
+  \begin{subfigure}[b]{0.48\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/mesh04.png}
     \caption{the edges of the triangles are highlighted in orange.}
   \end{subfigure}
 \caption{Part of the 3D city model of Helsinki, Finland.}%
 \label{fig:mesh}
-\end{figure}
+\end{figure*}
 which was reconstructed by dense matching of aerial images.
 The model is a textured mesh, formed by triangles to which a texture is attached (the triangles are visible in in Figure~\ref{fig:mesh}b).
+\marginnote{textured mesh}\index{textured mesh}
 If you were asked to count the number of buildings (or cars, or dormers in a given building) you would surely just have to zoom in on the model, look at it, and then you could give the answer.
 However, for a computer, this 3D city model is simply represented as a series of triangles to which a texture is attached; the notion of `building' (or `car', or any other object) is thus not available.
 As a result, a computer cannot automatically answer these simple questions.
@@ -57,16 +58,17 @@ Conceptually, it means that a city is decomposed into classes that we deem relev
 %
 
 Observe also, as shown in Figure~\ref{fig:ssc} for one building, 
-\begin{figure}
+\begin{figure*}
   \centering
-  \includegraphics[width=0.95\linewidth]{figs/ssc}
+  \includegraphics[width=\linewidth]{figs/ssc}
   \caption{A building is semantically decomposed into different objects, and each objects is defined with geometry.}%
 \label{fig:ssc}
-\end{figure}
+\end{figure*}
 that the objects can be further decomposed into semantically homogeneous parts, in 3D city modelling these are often the parts of a buildings (\eg\ an extension to a house) and the type of surfaces (roof, façade, windows, doors).
 
 The decomposition is thus hierarchical, and the relationships between the classes are stored (\eg\ a building is composed of parts, which are formed of walls, which have windows). 
 We say that a 3D city model is \emph{spatially coherent} is the two decompositions are coherent.
+\marginnote{spatially coherent}\index{spatially coherent}
 % Figure~\ref{fig:ssc} shows how a given building, 
 % containing two parts, would be decomposed semantically and geometrically; notice that both decompositions should ideally be coherent.
 % but parts of those (roof and façade surfaces, dormers, side-walks))
@@ -76,8 +78,8 @@ We say that a 3D city model is \emph{spatially coherent} is the two decompositio
 Figure~\ref{fig:denhaag} shows one semantic model being visualised in a viewer, notice that the user can identify the roof surfaces and that different attributes are available.
 \begin{figure}
   \centering
-  \includegraphics[width=0.95\linewidth]{figs/denhaag.jpg}
-  \caption{Part of the semantic 3D city model of The Hague, in the Netherlands. Notice that each building is decomposed into its semantic surfaces (wall, roof, and ground) and there are attributes for each. The model is not textured, but semantic models can have textures too.}
+  \includegraphics[width=\linewidth]{figs/denhaag.jpg}
+  \caption{Part of the semantic 3D city model of The Hague, in the Netherlands. Notice that each building is decomposed into its semantic surfaces (wall, roof, and ground) and there are attributes for each. The model is not textured, but semantic models can have textures too.}%
 \label{fig:denhaag}
 \end{figure}
 Semantic 3D models can also be textured.
@@ -95,10 +97,11 @@ To avoid the fact that every city/country defines its own classes to decompose a
 
 %%%
 %
-\section{The CityGML data model}
+\section[CityGML data model]{The CityGML data model}%
+\index{CityJSON}
 
 CityGML is an open data model to represent semantic 3D models of cities and landscapes, and it is standardised by the Open Geospatial Consortium; its official website is \url{https://www.opengeospatial.org/standards/citygml}.
-Its first version (v1.0.0) was released in 2008, and the current version (v2.0.0) in 2012.
+Its first version (v1.0.0) was released in 2008, and the current version (v2.0.0) in 2012; the upcoming version (v3.0) has been in draft for years, and will be released eventually.
 
 The classes stored in CityGML are grouped into different modules. These are:
 \begin{itemize}
@@ -119,12 +122,12 @@ The classes stored in CityGML are grouped into different modules. These are:
 %
 
 
-\begin{figure}
+\begin{figure*}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/citygml_uml_core}
-  \caption{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2012 Open Geospatial Consortium, Inc.)}
+  \caption{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2012 Open Geospatial Consortium, Inc.)}%
 \label{fig:citygml_uml_core}
-\end{figure}
+\end{figure*}
 Figure~\ref{fig:citygml_uml_core} shows one part of the CityGML UML models.
 
 %
@@ -138,7 +141,7 @@ Figure~\ref{fig:officiallods}
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\textwidth]{figs/CityGML-LODs-c3.png}
-  \caption{The five LODs of CityGML 2.0. The geometric details and the semantic complexity increase, ending with the LOD4 containing indoor features.}
+  \caption{The five LODs of CityGML 2.0. The geometric details and the semantic complexity increase, ending with the LOD4 containing indoor features.}%
 \label{fig:officiallods}
 \end{figure}
 shows the ones for the buildings, and they are as follows:
@@ -150,6 +153,12 @@ shows the ones for the buildings, and they are as follows:
   \item[LoD2] the generalised roof shape and larger roof superstructures are present.
   As such, LoD2 models are useful for rooftop solar potential estimations.
   They are usually obtained with photogrammetric techniques, and, in some cases, may be derived automatically (see Lesson~2.1). 
+  \begin{marginfigure}
+    \centering
+    \includegraphics[width=\linewidth]{figs/lod_ambiguity_b}
+    \caption{Two buildings represented in CityGML as LoD2 models. Both are valid LoD2 models.}%
+  \label{fig:lod_ambiguity}
+  \end{marginfigure}
   \item[LoD3] is a detailed architectural model containing openings (windows and doors), chimneys, and other façade details.
   Models at LoD3 are usually obtained with a conversion from BIM models or from terrestrial laser scanning.
   The presence of windows and other details makes them useful in applications such as energy simulations.
@@ -162,20 +171,14 @@ shows the ones for the buildings, and they are as follows:
 
 While the five LoDs are supposed to inform users about the representation of the data, in practice they are too generic (not precise enough) and can be ambiguous. 
 For instance, as Figure~\ref{fig:lod_ambiguity} shows,
-\begin{figure}
-  \centering
-  \includegraphics[width=0.45\linewidth]{figs/lod_ambiguity_b}
-  \caption{Two buildings represented in CityGML as LoD2 models. Both are valid LoD2 models.}
-\label{fig:lod_ambiguity}
-\end{figure}
 a building with roof overhangs can be modelled as LoD2 with them, or without (and therefore the size of its footprint would be larger).
 Both are technically ``valid'' LoD2 models, but the acquisition methods required differ significantly.
 The model on the right can be acquired with aerial photogrammetry or aerial lidar (the walls are derived as projections from the roof outline), while the model on the left probably needs two acquisition techniques: the walls are at their actual location (ground survey was necessary) and the roof overhangs are explicitly present.
 To remedy to this situation, improved LoDs for buildings have been proposed at TU Delft, see Figure~\ref{fig:refinedLODs}.
 \begin{figure}
   \centering
-  \includegraphics[width=0.95\linewidth]{figs/refinedLODs}
-  \caption{The improved LoDs for buildings; they are generally referred to as the \emph{TUDelft LoDs}.}
+  \includegraphics[width=\linewidth]{figs/refinedLODs}
+  \caption{The improved LoDs for buildings; they are generally referred to as the \emph{TUDelft LoDs}.}%
 \label{fig:refinedLODs}
 \end{figure}
 
@@ -190,8 +193,10 @@ There are efforts (scientific papers) to document these, but they have not been 
 \subsection{Geometries}
 
 CityGML uses the ISO 19107 geometric primitives for representing the geometry of its 3D objects.
+\marginnote{ISO 19107}\index{ISO 19107}
 While the ISO 19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed, CityGML uses a subset of ISO 19107, with the following two restrictions: (1) \texttt{GM\_Curves} can only be \emph{linear} (thus only \texttt{LineStrings} and \texttt{LinearRings} are used); (2) \texttt{GM\_Surfaces} can only be \emph{planar} (thus \texttt{Polygons} are used).
 
+% TODO : which lesson?
 See Lesson~5.2 for the details of ISO 19107.
 
 
@@ -241,7 +246,7 @@ We discuss in the following the first two.
 
 
 %%%
-\section{The XML encoding of CityGML}
+\section[XML-encoded CityGML]{The XML encoding of CityGML}%
 \label{sec:citygmlxml}
 
 So far, the only ``approved'' encoding of the CityGML data model is the XML-based encoding described in the official standard specification.
@@ -249,7 +254,7 @@ Notice that ``CityGML'' refers to both the data model and the XML encoding, whic
 
 %
 
-CityGML is actually an application schema of GML, which is the \emph{Geography Markup Language}, also standardised by the OGC\footnote{\url{https://www.opengeospatial.org/standards/gml}}.
+CityGML is actually an application schema of GML, which is the \emph{Geography Markup Language}, also standardised by the OGC\marginnote{GML specifications: \url{https://www.opengeospatial.org/standards/gml}}.
 This can be observed in the UML diagram in Figure~\ref{fig:citygml_uml_core}: a city object (class \texttt{\_CityObject}) inherits from the generic \texttt{gml::\_Feature} in GML, which is the parent class for all geographic features.
   
 %
@@ -292,7 +297,7 @@ Each text file can represent a part of the dataset, such as a specific region, o
   </cityObjectMember>
 </CityModel>
 \end{lstlisting}
-\caption{Part of a CityGML file containing 2 buildings.}
+\caption{Part of a CityGML file containing 2 buildings.}%
 \label{fig:citygml_file}
 \end{figure}
 The structure of a CityGML file is a hierarchy that ultimately reaches down to individual objects and their attributes. 
@@ -303,7 +308,7 @@ The schema of CityGML is encoded in XML files called ``XSD'' (XML Schema Definit
 This way, software can validate whether the syntax of a file corresponds to that of the data model, for instance it can defined that a Building must have a geometry, and that a set of attributes are mandatory.
 
 \paragraph*{CityGML ADEs.}
-When distributing files containing ADEs, usually the extensions to the data model must be made available; with XML-based CityGML files those are XML Schema files (.xsd files).
+When distributing files containing ADEs, usually the extensions to the data model must be made available; with XML-based CityGML files those are XML Schema files (\texttt{.xsd} files).
 City data contained in a CityGML file can be objects from the core model (\eg\ buildings) and new objects defined in an ADE (\eg\ sheds could be defined).
 
 
@@ -323,10 +328,12 @@ This has to do with the fact that XML itself requires special libraries to handl
 
 
 %%%
-\section{CityJSON}
+\section{CityJSON}%
+\index{CityJSON}
 
-CityJSON (currently at version 1.0), is a JSON\footnote{The JavaScript Object Notation: \url{http://json.org}} encoding of the CityGML 2.0.0 data model.
+CityJSON (currently at version 1.0), is a JSON encoding of the CityGML 2.0.0 data model.
 JSON is, like GML, a text-based data exchange format that can be read both by humans and machines.
+\marginnote{JSON: JavaScript Object Notation: \url{http://json.org}}
 
 It has a number of advantages, over GML, for several reasons.
 First, and foremost, JSON dominates the web: nowadays if two applications need to exchange data they will most likely use JSON (over XML).
@@ -354,12 +361,12 @@ A CityJSON file represents a given geographical area; the file contains one JSON
 The property \texttt{"CityObjects"} contains a JSON dictionary where the properties are the identifiers of the city objects (\emph{IDs}).
 The schema of CityGML has been flattened out and all hierarchies removed.
 Figure~\ref{fig:cityjson_co} shows the city objects that are supported in CityJSON, both 1st- and 2nd-level city objects are stored in the dictionary \texttt{"CityObjects"}.
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.6\linewidth]{figs/cityjson_co}
-  \caption{The implemented CityJSON classes (same name as CityGML classes) are divided into 1st and 2nd levels.}
+  \includegraphics[width=\linewidth]{figs/cityjson_co}
+  \caption{The implemented CityJSON classes (same name as CityGML classes) are divided into 1st and 2nd levels.}%
 \label{fig:cityjson_co}
-\end{figure}
+\end{marginfigure}
 
 %
 
@@ -439,7 +446,7 @@ A geometric primitive does not list all the coordinates of its vertices, rather 
     [8523.134, 487625.134, 2.03]
   ]
 \end{lstlisting}
-The indexing mechanism of the format \emph{Wavefront OBJ}\footnote{\url{https://en.wikipedia.org/wiki/Wavefront_.obj_file}} is reused, because it has been used for many years, with success, in the computer graphics community.
+The indexing mechanism of the format \emph{Wavefront OBJ}\marginnote{OBJ specifications: \url{https://en.wikipedia.org/wiki/Wavefront_.obj_file}} is reused, because it has been used for many years, with success, in the computer graphics community.
 There are several advantages to this approach.
 First, the files can be compressed: 3D vertices are often shared by several surfaces, and repeating them can be costly (especially if they are very precise, often sub-millimetre is used).
 Second, this increases the topological relationships that are explicitly stored in the file, and several operations can be sped up and made more robust (\eg\ are two buildings adjacent?).
@@ -468,8 +475,8 @@ Notice that unlike with (City)GML, there is only one variation per geometry type
 \subsection{Appearance}
 
 Both textures and materials are supported, and the same mechanisms as CityGML are used for these. 
-The material is represented with the X3D specifications\footnote{\url{https://en.wikipedia.org/wiki/X3D}}, as is the case for CityGML\@. 
-For the texture, the COLLADA specifications\footnote{\url{https://www.khronos.org/collada/}} are reused, as is the case for CityGML\@.
+The material is represented with the X3D specifications\marginnote{X3D specifications: \url{https://en.wikipedia.org/wiki/X3D}}, as is the case for CityGML\@. 
+For the texture, the COLLADA specifications\marginnote{COLLADA specifications: \url{https://www.khronos.org/collada/}} are reused, as is the case for CityGML\@.
 
 
 %%%
@@ -499,7 +506,7 @@ The main features that are \underline{not} supported are:
 \begin{itemize}
   \item The LoD4 of CityGML, which was mostly designed to represent the interior of buildings (including details and furniture), is not implemented. The main reason is that currently there are virtually no datasets having LoD4 buildings. If there is a need in the future, the concepts and the implementation would follow the same rules described above.
   \item Several CRSs in the same datasets. In CityJSON, all geometries in a given CityJSON object must use the same CRS\@. In CityGML, 3 adjacent buildings can all have different CRSs, and some of the geometries to represent the walls can be in yet another CRS (although admittedly it is seldom used!).
-  \item Arbitrary coordinate reference systems (CRSs). Only an EPSG code\footnote{\url{https://epsg.io}} can be used. 
+  \item Arbitrary coordinate reference systems (CRSs). Only an EPSG code\marginnote{EPSG codes: \url{https://epsg.io}} can be used. 
   \item Identifiers for low-level geometries. In CityGML most objects can have an ID (usually \texttt{gml:id}). That is, not only can one building have an ID, but also each of the 3D primitives forming its geometry can have an ID\@. In CityJSON, only city objects and semantic surfaces can have IDs.
   \item Raster files for the relief. Only TINs are at this moment supported.
   % codelists
@@ -509,7 +516,7 @@ The main features that are \underline{not} supported are:
 
 %%%
 %
-\section{Other main formats for 3D city modelling}
+\section[Other formats]{Other formats for 3D city modelling}
 % \begin{enumerate}
 %   \item LandInfra
 %   \item OBJ, OFF
@@ -527,25 +534,27 @@ They are thus usually less suitable and less agile than the family of CityGML fo
 
 There exist several similar formats in computer graphics for storing and representing meshes (which are usually triangular meshes, but polygons can also be represented):
 
-\textbf{OBJ (Wavefront Object)}\footnote{\url{http://paulbourke.net/dataformats/obj/}} is one of the most popular text-based formats in the 3D graphics community.
+\textbf{OBJ (Wavefront Object)} is one of the most popular text-based formats in the 3D graphics community.
+\marginnote{OBJ specifications: \url{http://paulbourke.net/dataformats/obj/}}
 It has a simple structure where first the vertices are listed, and then each polygon is listed, as a list of references to the vertex ID (its position in the list of vertices).
-The OBJ format can also encode colours and texture information, which are stored in a separate file (a~.mtl file, Material Template Library).
+The OBJ format can also encode colours and texture information, which are stored in a separate file (a~\texttt{.mtl} file, Material Template Library).
 Attributes for specific polygons or groups of polygons is only possible by using the comments and grouping possibilities (as a hack), there are no standardised and documented ways to do so.
 
-\textbf{OFF}\footnote{\url{https://en.wikipedia.org/wiki/OFF_(file_format)}} is a simpler format: only polygons can be represented, optionally with their colours.
+\textbf{OFF} is a simpler format: only polygons can be represented, optionally with their colours.
+\marginnote{OFF specifications: \url{https://en.wikipedia.org/wiki/OFF_(file_format)}}
 
-\textbf{PLY} is based on the same ideas for the geometries, and attributes can also be attached to vertices and polygons. (See GEO1015 book Section~12.1).
+\textbf{PLY} is based on the same ideas for the geometries, and attributes can also be attached to vertices and polygons. (See the \emph{Computational modelling of terrains} book Section~12.1).
 
 Notice that neither of these formats allow us to store an ISO 19107 solid having inner shells and attributes/semantics for different parts/elements.
 
 
 %%%
 \subsection{glTF (GL Transmission Format)}
-glTF\footnote{\url{https://www.khronos.org/gltf/}} is a JSON-based open 3D format by Khronos Group for the exchange of 3D models.
+glTF\marginnote{glTF specifications: \url{https://www.khronos.org/gltf/}} is a JSON-based open 3D format by Khronos Group for the exchange of 3D models.
 It also has a binary encoding for storing mesh geometry and animation data.
 It provides compact representation of geometries, and small file sizes.
 
-It used for instance in CesiumJS\footnote{\url{https://cesium.com/cesiumjs/}} (which supports semantic 3D city models to some extents), and in other libraries like \emph{three.js}\footnote{\url{https://threejs.org/}}.
+It used for instance in CesiumJS\marginnote{CesiumJS: \url{https://cesium.com/cesiumjs/}} (which supports semantic 3D city models to some extents), and in other libraries like \emph{three.js}\marginnote{three.js: \url{https://threejs.org/}}.
 
 % TODO: b3dm?
 
@@ -555,7 +564,7 @@ It used for instance in CesiumJS\footnote{\url{https://cesium.com/cesiumjs/}} (w
 
 LandInfra is a relatively new OGC open standard for land and infrastructure features, integrating concepts from IFC/BIM (see Lesson~6.2) and CityGML\@.
 
-It actually partially overlaps with CityGML: it contains the thematic classes `Building', `Road' and `Railway' (Transportation in CityGML), and `LandSurface' (ReliefFeature in CityGML). 
+It actually partially overlaps with CityGML: it contains the thematic classes `Building', `Road' and `Railway' (\texttt{Transportation} in CityGML), and `LandSurface' (\texttt{ReliefFeature} in CityGML). 
 However, it has a more detailed representation for land and infrastructure features, \eg\ administrative units, ownership rights, spatial units for land use (land parcels and the legal spaces of buildings), surveying and representation, alignment for roads and railways, subsurface models for terrain, etc
 
 InfraGML is the GML-based encoding of LandInfra, and the only one standardised.
