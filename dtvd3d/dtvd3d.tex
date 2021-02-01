@@ -1,5 +1,6 @@
 %!TEX root = ../3dchapter.tex
 % chktex-file 46
+% chktex-file 36
 
 \setchapterpreamble[u]{\margintoc}
 
@@ -15,12 +16,13 @@
 The Delaunay triangulation (DT) and the Voronoi diagram (VD) are fundamental data structures when dealing with spatial datasets, many computer scientists and mathematicians consider the VD as being the most fundamental spatial structure (or spatial model) because it is very simple, and yet is so powerful that it helps in solving many theoretical problems, as well as many real-world applications.
 
 The DT and the VD are most often presented, described, and used, in two dimensions, but their concepts can be generalised to higher dimensions.
-We describe in this chapter the concepts in $\mathbb{R}^{3}$, and also discuss the $n$-dimensional cases when appropriate.
+We describe in this chapter the concepts in $\mathbb{R}^{3}$, and also discuss the $n$-dimensional cases when appropriate.%
+\index{Euclidean space}\marginnote{three-dimensional Euclidean space}
 
 We also discuss how the constrained and conforming DT can be generalised to $\mathbb{R}^{3}$.
 
 \begin{kaobox}[frametitle=\faExternalLink\ To read or to watch.]
-  The reader is advised to first read the Chapter \emph{Triangulations \& Voronoi diagram} in the book \href{https://github.com/tudelft3d/terrainbook/releases}{\emph{Computational modelling of terrains}}, where the 2D concepts are introduced.
+  The reader is advised to first read the Chapter \emph{Triangulations \& Voronoi diagram} in the book \emph{Computational modelling of terrains}~\citep{terrain_book}, where the 2D concepts are introduced.
 \end{kaobox}
 
 %%%
@@ -30,11 +32,13 @@ We also discuss how the constrained and conforming DT can be generalised to $\ma
 Let $S$ be a set of points in $\mathbb{R}^d$. 
 The Voronoi cell of a point $p \in S$, defined $\mathcal{V}_{p}$, is the set of points $x \in \mathbb{R}^d$ that are closer to $p$ than to any other point in $S$; that is:
 \begin{equation}
-\mathcal{V}_p = \{x \in \mathbb{R}^{d} \ | \ \|x-p\| \, \leq \, \|x-q\|, \ \forall \, q \in S \}. 
+\mathcal{V}_p = \{x \in \mathbb{R}^{d} \ | \ \|x-p\| \, \leq \, \|x-q\|, \ \forall \, q \in S \} 
 \end{equation}
 The union of the Voronoi cells of all generating points $p \in S$ form the Voronoi diagram of $S$, defined VD($S$). 
 If $S$ contains only two points $p$ and $q$, then VD($S$) is formed by a single hyperplane defined by all the points $x \in \mathbb{R}^d$ that are equidistant from $p$ and $q$. 
-This hyperplane is the perpendicular bisector of the line segment from $p$ to $q$, and splits the space into two (open) half-spaces. $\mathcal{V}_p$ is formed by the half-space containing $p$, and $\mathcal{V}_q$ by the one containing $q$. 
+This hyperplane is the perpendicular bisector of the line segment from $p$ to $q$, and splits the space into two (open) half-spaces. 
+\index{half-space}
+$\mathcal{V}_p$ is formed by the half-space containing $p$, and $\mathcal{V}_q$ by the one containing $q$. 
 
 %
 
@@ -117,7 +121,7 @@ For $\mathbb{R}^3$, it is called the \emph{Delaunay tetrahedralisation}: the spa
 \subsection{Duality between the DT and the VD}
 
 The VD and the DT are dual to each other, and that in any dimensions.
-This means they represent the same thing but from a differet point-of-view, and one structure can always be extracted from the other.
+This means they represent the same thing but from a different point-of-view, and one structure can always be extracted from the other.
 Consider a graph embedded in $\mathbb{R}^{d}$ as a $d$-dimensional cell complex. 
 The mappings between the elements of a cell complex in $\mathbb{R}^{d}$ are as follows: let $C$ be a $k$-cell, the dual cell of $C$ in $\mathbb{R}^{d}$ is denoted by $C^{\star}$ and is a ($d-k$)-cell. 
 
@@ -143,8 +147,8 @@ A Voronoi vertex is located at the centre of the sphere circumscribed to its dua
 \subsection{Convex Hull}
 In any dimensions, the DT of set $S$ of points subdivides completely conv($S$), \ie\ the union of all the simplices in DT($S$) is conv($S$).
 The boundary of a convex hull in 3D is formed of a set of triangles.
-Figure~\ref{fig:dt2} shows an example.
-\begin{figure}
+Figure~\ref{fig:dt2}b shows an example.
+\begin{figure*}
   \centering
   \begin{subfigure}[b]{0.29\linewidth}
     \includegraphics[width=\textwidth]{figs/t1}
@@ -160,15 +164,17 @@ Figure~\ref{fig:dt2} shows an example.
     \includegraphics[width=\textwidth]{figs/t3}
     \caption{}
   \end{subfigure}%
-  \caption{\textbf{(a)} A set of 1000 points randomly distributed in a cube. \textbf{(b)} Its convex hull. \textbf{(c)} The Delaunay tetrahedralisation of the points, `sliced' in the middle and the upper tetrahedra removed (to be able to visualise the interior).}
+  \caption{\textbf{(a)} A set of 1000 points randomly distributed in a cube. \textbf{(b)} Its convex hull. \textbf{(c)} The Delaunay tetrahedralisation of the points, `sliced' in the middle and the upper tetrahedra removed (to be able to visualise the interior).}%
 \label{fig:dt2}
-\end{figure}
+\end{figure*}
 
 
 %%%
 \subsection{Local Optimality}
 Let $\mathcal{T}$ be a triangulation of $S$ in $\mathbb{R}^d$. 
-A facet $\sigma$ (a ($d-1$)-simplex) is said to be \emph{locally} Delaunay if it either
+A facet $\sigma$ 
+\index{facet}\marginnote{facet}
+(a ($d-1$)-simplex) is said to be \emph{locally} Delaunay if it either:
 \begin{description}
   \item[(i)] belongs to only one $d$-simplex, and thus bounds conv($S$), or
   \item[(ii)] belongs to two $d$-simplices $\sigma_a$ and $\sigma_b$, formed by the vertices of $\sigma$ and respectively the vertices $a$ and $b$, and $b$ is outside of the circumball of $\sigma_a$.
@@ -177,26 +183,30 @@ The second case is illustrated in two dimensions in Figure~\ref{fig:slivers}a.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\textwidth]{figs/slivers}
-  \caption{\textbf{(a)} A four-sided convex polygon $abcd$ can be triangulated in two different ways, but the empty circumcircle criterion guarantees that the triangles are as equilateral as possible. Notice that the edge $ac$ is not locally Delaunay, but $bd$ is. \textbf{(b)} In three dimensions, five vertices can be triangulated with either two or three tetrahedra. Although the tetrahedralisation at the bottom has two nicely shaped tetrahedra, they are not Delaunay (the point $d$ is inside the sphere $abce$, which also implies that $b$ is inside the sphere $acde$). The tetrahedralisation at the top respects the Delaunay criterion, but contains one very thin tetrahedron spanned by the points $a$, $b$, $d$ and $e$.}
+  \caption{\textbf{(a)} A four-sided convex polygon $abcd$ can be triangulated in two different ways, but the empty circumcircle criterion guarantees that the triangles are as equilateral as possible. Notice that the edge $ac$ is not locally Delaunay, but $bd$ is. \textbf{(b)} In three dimensions, five vertices can be triangulated with either two or three tetrahedra. Although the tetrahedralisation at the bottom has two nicely shaped tetrahedra, they are not Delaunay (the point $d$ is inside the sphere $abce$, which also implies that $b$ is inside the sphere $acde$). The tetrahedralisation at the top respects the Delaunay criterion, but contains one very thin tetrahedron spanned by the points $a$, $b$, $d$ and $e$.}%
 \label{fig:slivers}
 \end{figure}
 In an arbitrary triangulation, not every facet that is locally Delaunay is necessarily a facet of DT($S$), but local optimality implies globally optimality in the case of the DT:
 \begin{quote}
   Let $\mathcal{T}$ be a triangulation of a point set $S$ in $\mathbb{R}^d$. If every facet of $\mathcal{T}$ is locally Delaunay, then $\mathcal{T}$ is the Delaunay triangulation of $S$.
+  \marginnote{locally Delaunay}
 \end{quote}
 This has serious implications as the DT---and its dual---are locally modifiable, \ie\ we can theoretically insert, delete or move a points in $S$ without recomputing DT($S$) from scratch.
 
 
 %%%
 \subsection{Angle Optimality}
-The DT in two dimensions has a very important property that is useful in applications such as finite element meshing or interpolation: the \emph{max-min angle optimality}. 
+The DT in two dimensions has a very important property that is useful in applications such as finite element meshing or interpolation: the \emph{max-min angle optimality}.
+\marginnote{max-min angle optimality}\index{max-min angle optimality}
 Among all the possible triangulations of a set $S$ of points in $\mathbb{R}^2$, DT($S$) maximises the minimum angle (max-min property), and also minimises the maximum circumradii. 
 In other words, it creates triangles that are as equilateral as possible. 
 
 %
 
 Finding `good' tetrahedra, \ie\ nicely shaped, is however more difficult than finding good triangles because the max-min property of Delaunay triangles does not generalise to three dimensions. 
-A DT in $\mathbb{R}^3$ can indeed contain some tetrahedra, called \emph{slivers}, whose four vertices are almost coplanar (see Figure~\ref{fig:slivers}b); these tetrahedra are Delaunay. 
+A DT in $\mathbb{R}^3$ can indeed contain some tetrahedra, called \emph{slivers}, 
+\marginnote{slivers}\index{slivers}
+whose four vertices are almost coplanar (see Figure~\ref{fig:slivers}b); these tetrahedra are Delaunay. 
 Note that such slivers do not have two-dimensional counterparts.
 
 %
@@ -210,7 +220,7 @@ Third, if the VD is used for interpolation, then the VD is necessary because man
 
 
 %%%
-\subsection{Lifting on the paraboloid}
+\subsection{Lifting on the paraboloid}%
 \label{sec:parabolic_lifting}
 
 There exists a close relationship between DTs in $\mathbb{R}^{d}$ and convex polytopes in $\mathbb{R}^{d+1}$. 
@@ -281,20 +291,9 @@ We provide in the following a general idea of how the reconstruction of the DT i
 %%%
 \subsection{Generalisation of the flip-based incremental insertion algorithm}
 
-The algorithm described here is a generalisation to 3D of the flip-based incremental insertion algorithm used for 2D DT\@.
-
-Most steps can be generalised in a direct way.
-Figure~\ref{fig:insertion_steps} shows the steps from the 2D algorithm (as seen in GEO1015), which are conceptually the same for the 3D generalisation of the algorithm (and it is more difficult to draw these steps in 3D).
-\begin{figure*}
-  \centering
-  \includegraphics[width=1.4\textwidth]{figs/insertion_steps}
-  \caption{Step-by-step insertion, with flips, of a single point in a DT in two dimensions.}%
-\label{fig:insertion_steps}
-\end{figure*}
-
-The algorithm is described in Algorithm~\ref{algo:insert1pt}.
+The algorithm described in Algorithm~\ref{algo:insert1pt} is a generalisation to 3D of the flip-based incremental insertion algorithm used for 2D DT\@.
 \begin{algorithm}[tb] 
-  \DontPrintSemicolon
+  \DontPrintSemicolon\
   \KwIn{A DT($S$) $\mathcal{T}$ in $\mathbb{R}^3$, and a new point $p$ to insert}
   \KwOut{$\mathcal{T}^{p} = \mathcal{T} \cup \{p\}$}
   find tetrahedron $\tau$ containing $p$\;
@@ -314,14 +313,27 @@ The algorithm is described in Algorithm~\ref{algo:insert1pt}.
       \Else{Do nothing} 
     }
   }
-  \caption{Algorithm to insert one point in a DT}
+  \caption{Algorithm to insert one point in a DT}%
 \label{algo:insert1pt}
 \end{algorithm} 
 
+Most steps can be generalised in a direct way.
+Figure~\ref{fig:insertion_steps} shows the steps from the 2D algorithm, which are conceptually the same for the 3D generalisation of the algorithm (and it is more difficult to draw these steps in 3D).
+\begin{figure*}
+  \centering
+  \includegraphics[width=1.5\textwidth]{figs/insertion_steps}
+  \caption{Step-by-step insertion, with flips, of a single point in a DT in two dimensions.}%
+\label{fig:insertion_steps}
+\end{figure*}
 
-As is the case with the two-dimensional algorithm, the point $p$ is first inserted in $\mathcal{T}$ with a flip (flip14 in the case here), and the new tetrahedra created must be tested to make sure they are Delaunay. 
+
+
+
+As is the case with the two-dimensional algorithm, the point $p$ is first inserted in $\mathcal{T}$ with a flip (\emph{flip14} in the case here), 
+\marginnote{flips}\index{flip14}
+and the new tetrahedra created must be tested to make sure they are Delaunay. 
 The sequence of flips needed is controlled by a stack containing all the tetrahedra that have not been tested yet. 
-The stack starts with the four resulting tetrahedra of the flip14, and each time a flip is performed, the new tetrahedra created are added to the stack. 
+The stack starts with the four resulting tetrahedra of the \emph{flip14}, and each time a flip is performed, the new tetrahedra created are added to the stack. 
 The algorithms stops when all the tetrahedra incident to $p$ are Delaunay, which also means that the stack is empty.
 
 
@@ -332,14 +344,14 @@ The points in $S$ are therefore always added inside an existing tetrahedron.
 
 %%%
 \paragraph{Walk/Point location.}
-To find the tetrahedron containing the newly inserted point $p$, the adjacency relationships between the tetrahera can be used. 
+To find the tetrahedron containing the newly inserted point $p$, the adjacency relationships between the tetrahedra can be used. 
 With a series of \Orient\ tests one can navigate from one tetrahedron to the other.
 
 %%%
 \paragraph{Flips.}
 A flip is a local (topological) operation that modifies the configuration of some adjacent tetrahedra. 
 In 2D, for 4 points, a flip (called \emph{flip22}), modifies the configuration of 2 adjacent triangles by flipping the diagonal of the quadrilateral.
-In 3D, there are 2 kinds of flips: flip23 and flip32.
+In 3D, there are 2 kinds of flips: \emph{flip23} and \emph{flip32}.
 Consider the set $S = \{a, b, c, d, e\}$ of points in general position in $\mathbb{R}^{3}$ and its convex hull conv($S$). 
 There exist two possible configurations, as shown in Figure~\ref{fig:flips3d}:
 \begin{marginfigure}
@@ -349,18 +361,18 @@ There exist two possible configurations, as shown in Figure~\ref{fig:flips3d}:
 \label{fig:flips3d}
 \end{marginfigure}
 \begin{enumerate}
-  \item the five points of $S$ lie on the boundary of conv($S$); see Figure~\ref{fig:flips3d}(a). There are exactly two ways to tetrahedralise such a polyhedron: either with two or three tetrahedra. In the first case, the two tetrahedra share a triangular face $bcd$, and in the latter case the three tetrahedra all have a common edge $ae$.
-  \item one point $e$ of $S$ does not lie on the boundary of conv($S$), thus conv($S$) forms a tetrahedron; see Figure~\ref{fig:flips3d}(b). The only way to tetrahedralise $S$ is with four tetrahedra all incident to $e$.
+  \item the five points of $S$ lie on the boundary of conv($S$); see Figure~\ref{fig:flips3d}a. There are exactly two ways to tetrahedralise such a polyhedron: either with two or three tetrahedra. In the first case, the two tetrahedra share a triangular face $bcd$, and in the latter case the three tetrahedra all have a common edge $ae$.
+  \item one point $e$ of $S$ does not lie on the boundary of conv($S$), thus conv($S$) forms a tetrahedron; see Figure~\ref{fig:flips3d}b. The only way to tetrahedralise $S$ is with four tetrahedra all incident to $e$.
 \end{enumerate}
 Based on these two configurations, four types of flips in $\mathbb{R}^{3}$ can be described: \emph{flip23}, \emph{flip32}, \emph{flip14} and \emph{flip41} (the numbers refer to the number of tetrahedra before and after the flip). 
-When $S$ is in the first configuration, two types of flips are possible: a flip23 is the operation that transforms one tetrahedralisation of two tetrahedra into another one with three tetrahedra; and a flip32 is the inverse operation. 
-If $S$ is tetrahedralized with two tetrahedra and the triangular face $bcd$ is not locally Delaunay, then a flip23 will create three tetrahedra whose faces are locally Delaunay. 
+When $S$ is in the first configuration, two types of flips are possible: a \emph{flip23} is the operation that transforms one tetrahedralisation of two tetrahedra into another one with three tetrahedra; and a \emph{flip32} is the inverse operation. 
+If $S$ is tetrahedralised with two tetrahedra and the triangular face $bcd$ is not locally Delaunay, then a \emph{flip23} will create three tetrahedra whose faces are locally Delaunay. 
 
-A flip14 refers to the operation of inserting a vertex inside a tetrahedron, and splitting it into four tetrahedra; and a flip41 is the inverse operation that deletes a vertex.
+A \emph{flip14} refers to the operation of inserting a vertex inside a tetrahedron, and splitting it into four tetrahedra; and a \emph{flip41} is the inverse operation that deletes a vertex.
 
 Flips can not always be applied during an insertion, it depends on the local configuration.
-For example, in Figure~\ref{fig:flips3d}a, a flip23 is possible on the two adjacent tetrahedra $abcd$ and $bcde$ if and only if the line $ae$ passes through the triangular face $bcd$ (which also means that the union of $abcd$ and $bcde$ is a convex polyhedron). 
-If not, then a flip32 is possible if and only if there exists in the tetrahedralisation a third tetrahedron adjacent to both $abcd$ and $bcde$.
+For example, in Figure~\ref{fig:flips3d}a, a \emph{flip23} is possible on the two adjacent tetrahedra $abcd$ and $bcde$ if and only if the line $ae$ passes through the triangular face $bcd$ (which also means that the union of $abcd$ and $bcde$ is a convex polyhedron). 
+If not, then a \emph{flip32} is possible if and only if there exists in the tetrahedralisation a third tetrahedron adjacent to both $abcd$ and $bcde$.
 
 
 
@@ -425,7 +437,7 @@ It is simply transformed into a four-dimensional \Orient\ test: $p$ is inside (o
 
 %%%
 \subsection{Data structure} Instead of storing triangles as the atom, tetrahedra are used, they have 4 pointers to their 4 vertices, and 4 pointers to their 4 adjacent tetrahedra.
-All of them must be oriented correctly (as is the case in 2D where they are all counterclockwise), as defined above.
+All of them must be oriented correctly (as is the case in 2D where they are all counter-clockwise), as defined above.
 
 
 %%%
@@ -465,7 +477,7 @@ The objects studied in geoscience are often not man-made objects, but rather the
 These are referred to as fields, and raster structures (voxels or octrees) are the most popular solutions for modelling them.
 However, using regular structures has shortcomings and therefore the VD is a viable alternative.
 
-One advantage is that the VD will adapt to the anisotropic distribution of the samples collected to study a field, these samples are three-dimensional points ($x,y,z$) to which an attribute is attached (\eg\ the percentage of a certain mineral in a boday of water).
+One advantage is that the VD will adapt to the anisotropic distribution of the samples collected to study a field, these samples are three-dimensional points ($x,y,z$) to which an attribute is attached (\eg\ the percentage of a certain mineral in a body of water).
 In practice, the samples can be very hard and expensive to collect because of the difficulties encountered and the technologies involved. 
 To collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere must be collected by devices attached to balloons or aircraft. 
 As shown in Figure\ref{fig:watercolumns}, samples are often abundant vertically but very sparse horizontally. 
@@ -502,7 +514,7 @@ Given a set of samples, embedded in three-dimension, to which an attribute $a$ i
 As is the case in 2D, the properties of both the 3DVD and the 3DDT can be used to estimate the value of an attribute.
 
 % TODO : numbering of chapters
-Chapter~13 presents in details how to extend to three dimensions the usual interpolation methods used in GIS, and discusses whether they preserve their properties or are appropriate for geoscientific datasets.
+Chapter~12 presents in details how to extend to three dimensions the usual interpolation methods used in GIS, and discusses whether they preserve their properties or are appropriate for geoscientific datasets.
 
 
 
@@ -539,7 +551,7 @@ Figure~\ref{fig:isosurface} shows one concrete example.
 
 
 % TODO : update lesson number
-As explained in Lesson~7.1, iso-surfaces can be extracted automatically from the DT\@.
+As explained in Chapter~12, isosurfaces can be extracted automatically from the DT\@.
 
 
 
@@ -607,6 +619,7 @@ It is impossible to select four vertices of the polyhedron such that a tetrahedr
 A ConfDT is a tetrahedralisation where every tetrahedron has an empty circumsphere, it is thus a `real' Delaunay tetrahedralisation.   
 This is achieved by adding new extra points to the input PLC $\mathcal{P}$ to ensure that the input constraints are present in the ConfDT\@. 
 The extra points are called, as is the case in 2D, \emph{Steiner} points.
+\marginnote{Steiner points}\index{Steiner points}
 
 % 
 
@@ -658,10 +671,7 @@ The details of the algorithms are beyond what is covered in this course.
 
 %
 
-
-
-
-
+\newpage
 \begin{kaobox}[frametitle=\faCog\ How does it work in practice?]
   Implementing a ConsDT that is robust against all input is difficult, and there exists few reliable libraries.
   Perhaps the ``best'' and easiest to use is TetGen, which is open-source; it is available at \url{http://www.tetgen.org/}.
@@ -676,7 +686,7 @@ The details of the algorithms are beyond what is covered in this course.
 
 \citet{Rajan91} shows that the smallest sphere containing a Delaunay tetrahedron is smaller than the one of any other tetrahedron, \ie\ the Delaunay criterion favours `round' tetrahedra.
 
-\citet{Cignoni98} developed an algorithm, called \texttt{DeWall} and based on the divide-and-conquer paradigm, for constructing the DT in any dimensions. Although the worst-time complexity of this algorithm is $\mathcal{O}(n^3)$ in three dimensions, they affirm that the speed of their implementation is comparable to the implementation of known incremental algorithms, and is subquadratic.
+\citet{Cignoni98} developed an algorithm, called \texttt{DeWall} and based on the divide-and-conquer paradigm, for constructing the DT in any dimensions. Although the worst-time complexity of this algorithm is $\mathcal{O}(n^3)$ in three dimensions, they affirm that the speed of their implementation is comparable to the implementation of known incremental algorithms, and is sub-quadratic.
 
 The Schönhardt polyhedron was first described in \citet{Schonhardt28}. 
 
@@ -685,7 +695,6 @@ See \citet{Ledoux07} for an easy explanation of the steps to construct the 3D DT
 
 \citet{Ledoux08} presents an overview of why the VD is a better alternatives to grids for the modelling of geoscientific fields.
 
-The details of how the spatial interpolation methods generalise to 3D are given in \citet{Ledoux05}.
 
 
 %%%
