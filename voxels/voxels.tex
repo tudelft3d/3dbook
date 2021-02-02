@@ -3,16 +3,17 @@
 \setchapterpreamble[u]{\margintoc}
 
 \graphicspath{{voxels/}}
+\renewcommand*{\thelesson}{2.2}
 
 \chapter{Voxels and voxelisation}%
 \label{chap:voxels}
 
-Voxel models, which are the 3D equivalent of 2D rasters, are a common way to store 3D models of the built environment using a regular 3D grid (\reffig{fig:model}).
+Voxel models, which are the 3D equivalent of 2D rasters, are a common way to store 3D models of the built environment using a regular 3D grid (Figure~\ref{fig:model}).
 Much like rasters in 2D, they have inherent limits in precision based on the grid size that is used and can easily grow to very large sizes in terms of memory, especially with a small grid size.
 Still, voxel models are easy to use and understand, and algorithms to process them are typically much simpler than those using other representations, which also makes them more reliable and robust.
 These characteristics make voxels an important and widely used representation to process 3D information in general.
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{\linewidth}
 \includegraphics[width=\linewidth]{figs/model-pre}
@@ -110,7 +111,7 @@ In principle, it can be applied to arbitrary curves and surfaces, but in most in
 
 \subsection{Connectivity}
 
-When rasterising a curve in 2D, different algorithms aim to obtain a pixellated curve that is connected according to either 4-connectivity or 8-connectivity (\reffig{fig:rasterisation}).
+When rasterising a curve in 2D, different algorithms aim to obtain a pixellated curve that is connected according to either 4-connectivity or 8-connectivity (Figure~\ref{fig:rasterisation}).
 These are as follows:
 \begin{description}
 \item[4-connectivity] means that pixels are connected to their four horizontally and vertically adjacent neighbours.
@@ -142,7 +143,7 @@ We will thus not discuss it further.
 
 \subsection{Intersections with targets (2D)}
 
-In the example from \reffig{fig:rasterisation}, the pixellated curve is obtained by calculating intersections between the original 1D curve and a set of \emph{targets} that are 1D line segments.
+In the example from Figure~\ref{fig:rasterisation}, the pixellated curve is obtained by calculating intersections between the original 1D curve and a set of \emph{targets} that are 1D line segments.
 For 4-connectivity, the targets consist of the four line segments that bound every pixel.
 For 8-connectivity, the targets are line segments that bisect the pixel horizontally and vertically and their midpoints.
 The intersections with the targets give us a set of points, and the pixels in which these points are tell us the pixels that are part of the pixellated curve.
@@ -172,7 +173,7 @@ However, it is a method with good performance with a logic that works perfectly 
 Let us start backwards, with the equivalent duality property for voxelisation, which states that we can use \((3-i)\)-dimensional targets to voxelise \(i\)-dimensional objects.
 Using this formula directly, we can discuss the most obvious cases first: voxelising 0D points and 3D volumes, in which connectivity also does not matter.
 
-In order to voxelise \textbf{0D points} (\eg\ a point cloud), we can thus simply use 3D targets that consist of the whole voxel (\reffig{fig:points}).
+In order to voxelise \textbf{0D points} (\eg\ a point cloud), we can thus simply use 3D targets that consist of the whole voxel (Figure~\ref{fig:points}).
 That is, we can compute for each point which voxel it is in, or for each voxel the points that are in it.
 This is a trivial operation using ranges of \(x\), \(y\) and \(z\) coordinates.
 
@@ -200,8 +201,8 @@ For instance, if we have tetrahedra as input, it would be a point in tetrahedron
 Now, let us discuss the more challenging cases: 1D and 2D objects.
 As with 1D curves in rasterisation, connectivity is important for these, so we will give targets that can be used in order to achieve 6-connectivity and 26-connectivity for each.
 
-In order to voxelise \textbf{1D curves} with 6-connectivity (\reffig{fig:lines}), we could detect when these pass through the top, bottom, left, right, front or back faces of the voxel using 2D targets (\reffig{subfig:1d6}).
-For 26-connectivity, we could detect when these pass through the middle of the voxel using three bisecting faces (\reffig{subfig:1d26}).
+In order to voxelise \textbf{1D curves} with 6-connectivity (Figure~\ref{fig:lines}), we could detect when these pass through the top, bottom, left, right, front or back faces of the voxel using 2D targets (Figure~\ref{subfig:1d6}).
+For 26-connectivity, we could detect when these pass through the middle of the voxel using three bisecting faces (Figure~\ref{subfig:1d26}).
 
 \begin{figure}
 \centering
@@ -237,8 +238,8 @@ For 26-connectivity, we could detect when these pass through the middle of the v
 \label{fig:1d}
 \end{figure}
 
-Now, in order to voxelise \textbf{2D surfaces} (\reffig{fig:surfaces}) with 6-connectivity, we can use 1D targets that detect when we pass through any of the 12 edges on the boundary of the voxel (\reffig{subfig:2d6}).
-For 26-connectivity, we can use 1D targets that detect when we pass through the middle of the voxel (\reffig{subfig:2d26}).
+Now, in order to voxelise \textbf{2D surfaces} (Figure~\ref{fig:surfaces}) with 6-connectivity, we can use 1D targets that detect when we pass through any of the 12 edges on the boundary of the voxel (Figure~\ref{subfig:2d6}).
+For 26-connectivity, we can use 1D targets that detect when we pass through the middle of the voxel (Figure~\ref{subfig:2d26}).
 
 \begin{figure}
 \centering
@@ -276,7 +277,7 @@ For 26-connectivity, we can use 1D targets that detect when we pass through the 
 		\item using a sparse encoding with an octree
 	\end{enumerate}
 	\item Can you think of cases where the rasterisation targets for 1D lines do not work? Hint: think of short curves.
-	\item What kind of connectivity is used in the example of \reffig{fig:lines}?
+	\item What kind of connectivity is used in the example of Figure~\ref{fig:lines}?
 \end{enumerate}
 
 
