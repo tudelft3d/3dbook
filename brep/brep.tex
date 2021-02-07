@@ -28,7 +28,7 @@ External data structures might also be needed to keep track of disconnected set 
 
 \section{What is boundary representation?}
 
-Boundary representation, also known as \emph{b-rep} or \emph{surface modelling}, is a method that involves representing an \(n\)-dimensional object through its \((n-1)\)-dimensional boundary.
+Boundary representation\marginnote{boundary representation}\index{boundary representation}, also known as \emph{b-rep}\marginnote{b-rep}\index{b-rep} or \emph{surface modelling}\marginnote{surface modelling}\index{surface modelling}, is a method that involves representing an \(n\)-dimensional object through its \((n-1)\)-dimensional boundary.
 Most of the time this term is used in the context of 3D modelling, where the aim is to represent a 3D object implicitly through its 2D boundary.
 That being said, boundary representation is also common in 2D as well, where we sometimes represent polygons based on the line segments that bound them, and it is the main method used in 1D, where most of the time we represent line segments based on the two points that bound them (Figure~\ref{subfig:line})---as opposed to representing them based on something like a line equation.
 Boundary representation can thus be used several times when representing a single 3D model: to represent a 3D volume as a set of 2D surfaces, each 2D surface as a set of 1D line segments or curves, and each 1D line segment as a pair of 0D points---or often 2D polygonal surfaces directly as sequences of 0D points (Figure~\ref{subfig:loop}).
@@ -50,17 +50,17 @@ Boundary representation can thus be used several times when representing a singl
 \label{fig:brep}
 \end{figure}
 
-Boundary representation works because of what is known in 2D as the Jordan curve theorem, which states that a closed curve separates the plane into two parts: an \emph{interior} surface and an \emph{exterior} surface.
-In practical terms, this means that if you draw a closed curve on a sheet of paper, the curve separates the sheet into two parts---an interior one that is bounded on the outside by the curve, and an exterior one that is bounded on the outside by the edges of the sheet (\ie\ its outer boundary) and on the inside by the curve (\ie\ as an inner boundary).
-In higher dimensions, this principle is known as the Jordan-Brouwer theorem, which in 3D says that a closed surface separates 3D space into two parts: an interior volume and an exterior volume.
+Boundary representation works because of what is known in 2D as the Jordan curve theorem\marginnote{Jordan curve theorem}\index{Jordan curve theorem}, which states that a closed curve separates the plane into two parts: an \emph{interior} surface and an \emph{exterior} surface.
+In practical terms, this means that if you draw a closed curve (\ie\ a loop) on a sheet of paper, the curve separates the sheet into two parts---an interior one that is bounded on the outside by the curve, and an exterior one that is bounded on the outside by the edges of the sheet (\ie\ its outer boundary) and on the inside by the curve (\ie\ as an inner boundary).
+In higher dimensions, this principle is known as the Jordan-Brouwer theorem\marginnote{Jordan-Brouwer theorem}\index{Jordan-Brouwer theorem}, which in 3D says that a closed surface separates 3D space into two parts: an interior volume and an exterior volume.
 
 For our purposes, what the above theorems mean is that if we have a comprehensive method to represent a 2D surface, we can also use it to implicitly represent many 3D volumes with minimal modifications.
-The specifics of these modifications depend on the data structure that we are using, but it often is as simple as adding an extra coordinate for each point.
+The specifics of these modifications depend on the data structure that we are using, but it often is as simple as adding an extra coordinate for each point (\ie\ $(x, y)$ becoming $(x, y, z)$).
 
 \section{Objects with holes}
 
 As hinted in the last paragraph, there are however some 3D volumes that are tricky to store using boundary representation.
-The most obvious ones are objects with 3D holes (\ie\ cavities), since just like the paper sheet example described previously, they are bounded by one outer surface and possibly several inner surfaces (one per cavity).
+The most obvious ones are \emph{objects with 3D holes} (\ie\ cavities)\marginnote{hole}\index{hole}\marginnote{cavity}\index{cavity}, since just like the paper sheet example described previously, they are bounded by one outer surface and possibly several inner surfaces (one per cavity).
 Less obviously, objects with 2D faces with holes can have exactly the same problem with certain data structures (Figure~\ref{subfig:hole}), since a surface can be bounded by an outer ring and possibly multiple inner rings.
 
 \begin{figure}
@@ -85,13 +85,20 @@ Less obviously, objects with 2D faces with holes can have exactly the same probl
 \label{fig:hole}
 \end{figure}
 
-Both of these cases are problematic because the structures representing holes can end up separated from the rest of the data structure, resulting in a \emph{disconnected graph}.
+Both of these cases are problematic for the same reasons.
+In the simplest case, it can be because of a data structure is only built to store one ring/surface (\eg\ a single list of vertices for a ring).
+However, the most common issue is that even when multiple rings/surfaces can be stored, the structures representing holes can end up separated from the rest of the data structure, resulting in a \emph{disconnected graph}\marginnote{disconnected graph}\index{disconnected graph}.
 In other words, it might be impossible to navigate from the outer boundary of an object to its inner boundaries and vice versa.
 
 While holes can cause problems when modelling objects using boundary representation, these are relatively easy to solve.
-The three most common approaches are: (i) splitting volumes into multiple parts in a manner that the 2D or 3D holes lie between different objects (Figure~\ref{subfig:hole-split}), then somehow semantically marking that the parts belong to the same object (\eg\ by using the same attribute id); (ii) storing a list of holes for each object as a sort of attribute, from which they can then be accessed; and (iii) using one \emph{bridge edge} per hole, which are special edges that join each inner boundary to the outer boundary (Figure~\ref{subfig:hole-bridge}).
-The end result of the latter approach is that objects are only bounded by a single outer boundary, which wraps around the original outer boundary and all of the former inner boundaries.
-Bridge edges might also be marked semantically as such, although it is possible to tell that an edge is a bridge edge because it is surrounded on all sides by the same 2D/3D object.
+The three most common approaches are: 
+\begin{enumerate}
+	\item splitting volumes into multiple parts in such a manner that the 2D or 3D holes lie between different objects (Figure~\ref{subfig:hole-split}), then somehow semantically marking that the parts belong to the same object (\eg\ by using the same attribute id); 
+	\item storing holes just like other (filled) objects, marking them as holes semantically (\eg\ with a special attribute or id), and then storing a list of holes for each object as a sort of attribute, from which they can then be easily accessed;
+	\item using one \emph{bridge edge}\marginnote{bridge edge}\index{bridge edge} per hole, which are special edges that join each inner boundary to the outer boundary (Figure~\ref{subfig:hole-bridge}).
+	The end result of this approach is that objects are only bounded by a single outer boundary, which wraps around the original outer boundary and all of the former inner boundaries.
+	Bridge edges might also be marked semantically as such, although it is possible to tell that an edge is a bridge edge because it is surrounded on all sides by the same 2D/3D object.
+\end{enumerate}
 
 % A very similar case to objects with holes are disconnected (\ie\ non-touching) objects, which also result in a disconnected graph.
 % In order to support these objects, many data structures have an explicit list of all existing objects, from which it is possible to access them.
@@ -99,36 +106,38 @@ Bridge edges might also be marked semantically as such, although it is possible 
 
 \section{Non-manifolds}
 
-In addition to the above mentioned objects with holes, the other kind of objects that are tricky to store using boundary representation are \emph{non-manifolds}.
+In addition to the above mentioned objects with holes, the other kind of objects that are tricky to store using boundary representation are \emph{non-manifolds}\marginnote{non-manifold}\index{non-manifold}.
 However, in order to precisely describe what these are, we need to introduce some concepts from topology, which will allow us to describe them in terms of topological characteristics.
 
-Mathematically, a \emph{homeomorphism} is a continuous function that also has a continuous inverse.
+Mathematically, a \emph{homeomorphism}\marginnote{homeomorphism}\index{homeomorphism} is a continuous function that also has a continuous inverse.
 This is a sort of equivalence relation (\(=\)) in topology, and so it can be used to tell that two objects are topologically equivalent or \emph{homeomorphic}.
-In informal terms, applying a homeomorphism is like continuously deforming an object (without making holes in it or glueing different parts of it), and if an object can be transformed to another through this process, they are said to be homeomorphic (Figure~\ref{fig:homeomorphism}).
-Homeomorphisms work because they preserve all topological properties, which means that they can be used to relate different objects to simpler ones that have known properties (\eg\ Euclidean 2D space or a sphere).
+In informal terms, applying a homeomorphism is like continuously deforming an object (without making holes in it or glueing different parts of it).
+If an object can be transformed to another through this process, they are said to be homeomorphic (Figure~\ref{fig:homeomorphism}).
+Homeomorphisms are important because of one key characteristic: they preserve all topological properties.
+This means that they can be used to relate an arbitrary object to a simpler well-known one, which then has known topological properties (\eg\ Euclidean 2D space or a sphere).
 
-\begin{marginfigure}
+\begin{figure}[htbp]
 \centering
-\begin{subfigure}[b]{\linewidth}
+\begin{subfigure}[b]{0.4\linewidth}
 \includegraphics[width=\linewidth]{figs/mug}
 \caption{}%
 \label{subfig:mug}
 \end{subfigure}
-\\
-\begin{subfigure}[b]{\linewidth}
+\quad
+\begin{subfigure}[b]{0.4\linewidth}
 \includegraphics[width=\linewidth]{figs/donut}
 \caption{}%
 \label{subfig:donut}
 \end{subfigure}
 \caption{A typical joke about topology says that (a) a coffee mug and (b) a donut are homeomorphic.}%
 \label{fig:homeomorphism}
-\end{marginfigure}
+\end{figure}
 
-A \emph{manifold} is a shape that is homeomorphic to the Euclidean space of a certain dimension, \ie\ a point in 0D, a line in 1D, a plane in 2D or 3D space in 3D.
+A \emph{manifold}\marginnote{manifold}\index{manifold} is a shape that is homeomorphic to the Euclidean space of a certain dimension, \ie\ a point in 0D, a line in 1D, a plane in 2D or 3D space in 3D.
 An intuitive way to think about this is that a manifold locally resembles Euclidean space, even if globally it does not.
 For example, a line and a circle are both 1-manifolds, while a plane, a sphere and a torus are all 2-manifolds.
-Meanwhile, non-manifolds are shapes where you can find at least one point where this condition is not true (Figure~\ref{subfig:nonmanifold-0} and~\ref{fig:non2manifold}).
-In geomatics, when people refer to a non-manifold, they are usually referring to a non-2-manifold.
+Meanwhile, non-manifolds\marginnote{non-manifold}\index{non-manifold} are shapes where you can find at least one point where this condition is not true (Figure~\ref{subfig:nonmanifold-0} and~\ref{fig:non2manifold}).
+In geomatics, when people refer to a non-manifold, they are usually referring to a non-2-manifold in the context of modelling a 3D object using boundary representation.
 
 \begin{figure}
 \centering
@@ -154,10 +163,9 @@ Note that these are not equally desirable as (c) results in a disconnected struc
 \label{fig:nonmanifold}
 \end{figure}
 
-Based on these definitions, we can now better describe exactly what 3D objects can be stored using boundary representation without problems: those that are bounded by exactly one 2-manifold surface.
-The logic behind this is that 2D space is by definition a 2-manifold surface, which means that we are able to store objects that are bounded by a surface that is homeomorphic to it.
-An intuitive way to think about this is to consider a counterexample in terms of the Jordan curve theorem: if we draw a closed loop that crosses itself, which is clearly a non-manifold, we will end up with more than one interior part (or an ambiguous situation).
-This line of thought also gives us an alternative way to think of why objects with 3D holes are a problem, which is because they are bounded by more than one surface.
+Based on these definitions, we can now better describe exactly which 3D objects can be stored using boundary representation without problems: those that are bounded by exactly one 2-manifold surface.
+The intuitive logic that explains this is: 2D space is (by definition) a 2-manifold surface, which means that we are able to store objects that are bounded by a surface that is homeomorphic to it.
+Another intuitive way to think about this is to consider a counterexample in terms of the Jordan curve theorem: if we draw a closed loop that crosses itself (\eg\ the number 8), which is clearly a non-manifold, we will end up with more than one interior part (or possibly an ambiguous situation).
 
 \begin{marginfigure}
 \centering
@@ -166,16 +174,21 @@ This line of thought also gives us an alternative way to think of why objects wi
 \label{fig:non2manifold}
 \end{marginfigure}
 
-While the obvious solution might be to disallow non-manifold objects, they are common in practice however, and so we need to have methods to deal with them, even if these methods might introduce additional complexity to boundary representation.
-For this, there are two approaches that are typically used: (i) splitting non-manifold objects into multiple manifold parts, then marking the parts as belonging to the same object using semantics; and (ii) creating duplicate elements at the same location (Figure~\ref{subfig:nonmanifold-1} and~\ref{subfig:nonmanifold-2}).
-In 2D this usually involves duplicate vertices, whereas in 3D this might involve duplicate edges as well.
+While the obvious solution might be to disallow non-manifold objects, they are common in practice, and so we need to have methods to deal with them, even if these methods might introduce additional complexity to boundary representation.
+In order to overcome this problem, there are two approaches that are typically used:
+
+\begin{enumerate}
+	\item splitting non-manifold objects into multiple manifold parts, then marking the parts as belonging to the same object using semantics;
+	\item creating duplicate elements at the same location (Figure~\ref{subfig:nonmanifold-1} and~\ref{subfig:nonmanifold-2}).
+		In 2D this usually involves duplicate vertices, whereas in 3D this might involve duplicate edges as well.
+\end{enumerate}
 
 \section{Topological concepts}
 
 In addition to holes and manifolds, there are other topological concepts that are commonly used when characterising objects in 3D modelling.
 These are not directly related to the present lesson, but we will make a small tangent to introduce them here.
 
-The \emph{genus} of a surface is the maximum number of closed loop cuts we can make in it without causing it to become disconnected (Figure~\ref{fig:genus}).
+The \emph{genus}\marginnote{genus}\index{genus} of a surface is the maximum number of closed loop cuts we can make in it without causing it to become disconnected (Figure~\ref{fig:genus}).
 Note the `maximum' here, since it is always possible to select loops that cause a surface to become disconnected.
 Intuitively, it is the number of `handles' it has.
 A sphere thus has genus 0, whereas a torus (\eg\ the donut and coffee mug) have genus 1 because we can cut the handle of the object and still have a connected surface.
@@ -203,7 +216,7 @@ A sphere thus has genus 0, whereas a torus (\eg\ the donut and coffee mug) have 
 \label{fig:genus}
 \end{figure}
 
-A surface is said to be \emph{orientable} when it is possible to define a normal vector at every point of the surface in a consistent manner, \ie\ without sudden reversals of the vector direction when moving long the surface.
+A surface is said to be \emph{orientable}\marginnote{orientability}\index{orientability} when it is possible to define a normal vector at every point of the surface in a consistent manner, \ie\ without sudden reversals of the vector direction when moving long the surface.
 Since real-world objects are always orientable (Figure~\ref{fig:mobius}), this might seem like a non-issue in practice.
 However, real-world objects are always volumetric---no matter how thin they are---but when these are modelled, they are often modelled as surfaces (\ie\ without thickness), which makes it possible to have unorientable surfaces.
 
@@ -222,8 +235,8 @@ We will show one or two characteristic examples for each approach, with the unde
 
 \subsection{Triangle-based structures}
 
-The first typical approach relies on a surface being triangulated, \ie\ being split entirely into triangles, so that you have a triangle mesh.
-This is often desirable because in a triangle mesh, each triangle is known to have (up to) three adjacent triangles and three incident vertices, whereas in a polygon it can be any number.
+The first typical approach relies on a surface being triangulated, \ie\ being split entirely into triangles, so that you have a triangle mesh\marginnote{triangle mesh}\index{triangle mesh}.
+This is often desirable because in a triangle mesh, each triangle is known to have only up to three adjacent triangles and only up to three incident vertices, whereas in a polygon it can be any number.
 Because of this, a triangle-based data structures (Figure~\ref{fig:2-simplex}) can use fixed-length data structures to store all their elements (\eg\ arrays), which are more efficient.
 
 \begin{figure}
@@ -276,9 +289,11 @@ Examples of these are triangle strips (Figure~\ref{fig:trianglestrip}) and trian
 When we want to allow for polygons in a surface, the most common approach is to use data structures where the base elements are either edges or half-edges.
 Let us look at one example of each.
 
-The \emph{quad-edge} data structure uses edges as base elements.
-Each edge then stores a \emph{quad} (Figure~\ref{fig:quad}) and links to one or both of its incident vertices.
-In a common easy implementation, the edge is first given an arbitrary orientation.
+The \emph{quad-edge}\marginnote{quad-edge data structure}\index{quad-edge data structure} data structure uses edges as base elements.
+Each edge then stores what is known as a \emph{quad}\marginnote{quad}\index{quad} (Figure~\ref{fig:quad}) and links to one or both of its incident vertices.
+Note that these quads are named as such because they store four piece of information and are unrelated to quads (\ie\ quadrilaterals) in computer graphics.
+
+In a common easy implementation of the quad-edge data structure, the edge is first given an arbitrary orientation.
 In this manner, there are vertices at the \emph{start} and \emph{end} of the edge, which can be used as names to access them, and there are thus \emph{left} and \emph{right} polygons, which means that the quad links can thus be called something like \emph{left-previous}, \emph{left-next}, \emph{right-previous} and \emph{right-next}.
 
 \begin{figure}[b]
@@ -289,17 +304,18 @@ In this manner, there are vertices at the \emph{start} and \emph{end} of the edg
 \end{figure}
 
 While this approach works fine, it is important to note that there will not be a consistent orientation between adjacent edges.
+That is, polygons will not be defined by an oriented loop of edges going around them.
 Vertices can thus have multiple edges pointing away from them and toward them.
 As an example of the consequences of this, getting all the vertices of a polygon is a bit awkward, since for each iteration where we arrive at an edge, we need to check the orientation of the edge and program a different logic for each orientation.
 
 The alternative is to split each edge into two linked half-edges with opposite orientations.
-This approach is called the \emph{half-edge data structure}, of which are many variations in practice, such as the doubly connected edge list (DCEL).
-In the DCEL (Figure~\ref{fig:halfedge}), half-edges are the base element, but there are also elements for vertices and faces.
+This approach is called the \emph{half-edge data structure}\marginnote{half-edge data structure}\index{half-edge data structure}, of which are many variations in practice, such as the doubly connected edge list (DCEL)\marginnote{DCEL}\index{DCEL}.
+In the DCEL (Figure~\ref{fig:halfedge}), half-edges\marginnote{half-edge}\index{half-edge} are the base element, but there are also elements for vertices and faces.
 Vertices store their coordinates and a link to one face-edge starting from it, whereas faces store a link to a half-edge on its outer boundary.
 If holes are present, faces also typically store one link to a half-edge on each of its inner boundaries.
-Note however that this means that a variable-length data structure (\eg\ a linked list) will need to be used.
+Note however that since a face can have any number of holes, this means that a variable-length data structure (\eg\ a linked list) will need to be used.
 Vertices, half-edges and faces can each also contain fields for attributes.
-Storing attributes for edges will thus result in duplicate information (or edge elements that are linked to both half-edges).
+Storing attributes for edges will thus result in duplicate information (or additional edge objects that are linked to both half-edges).
 
 \begin{figure}
 \centering
@@ -321,15 +337,15 @@ In the DCEL, a half-edge \(e\) is linked to two vertices (called the \emph{origi
 
 In general, half-edge data structures are more verbose than edge-based data structures.
 However, they make navigating through the structure much easier.
-For instance, obtaining all the vertices of a polygon in order in the DCEL simply involves following the \emph{next} link of a half-edge.
+For instance, obtaining all the vertices of a polygon in order in the DCEL simply involves finding a half-edge in the polygon, and then iteratively following the \emph{next} links until we get back to the original half-edge.
 
 \subsection{Incidence graphs}
 
-The last approach that is common in practice is the \emph{incidence graph}.
+The last approach that is common in practice is the \emph{incidence graph}\marginnote{incidence graph}\index{incidence graph}.
 It is a simple data structure where \(i\)-dimensional elements are linked to the \((i-1)\)-dimensional elements that bound it (Figure~\ref{fig:incidencegraph}).
 This approach makes it easy to store attributes for faces, edges and vertices without redundancy.
 However, it needs variable-length data structures to store the edges that bound each face.
-Because of this, it is commonly used where it is not a problem (\eg\ in text files), but it is avoided when efficiency is more important and where variable-length fields are a problem (\eg\ in databases).
+Because of this, it is commonly used where this limitation is not a problem (\eg\ in text files), but it is avoided when efficiency is more important and where variable-length fields are a problem (\eg\ in databases).
 
 \begin{figure}
 \centering
@@ -362,7 +378,7 @@ Because of this, it is commonly used where it is not a problem (\eg\ in text fil
 	\item Why can we represent a 2D polygon directly as a sequence of 0D points (\ie\ skipping line segments entirely) but we cannot do the same in 3D\@?
 	\item Exactly where is the surface of Figure~\ref{fig:non2manifold} not homeomorphic to a plane?
 	\item Splitting objects is a simple solution to deal with both holes and non-manifolds. However, in terms of semantics it is often not desirable. Why is that?
-	\item How does the vertex order for a triangle fan or star look like?
+	\item In a triangle fan or star, we need to store vertices in a specific order. Why is that?
 	\item How can you obtain all the edges incident to a vertex in order (\ie\ as you rotate around the vertex) using the quad-edge data structure? How about for the DCEL\@? Which is easier?
 \end{enumerate}
 
@@ -375,9 +391,9 @@ Because of this, it is commonly used where it is not a problem (\eg\ in text fil
 The original place where the Jordan curve theorem is introduced is  \citet{Jordan87}, which is an old French textbook on calculus and differential equations.
 The generalisation to higher dimensions was apparently done by \citet{Lebesgue11} and \citet{Brouwer11}, although this is somewhat contentious~\citep[Ch.~5]{van-Dalen13}.
 
-We mentioned R-trees and \(k\)-d trees as examples of spatial indices.
-The details of each are not very relevant here, but it is good to know that they have tree structures with links to each object in the leaves.
-If you want to get more familiar with them, you can skim the papers where they were introduced, \citet{Guttman84} and \citet{Bentley75}, or simply check the Wikipedia article for an R-tree: \url{https://en.wikipedia.org/wiki/R-tree}.
+% We mentioned R-trees and \(k\)-d trees as examples of spatial indices.
+% The details of each are not very relevant here, but it is good to know that they have tree structures with links to each object in the leaves.
+% If you want to get more familiar with them, you can skim the papers where they were introduced, \citet{Guttman84} and \citet{Bentley75}, or simply check the Wikipedia article for an R-tree: \url{https://en.wikipedia.org/wiki/R-tree}.
 
 If you want to see how the coffee mug and the donut from Figure~\ref{fig:homeomorphism} are homeomorphic, watch this video: \url{https://www.youtube.com/watch?v=9NlqYr6-TpA}.
 
