@@ -9,8 +9,9 @@
 \label{chap:voxels}
 
 Voxel models, which are the 3D equivalent of 2D rasters, are a common way to store 3D models of the built environment using a regular 3D grid (Figure~\ref{fig:model}).
-Much like rasters in 2D, they have inherent limits in precision based on the grid size that is used and can easily grow to very large sizes in terms of memory, especially with a small grid size.
-Still, voxel models are easy to use and understand, and algorithms to process them are typically much simpler than those using other representations, which also makes them more reliable and robust.
+Much like rasters in 2D, they have inherent limits in precision based on the grid size that is used and can easily grow to very large sizes in terms of memory, especially with a small grid size and when compression is not used.
+
+At the same time, voxel models are easy to use and understand, and algorithms to process them are typically much simpler than those using other representations, which also makes them more reliable, robust and easy to parallelise.
 These characteristics make voxels an important and widely used representation to process 3D information in general.
 
 \begin{figure}[htbp]
@@ -32,34 +33,36 @@ These characteristics make voxels an important and widely used representation to
 
 \section{Exhaustive enumeration models}
 
-Voxels might appear to be a unique data model in terms of 3D representations, but they are actually only the most used among a type of related representations that are together usually referred to as \emph{exhaustive enumeration}.
+Voxels might appear to be quite a unique data model in terms of 3D representations, but they are actually only the most used among a type of related representations, which are together usually referred to as \emph{exhaustive enumeration}\marginnote{exhaustive enumeration}\index{exhaustive enumeration}.
 The specifics of these data models differ, but in general they represent objects by:
 
 \begin{enumerate}
 
-\item \textbf{defining the shape of a domain} in which the objects to be represented fit, or alternatively in which the region of interest of a field fits, \eg\ a bounding box defined by their minimum and maximum coordinates along each axis;
+\item \textbf{defining the shape of a domain}\marginnote{voxel domain}\index{voxel domain} in which the objects to be represented fit, or alternatively in which the region of interest of a field fits, \eg\ a bounding box defined by their minimum and maximum coordinates along each axis;
 
-\item \textbf{dividing the domain} using a structure of many \emph{cells}, usually following a regular or semi-regular pattern that can be defined programmatically (as opposed to explicitly representing the shape of each individual cell), \eg\ a grid defined by the number of cells along each axis;
+\item \textbf{dividing the domain} using a structure of many \emph{cells}\marginnote{voxel cells}\index{voxel cells}, usually following a regular or semi-regular pattern that can be defined programmatically (as opposed to explicitly representing the shape of each individual cell), \eg\ a grid defined by the number of cells along each axis;
 
 \item \textbf{specifying a well-defined order} passing once through each cell of the subdivision, usually also programmatically (as opposed to explicitly numbering each cell), \eg\ the order and direction of iteration of the axes in a grid;
 
-\item \textbf{labelling each cell} with values that indicate the object(s) that are in it, or the values of variable(s) at that location (in the case of fields). The values can then be \textbf{encoded linearly} using the order defined in the previous step.
+\item \textbf{labelling each cell} with values that indicate the object(s) that are in it, or in the case of fields, the values of variable(s) at that location.
+The values can then be \emph{encoded linearly} using the order defined in the previous step.
 
 \end{enumerate}
 
 We can thus say that what is represented in an exhaustive enumeration is usually composed of four elements: (i) a set of rules defining the shape of a domain, (ii) a set of rules on how to divide the domain into cells, (iii) a set of rules that define an order of the cells, and (iv) an encoded linear representation that represents objects or values for all cells.
 However, out of these four elements, the first three are sets of rules that are generally very simple, and thus they are stored encoded in a minimal way or not at all (\ie\ only implied by the context).
+For instance, the rules might be part of the specification of a particular data format.
 
 Based on these standard characteristics, we can see that exhaustive enumeration representations use space differently from other data models.
 In most geometric representations, much (or most) of the space and complexity of a data structure is devoted to creating a custom structure that individually describes the shape of the objects being represented.
-By contrast, in exhaustive enumeration, objects' shapes are instead specified according to simple rules on a predefined structure, and the vast majority of the space is thus devoted to specifying which objects are present in which cells (or the values in each cell).
+By contrast, in exhaustive enumeration, objects' shapes are instead approximated using simple rules on a predefined structure, and the vast majority of the space is thus devoted to specifying which objects are present in which cells (or the values of a field in each cell).
 
 That being said, the statements described above---which in the steps correspond to the actions that are done for a standard regular 3D grid with voxels---can all differ substantially.
 By analysing different possibilities at each step, it is easy to see how the approach can be adapted and extended to form other types of representations.
 For instance, consider the following example, which is arbitrarily chosen to be completely different from a typical voxel grid.
 
 We can start by describing a space using an alternative method, \eg\ a b-rep representation of a domain with an arbitrarily complex shape.
-Cells could then be specified using a constrained Delaunay tetrahedralisation of the domain (using predefined rules for the addition of Steiner points).
+Cells could then be specified using a \emph{constrained Delaunay tetrahedralisation} of the domain (using predefined rules for the addition of Steiner points).
 The order of the cells could be specified based on the lexicographical order of the vertices of each tetrahedron.
 Finally, the values of each tetrahedral cell are then encoded linearly as in a grid.
 
@@ -69,18 +72,18 @@ Using a complex representation where the geometry is not trivial to compute on t
 Most examples that are found in practice are thus relatively minor variations of voxel grids.
 For instance, cells can have varying sizes according to their place in the grid (\eg\ when more details are desired in a particular region), the domains of grids can be stretched in some directions (such that the domain is oblique), or the cells can be of different shapes (\eg\ octahedra).
 
-However, among the variations, \textbf{sparse voxel models} are worth special consideration.
+Among the variations of voxel models, \textbf{sparse voxel models}\marginnote{sparse voxel model}\index{sparse voxel model} are used widely in practice and are thus worth describing in more detail here.
 These representations opt to encode only the voxels containing something (rather than all voxels in the domain).
 In order to do so, they usually specify simple objects consisting of: (i) a voxel position, \eg\ using integer coordinates for its position along each axis, and (ii) the voxel's variables.
 While this is undoubtedly more space-intensive per voxel than the standard encode-all approach, it works well for 3D models consist of largely empty space, which occurs frequently in 3D city models and where the objects we want to represent do not fit neatly into a box-shaped domain.
 
-It is worth pointing out that most variations of voxel models can be processed with basically the same methods as standard voxel grids.
+It is also worth pointing out that most variations of voxel models can be processed with basically the same methods as standard voxel grids.
 
 \section{Hierarchical subdivision models}
 
 In addition to exhaustive enumeration, there are also related data models where the structure is not entirely predefined, but it is instead defined hierarchically using space-partitioning trees.
-The root of the tree thus refers to a predefined space that will be subdivided, which corresponds to the entirety of the space that is represented in an exhaustive enumeration model.
-Each node then specifies a subdivision of the space defined by its parent node, and nodes (usually but not necessarily at the leaf level) are then labelled to specify the object(s) or value(s) present in the space represented by it.
+The root of the tree thus refers to a predefined space that will be subdivided, which corresponds to the entirety of the domain that is represented in an exhaustive enumeration model.
+Each node then specifies a subset of the space defined by its parent node, and nodes (usually but not necessarily at the leaf level) are then labelled to specify the object(s) or value(s) present in the space represented by it.
 
 Since different branches of a tree do not need to have the same depth, hierarchical subdivision models can have different resolutions in different parts of the model, and can thus adapt to the shape of the objects being represented.
 This allows them to act as more compact alternatives to exhaustive enumeration models in certain cases, usually where there are large objects that occupy many adjoining cells.
@@ -103,7 +106,7 @@ They are analogous to quadtrees in 2D, which subdivide space evenly along the \(
 
 \section{Voxelisation}
 
-The process through which other data models are converted into voxels is called \emph{voxelisation}.
+The process through which other data models are converted into voxels is called \emph{voxelisation}\marginnote{voxelisation}\index{voxelisation}.
 It is analogous to rasterisation in 2D.
 In most cases, the data being voxelised consists of vector objects, either as a point cloud or a b-rep mesh.
 We will thus explain a method to voxelise 0D, 1D, 2D and 3D vector objects.
@@ -128,9 +131,9 @@ These are as follows:
 In 3D, the equivalent concepts are 6-connectivity, 18-connectivity and 26-connectivity.
 These are as follows:
 \begin{description}
-\item[6-connectivity] thus means that voxels are connected to their six adjacent neighbours (\ie\ on their left, right, front, back, bottom and top).
-\item[18-connectivity] means that voxels are connected to their six 6-connected neighbours and to their twelve incident neighbours that touch them diagonally along an edge (\ie\ top left, top right, top front, top back, bottom left, bottom right, bottom front, bottom back, front left, front right, back left and back right).
-\item[26-connectivity] means that voxels are connected to their eighteen 18-connected neighbours and to their eight incident neighbours that touch them diagonally along a vertex (\ie\ top front left, top front right, top back left, top back right, bottom front left, bottom front right, bottom back left and bottom back right).
+\item[6-connectivity] \marginnote{6-connectivity}\index{6-connectivity} thus means that voxels are connected to their six adjacent neighbours (\ie\ on their left, right, front, back, bottom and top).
+\item[18-connectivity] \marginnote{18-connectivity}\index{18-connectivity} means that voxels are connected to their six 6-connected neighbours and to their twelve incident neighbours that touch them diagonally along an edge (\ie\ top left, top right, top front, top back, bottom left, bottom right, bottom front, bottom back, front left, front right, back left and back right).
+\item[26-connectivity] \marginnote{26-connectivity}\index{26-connectivity} means that voxels are connected to their eighteen 18-connected neighbours and to their eight incident neighbours that touch them diagonally along a vertex (\ie\ top front left, top front right, top back left, top back right, bottom front left, bottom front right, bottom back left and bottom back right).
 \end{description}
 
 An alternative way to think about these connectivities is that they are defined based on the dimensionality of the common boundary of the pixels or voxels.
@@ -143,7 +146,7 @@ We will thus not discuss it further.
 
 \subsection{Intersections with targets (2D)}
 
-In the example from Figure~\ref{fig:rasterisation}, the pixellated curve is obtained by calculating intersections between the original 1D curve and a set of \emph{targets} that are 1D line segments.
+In the example from Figure~\ref{fig:rasterisation}, the pixellated curve is obtained by calculating intersections between the original 1D curve and a set of \emph{intersection targets}\marginnote{intersection target}\index{intersection target} that are 1D line segments.
 For 4-connectivity, the targets consist of the four line segments that bound every pixel.
 For 8-connectivity, the targets are line segments that bisect the pixel horizontally and vertically and their midpoints.
 The intersections with the targets give us a set of points, and the pixels in which these points are tell us the pixels that are part of the pixellated curve.
@@ -196,7 +199,7 @@ This is a trivial operation using ranges of \(x\), \(y\) and \(z\) coordinates.
 
 Similar to the previous case, in order to voxelise \textbf{3D volumes}, we can use a 0D target with the midpoint of the voxel.
 The exact form of this operation depends on the input data.
-For instance, if we have tetrahedra as input, it would be a point in tetrahedron operation, which could be done using barycentric coordinates.
+For instance, if we have tetrahedra as input, it would be a \emph{point in tetrahedron} operation, which could be done using barycentric coordinates.
 
 Now, let us discuss the more challenging cases: 1D and 2D objects.
 As with 1D curves in rasterisation, connectivity is important for these, so we will give targets that can be used in order to achieve 6-connectivity and 26-connectivity for each.
