@@ -14,14 +14,14 @@ However, they have clear advantages when we move to 3D combinatorial maps, in wh
 
 As for generalised maps, they are very similar to the combinatorial maps of the same dimension, but they avoid the concept of orientation at the cost of having twice as many primitives.
 Theoreticians thus mostly focus on how generalised maps can represent unorientable objects.
-However, the most interesting aspect about them is that by omitting orientation, they make building many algorithms easier.
+However, the most interesting practical aspect about them is that by omitting orientation, they make building many algorithms easier.
 
 Higher-dimensional generalised and combinatorial maps (\ie\ 4D and higher) can be used to incorporate other non-spatial features, such as time and scale, although this is more of a research topic than a practical application.
 
 \section{What are generalised and combinatorial maps?}
 
-\emph{Generalised maps} (\emph{g-maps}) and \emph{combinatorial maps} (\emph{c-maps} or just \emph{maps}) are what are known as \emph{ordered topological models}.
-These are subdivisions of space into abstract simplices (Figure~\ref{fig:simplices}), much like a geometric triangulation in 2D or a tetrahedralisation in 3D.
+\emph{Generalised maps}\marginnote{generalised maps}\index{generalised maps} (\emph{g-maps}\marginnote{g-maps}\index{g-maps}) and \emph{combinatorial maps}\marginnote{combinatorial maps}\index{combinatorial maps} (\emph{c-maps}\marginnote{c-maps}\index{c-maps} or just \emph{maps}) are what are known as \emph{ordered topological models}\marginnote{ordered topological models}\index{ordered topological models}.
+These are subdivisions of space into abstract simplices\marginnote{simplex}\index{simplex} (Figure~\ref{fig:simplices}), much like a geometric triangulation in 2D or a tetrahedralisation in 3D.
 However, unlike the latter, the subdivision operation to create an ordered topological model is a purely combinatorial operation, \ie\ no geometric tests are ever made.
 
 \begin{figure}
@@ -39,14 +39,14 @@ However, there are a few geometric interpretations that are possible, and we wil
 \subsection{Darts}
 
 The most precise geometric interpretation is as follows: a generalised or combinatorial map is akin to a barycentric triangulation.
-Shortly, a barycentric triangulation of a polygon is a simple way to triangulate a roughly convex polygon by adding a new vertex at its barycentre, then creating new triangles by joining this new vertex to every existing edge in the triangulation, \ie\ forming new triangles with the two vertices on the ends of every existing edge plus the new vertex at the barycentre.
+Shortly, a barycentric triangulation\marginnote{barycentric triangulation}\index{barycentric triangulation} of a polygon is a simple way to triangulate a roughly convex polygon by adding a new vertex at its barycentre, then creating new triangles by joining this new vertex to every existing edge in the triangulation, \ie\ forming new triangles with the two vertices on the ends of every existing edge plus the new vertex at the barycentre.
 This method creates more triangles than are absolutely necessary in a triangulation, but it does so without doing any geometric tests (unlike a constrained triangulation).
 
-In a 2D combinatorial map, the triangulation that is performed is similar to what was described above (Figure~\ref{subfig:cmaps-simplices}), with the difference that the new vertex is not really located at the barycentre.
+In a 2D combinatorial map\marginnote{2D combinatorial map}\index{2D combinatorial map}, the triangulation that is performed is similar to what was described above (Figure~\ref{subfig:cmaps-simplices}), with the difference that the new vertex is not really located at the barycentre.
 In fact, that vertex is not located anywhere---hence why the simplices created using this process are called \emph{abstract simplices}.
 In the figures, we thus place the new vertex in a convenient location that avoids visually overlapping simplices, but this is just an arbitrary choice to make the figures clearer.
 
-In a 2D generalised map, the barycentric triangulation requires an extra step where we first split every edge into two by adding a vertex at their barycentres (which is equivalent to a barycentric 1D triangulation of the edge), and then do the 2D triangulation as described above (Figure~\ref{subfig:gmaps-simplices}).
+In a 2D generalised map\marginnote{2D generalised map}\index{2D generalised map}, the barycentric triangulation requires an extra step where we first split every edge into two by adding a vertex at their barycentres (which is equivalent to a barycentric 1D triangulation of the edge), and then do the 2D triangulation as described above (Figure~\ref{subfig:gmaps-simplices}).
 Note that this means that a generalised map has exactly twice as many simplices as a combinatorial map of the same model.
 
 \begin{figure}
@@ -76,7 +76,7 @@ Doing so reveals that:
 \item every simplex in a 2D combinatorial map has two zero-dimensional vertices and one two-di\-men\-sio\-nal vertex (\ie\ \(0\), \(0\) and \(2\)).
 \end{itemize}
 
-In order to get the tetrahedralisation for a 3D generalised or combinatorial map, we start from the triangulation describing the 2D generalised or combinatorial map of every face, and then we tetrahedralise by adding a new vertex in the barycentre of each volume.
+In order to get the tetrahedralisation for a 3D generalised\marginnote{3D generalised map}\index{3D generalised map} or combinatorial map\marginnote{3D combinatorial map}\index{3D combinatorial map}, we start from the triangulation describing the 2D generalised or combinatorial map of every face, and then we tetrahedralise by adding a new vertex in the barycentre of each volume.
 This new vertex is connected to every existing triangle to form the new tetrahedra, which follow the same ordering pattern as before (Figure~\ref{fig:cmap-3d}).
 Formulating it in a dimension-independent way, we have that:
 
@@ -102,11 +102,11 @@ Formulating it in a dimension-independent way, we have that:
 \end{figure}
 
 \begin{itemize}
-\item every simplex in an \(n\)D generalised map has one vertex of every dimension up to \(n\) (\ie\ \(0, 1, 2, \ldots, n\)), and
-\item every simplex in an \(n\)D combinatorial map has two zero-dimensional vertices and one one vertex of every dimension from \(2\) up to \(n\) (\ie\ \(0, 0, 2, \ldots, n\)).
+\item every simplex in an \(n\)D generalised map\marginnote{nD generalised map}\index{nD generalised map} has one vertex of every dimension up to \(n\) (\ie\ \(0, 1, 2, \ldots, n\)), and
+\item every simplex in an \(n\)D combinatorial map\marginnote{nD combinatorial map}\index{nD combinatorial map} has two zero-dimensional vertices and one one vertex of every dimension from \(2\) up to \(n\) (\ie\ \(0, 0, 2, \ldots, n\)).
 \end{itemize}
 
-In a generalised or combinatorial map, the primitives that are used to describe the geometry of objects are precisely these \(n\)D abstract simplices, which are called \emph{darts}.
+In a generalised or combinatorial map, the primitives that are used to describe the geometry of objects are precisely these \(n\)D abstract simplices, which are called \emph{darts}\marginnote{dart}\index{dart}.
 
 \subsection{Permutations and involutions}
 
@@ -121,13 +121,13 @@ Then, since the ordered property tells us the exact combination of dimensional e
 
 In a generalised map, the operation to change the \(0\)-dimensional element, known as \(\alpha_0\), will thus switch a vertex for another vertex on the same edge, face and volume.
 Similarly, the operation to change the \(1\)-dimensional element (\(\alpha_1\)) will switch an edge for another edge on the same vertex, face and volume, the operation to change the \(2\)-dimensional element (\(\alpha_2\)) will switch a face for another face on the same vertex, edge and volume, and the operation to change the \(3\)-dimensional element (\(\alpha_3\)) will switch a volume for another volume on the same vertex, edge and face.
-These are thus all denoted as \(\alpha_i\), where \(i\) is the dimension of the element being switched.
+These are thus all denoted as \(\alpha_i\)\marginnote{\(\alpha\)}\index{\(\alpha\)}, where \(i\) is the dimension of the element being switched.
 
 In a combinatorial map, the operations are slightly different because of the two \(0\)-dimensional elements, which means that changing either \(0\)-dimensional element will switch an \emph{edge} for either of its two adjacent edges.
-Since having an operation that yields two different results is undesirable, we therefore have to choose one of these edges as a result of the operation, which means giving the combinatorial map an \emph{orientation} (Figure~\ref{fig:cmaps-orientation}).
+Since having an operation that yields two different results is undesirable, we therefore have to choose one of these edges as a result of the operation, which means giving the combinatorial map an \emph{orientation}\marginnote{orientation of a combinatorial map}\index{orientation of a combinatorial map} (Figure~\ref{fig:cmaps-orientation}).
 This orientation is defined by ordering the two \(0\)-dimensional elements in the dart, and as in half-edge data structures, two darts connected by an involution should have \emph{opposite orientations}.
 Since this operation switches the edges of a dart, it is thus denoted as \(\beta_1\).
-As for the other operations, they are defined as in a generalised map, but they are all denoted as \(\beta_i\), where \(i\) is the dimension of the element being switched.
+As for the other operations, they are defined as in a generalised map, but they are all denoted as \(\beta_i\)\marginnote{\(\beta\)}\index{\(\beta\)}, where \(i\) is the dimension of the element being switched.
 
 \begin{figure}
 \centering
@@ -182,14 +182,14 @@ Because of this, most visualisations of generalised maps and combinatorial maps 
 \end{figure}
 
 Except for the special case of \(\beta_1\), it is important to note that applying the operation to switch from a dart to its neighbour twice results in returning to the same dart.
-Since such an operation is equal to its own inverse, it is known mathematically as an \emph{involution}.
-As for \(\beta_1\), it forms a loop of darts around a face that eventually returns to the original dart, and it is thus known instead as a \emph{permutation}.
+Since such an operation is equal to its own inverse, it is known mathematically as an \emph{involution}\marginnote{involution}\index{involution}.
+As for \(\beta_1\), it forms a loop of darts around a face that eventually returns to the original dart, and it is thus known instead as a \emph{permutation}\marginnote{permutation}\index{permutation}.
 
 \subsection{Orbits and sewing}
 
-Starting from a given dart \(d\), the operation to obtain all the darts connected to it while following only the permutations/involutions corresponding to certain dimensions is known as an \emph{orbit} of \(d\).
+Starting from a given dart \(d\), the operation to obtain all the darts connected to it while following only the permutations/involutions corresponding to certain dimensions is known as an \emph{orbit}\marginnote{orbit}\index{orbit} of \(d\).
 
-Among these orbits, the most important one is the one to obtain all the darts belonging to a particular \emph{cell}, \ie\ a vertex, edge, face, or volume.
+Among these orbits, the most important one is the one to obtain all the darts belonging to a particular \emph{cell}\marginnote{cell}\index{cell}, \ie\ a vertex, edge, face, or volume.
 As we discussed previously, changing the \(i\)-dimensional cell (\(i\)-cell) of a dart, \ie\ applying \(\alpha_i\) or \(\beta_i\), means switching to an adjacent \(i\)-cell.
 By the opposite logic, the orbit that obtains all the darts of an \(i\)-dimensional cell is the one that follows all the permutations and involutions except for \(\alpha_i\) or \(\beta_i\) (Figure~\ref{fig:darts-of-cell}).
 For an \(n\)-dimensional generalised map, we can denote this as \(\langle \alpha_0, \ldots, \alpha_{i-1}, \alpha_{i+1}, \ldots, \alpha_n \rangle(d)\), and for an \(n\)-dimensional combinatorial map, we can denote this as \(\langle \beta_1, \ldots, \beta_{i-1}, \beta_{i+1}, \ldots, \beta_n \rangle(d)\).
@@ -219,7 +219,7 @@ This can be obtained using the orbit that follows all the permutations and invol
 For instance, the darts belonging to an edge within a single volume (without obtaining the darts of the same edge but on other volumes) are obtained as \(\langle \alpha_0, \alpha_2 \rangle(d)\) in a generalised map and \(\langle \beta_2 \rangle(d)\) in a combinatorial map.
 
 An important characteristic of orbits is that if they are implemented with some care, it is possible to use them to iterate over the darts of a cell in a consistent order.
-This is the basis of the operation that is used to construct generalised and combinatorial maps, which is called \emph{sewing}.
+This is the basis of the operation that is used to construct generalised and combinatorial maps, which is called \emph{sewing}\marginnote{sewing}\index{sewing}.
 In order to sew together two \(i\)-dimensional objects, the \(i\)-sewing operation starts from two corresponding darts on a common (\(i-1\))-cell but on different \(i\)-cells (Figure~\ref{fig:3-sew}).
 It then proceeds to do a parallel traversal of each of their (\(i-1\))-orbits while connecting corresponding darts with \(\alpha_i\) (for a g-map) or \(\beta_i\) (for a c-map).
 
@@ -236,8 +236,8 @@ For example, two vertices can be 0-sewn to create an edge (in a g-map), adjacent
 
 \section{Implementing generalised and combinatorial maps}
 
-With data structures for geometric modelling, it is often useful to separate them into two parts: (i) a combinatorial structure that describes the primitives and the relationships between them, and (ii) an embedding structure that maps the primitives to space and stores additional information (\eg\ attributes).
-This division is particularly clear in generalised and combinatorial maps.
+With data structures for geometric modelling, it is often useful to separate them into two parts: (i) a combinatorial structure\marginnote{combinatorial structure}\index{combinatorial structure} that describes the primitives and the relationships between them, and (ii) an embedding structure\marginnote{embedding structure}\index{embedding structure} that maps the primitives to space and stores additional information (\eg\ attributes).
+This division exists in many data structures, but it is particularly clear in generalised and combinatorial maps.
 
 The most common way to implement a generalised or combinatorial map encodes each dart as a pair of tuples: one for the combinatorial part and one for its embedding.
 The combinatorial tuple contains all the permutations and involutions of the dart in order according to their dimension.
@@ -248,9 +248,9 @@ As for the embedding tuple, it generally consists of links to specific structure
 For example, the first element of the tuple could then be a link to a 0-embedding structure, which then contains a list of attributes about the vertex of that dart, the next element could be a link to a 1-embedding structure with information about its edge, and so on.
 If no embedding information is needed for the cells of a particular dimension, the corresponding item in the tuple can be omitted, although it is generally desirable to have at least a basic embedding structure with an id.
 
-Regarding the geometric information, in the simplest case, where all geometries are linear (\ie\ line segments, polygons and polyhedra), the 0-embedding structure of a particular vertex can just contain its point coordinates.
+Regarding the geometric information, in the simplest case, where all geometries are linear\marginnote{linear geometry}\index{linear geometry} (\ie\ line segments, polygons and polyhedra), the 0-embedding structure of a particular vertex can just contain its point coordinates.
 From these points, we can linearly interpolate the higher-dimensional geometries by assuming that line segments connect two points and polygons are bounded by (roughly coplanar) line segments.
-This kind of data structure with the linear geometries assumption is known as a \emph{linear cell complex}.
+This kind of data structure with the linear geometries assumption is known as a \emph{linear cell complex}\marginnote{linear cell complex}\index{linear cell complex}.
 
 More complex geometries can be however stored in a generalised or combinatorial map using the higher-dimensional embeddings.
 For instance, we can store the control points for a B\'ezier curve in its 1-embedding structure, or the ones for a B\'ezier surface in its 2-embedding structure.
