@@ -178,23 +178,23 @@ The following assumptions are taken in the reconstruction method. They are deeme
 The method can be classified as a mix between the purely data and model driven approaches as discussed in the previous section. 
 Consequently it also mixes the benefits and trade-offs of both extremes.
 For example, instead of forcing complete roof shapes on a point cloud, it is only assumed a building is composed of planar surfaces.
-This makes the method more flexible compared to a purely data driven approach that fits a pre-defined roof shape, since it should be able to handle any possible roof shape that can reasonably be approximated with (large) planar surfaces while still mainting a low model complexity.
+This makes the method more flexible compared to a purely model driven approach that fits a pre-defined roof shape, since it should be able to handle any possible roof shape that can reasonably be approximated with (large) planar surfaces while still mainting a low model complexity.
 However, if a plane cannot be fitted to a part of the roof due to defects in the point cloud, that part may lead to errors in the resulting building model.
 
 
 % overview method
 \subsection{Method overview}
-Figure~\ref{fig:method-overview} illustrates the six main steps of the algorithm. The main idea is to compute a so-called \emph{roofpartion}; a planar partition of the footprint where each face corresponds to a planar piece of the roof and is labeled with a roof plane. Prior to creating the roof-partition the roofplane and line features must be extracted from the point cloud (Figure~\ref{fig:method-overview} step 2 and 3). And once the roofpartion is available, the 3D building model can be generated through extrusion (Figure~\ref{fig:method-overview} step 6).
+Figure~\ref{fig:method-overview} illustrates the six main steps of the algorithm. The main idea is to compute a so-called \emph{roof-partition}; a planar partition of the footprint where each face corresponds to a planar piece of the roof and is labeled with a roof plane. Prior to creating the roof-partition the roofplane and line features must be extracted from the point cloud (Figure~\ref{fig:method-overview} step 2 and 3). And once the roof-partition is available, the 3D building model can be generated through extrusion (Figure~\ref{fig:method-overview} step 6).
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{figs/reconstruction-overview.pdf}
-	\caption{The main steps in the reconstruction algorithm. 1) the classified (aerial) point cloud is cropped on the 2D footprint, 2) planes and their boundaries are detected in the point cloud, 3) from the roof planes the intersection lines and boundary lines are extracted, 4) the lines are regularised and projected onto the 2D footprint, 5) the roofpartions is created. This is a DCEL where each face is labeled with the corresponding plane (from 2, compare colors). 6) the roofpartion is extruded into a 3D mesh. \\If a terrain plane is assigned to a face from the roof-partition, that face is removed (2 and 5).}%
+	\caption{The main steps in the reconstruction algorithm. 1) the classified (aerial) point cloud is cropped on the 2D footprint, 2) planes and their boundaries are detected in the point cloud, 3) from the roof planes the intersection lines and boundary lines are extracted, 4) the lines are regularised and projected onto the 2D footprint, 5) the roof-partitions is created. This is a DCEL where each face is labeled with the corresponding plane (from 2, compare colors). 6) the roof-partition is extruded into a 3D mesh. \\If a terrain plane is assigned to a face from the roof-partition, that face is removed (2 and 5).}%
 	\label{fig:method-overview}
 \end{figure}
 
 %The method consists of five steps.
 %\begin{enumerate}
-%	\item Plane detection
+%	\item Plane detections
 %	\item Line detection and regularisation
 %	\item Subdivision of the footprint
 %	\item Graph-cut optimisation
@@ -205,13 +205,13 @@ Figure~\ref{fig:method-overview} illustrates the six main steps of the algorithm
 % \begin{kaobox}[frametitle=\faExternalLink\ To read or to watch.]
 % 		The reader is advised to read the section on shape detection in the Chapter \emph{Point cloud processing} in the book \href{https://github.com/tudelft3d/terrainbook/releases}{\emph{Computational modelling of terrains}}.
 % \end{kaobox}
-The roofpartion is made using lines that are derived from roof planes that are extracted from the building point cloud.
+The roof-partition is made using lines that are derived from roof planes that are extracted from the building point cloud.
 The roof planes are detected using a region-growing algorithm and then two type of lines are derived from the planes: boundary lines and intersection lines (see Figure~\ref{fig:method-overview} step 3).
 The boundary lines are created by detecting lines in the boundary of the $\alpha$-shape of each detected roof plane.
 The intersection lines are created where adjacent planes intersect, such as on the top of a gable roof.
 
 Before the boundary and intersection lines are used to partition the footprint, they are regularised.
-The goal of line regularisation is to remove duplicate lines and thereby reduce the complexity of the roofpartition.
+The goal of line regularisation is to remove duplicate lines and thereby reduce the complexity of the roof-partition.
 For example, the line on top of the gable roof in Figure~\ref{fig:method-overview} is detected three times: once as an intersection line and twice as a boundary line (once for each incident roof plane).
 After line regularisation only a single line remains.
 After projecting the detected lines to 2D, line regularisation is done in two steps: orientation clustering and distance clustering (see Figure~\ref{fig:lineclust}).
