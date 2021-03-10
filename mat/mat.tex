@@ -11,6 +11,46 @@
 The Medial Axis Transform (MAT) is yet another way to represent a 3D model.
 It can be considered a \emph{dual} representation to the b-rep, similar to how the Voronoi diagram is dual to the Delaunay triangulation. 
 Contrary to the b-rep, that represents a model by describing explicitly its boundary surface, the MAT describes a model by its \emph{skeleton} (compare Figures~\ref{fig:gbm:brep} and \ref{fig:gbm:maxis}).
+\begin{marginfigure}
+	\centering
+	\begin{subfigure}[b]{0.47\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{figs/gingerbreadman_whole.pdf}
+		\caption{}
+		\label{fig:gbm:whole}
+	\end{subfigure}
+	% \qquad%
+	\begin{subfigure}[b]{0.47\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{figs/gingerbreadman_brep.pdf}
+		\caption{}
+		\label{fig:gbm:brep}
+	\end{subfigure}
+	% \qquad%
+	\begin{subfigure}[b]{0.50\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{figs/gingerbreadman_skeleton.pdf}
+		\caption{}
+		\label{fig:gbm:maxis}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.47\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{figs/gingerbreadman_mat.pdf}
+		\caption{}
+		\label{fig:gbm:mballs}
+	\end{subfigure}
+	% \qquad
+	\begin{subfigure}[b]{0.47\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{figs/gingerbreadman_grassfire.pdf}
+		\caption{}
+		\label{fig:gbm:dt}
+	\end{subfigure}
+	
+	\caption{Different ways to represent the shape of gingerbread man (a). b) b-rep; c) Interior MAT; d) b-rep + MAT with medial balls; e) b-rep + contours of equal distance to it + MAT}
+	\label{fig:gingerman}
+\end{marginfigure}
 Both the MAT and the b-rep contain exactly the same information and it is possible to convert one to the other without loss of information.
 
 Compared to other shape representations, this skeleton structure makes different properties of the model explicit.
@@ -21,46 +61,6 @@ For DTMs for example, equally meaningful decompositions into parts can be made, 
 
 \section{Defining the MAT}
 The MAT can be computed both for 2D and 3D objects (compare Figures~\ref{fig:3dmat_2d} and~\ref{fig:3dmat_halfopen}).
-\begin{figure}
-	\centering
-	\begin{subfigure}[b]{0.25\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{figs/gingerbreadman_whole.pdf}
-		\caption{A 2D object}
-		\label{fig:gbm:whole}
-	\end{subfigure}
-	\qquad%
-	\begin{subfigure}[b]{0.25\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{figs/gingerbreadman_brep.pdf}
-		\caption{b-rep}
-		\label{fig:gbm:brep}
-	\end{subfigure}
-	\qquad%
-	\begin{subfigure}[b]{0.25\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{figs/gingerbreadman_skeleton.pdf}
-		\caption{Interior MAT}
-		\label{fig:gbm:maxis}
-	\end{subfigure}
-	
-	\begin{subfigure}[b]{0.3\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{figs/gingerbreadman_mat.pdf}
-		\caption{b-rep + MAT with medial balls}
-		\label{fig:gbm:mballs}
-	\end{subfigure}
-	\qquad
-	\begin{subfigure}[b]{0.3\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{figs/gingerbreadman_grassfire.pdf}
-		\caption{b-rep + contours of equal distance to it + MAT}
-		\label{fig:gbm:dt}
-	\end{subfigure}
-	
-	\caption{Different ways to represent the shape of gingerbread man}
-	\label{fig:gingerman}
-\end{figure}
 \begin{figure}
 	\centering
 	\begin{subfigure}{0.26\linewidth}
@@ -87,7 +87,7 @@ In both cases there are two equivalent definitions of the MAT\footnote{Sometimes
 	Inventor Harry Blum finally settled on symmetry axis, as he considered symmetry to be the crucial role of the MAT \citep{Blum73}.} that apply. 
 One is based on the distance transform, and one is based on medial balls. 
 Both definitions describe how to obtain the MAT from the boundary, denoted $
-\mathcal{B}$ of an object (Figure~\ref{fig:gbm:brep}).
+\mathcal{B}$, of an object (Figure~\ref{fig:gbm:brep}).
 And both can be applied to both 2D and 3D objects .
 
 \begin{description}
@@ -97,22 +97,22 @@ And both can be applied to both 2D and 3D objects .
 	Now, the MAT is defined as the set of points where the fire front meets itself. 
 	This concept is illustrated in Figure~\ref{fig:gbm:dt}, where each contour can be seen as a fire front at some constant time $t$. The medial axis is drawn where the fire front meets itself.
 	\item[Medial balls]
-	A \emph{medial ball} is a ball that fits completely inside $\mathcal{B}$ and does not contain any other ball that would fit inside $\mathcal{B}$. 
+	A \emph{medial ball}\marginnote{medial balls}\index{medial balls} is a ball that fits completely inside $\mathcal{B}$ and does not contain any other ball that would fit inside $\mathcal{B}$. 
 	The MAT is defined as the set of points that are the centres of all medial balls of $\mathcal{B}$ (see Figure~\ref{fig:gbm:mballs}). 
-	Notice that each medial ball touches $\mathcal{B}$ in at least two points, called its \emph{feature points}. 
+	Notice that each medial ball touches $\mathcal{B}$ on at least two points, called its \emph{feature points}\marginnote{feature points}\index{feature points}. 
 \end{description}
 
 %TODO: that should also be in the figure
-As illustrated in Figure~\ref{fig:gbm:maxis}, the MAT can be subdivided into \emph{medial branches} and \emph{junctions}. 
+As illustrated in Figure~\ref{fig:gbm:maxis}, the MAT can be subdivided into \emph{medial branches}\marginnote{medial branches}\index{medial branches} and \emph{junctions}\marginnote{junctions}\index{junctions}. 
 Junctions are locations where three or more medial branches coincide. 
-The points of the MAT are called \emph{medial atoms}, or simply \emph{atoms}. 
+The points of the MAT are called \emph{medial atoms}\marginnote{medial atoms}\index{medial atoms}, or simply \emph{atoms}. 
 Observe that if an atom has exactly two feature points, it is part of a medial branch, and if it has more than two feature points it lies on a junction or on the tip of a medial branch. 
-The medial branches, its junctions and how those are are connected define the \emph{medial structure}.
+The medial branches, its junctions and how those are are connected define the \emph{medial structure}\marginnote{medial structure}\index{medial structure}.
 % If we consider that each branch corresponds to one part of $\mathcal{B}$ gives us a natural way to split an object into parts
 
 For a 2D object, such as in Figure~\ref{fig:gingerman}, the medial branches are curves and the the junctions are points. 
 However, for a 3D object, the medial branches can also be surfaces (see Figure~\ref{fig:3dmat_sheets}), and the junctions can also be curves.
-The branches of the 3D MAT are therefore also called \emph{medial sheets}.
+The branches of the 3D MAT are therefore also called \emph{medial sheets}\marginnote{medial sheets}\index{medial sheets}.
 
 \subsection{Medial geometry}
 The medial geometry describes how atoms are related to the object boundary $\mathcal{B}$. 
@@ -120,17 +120,18 @@ It is defined for each medial atom that is part of a medial sheet.
 Figure~\ref{fig:medialgeometry} illustrates the complete medial geometry of an atom.
 The medial ball $B$ has the atom $\mathbf{c}$ at its center and has a radius $r$, \ie\ the shortest distance from $\mathbf{c}$ to $\mathcal{B}$.
 The medial ball $B$ touches the boundary $\mathcal{B}$ at the feature points $\mathbf{p}$ and $\mathbf{q}$.
-The vectors from $\mathbf{c}$ to $\mathbf{p}$ and $\mathbf{q}$ are called the \emph{spoke vectors}, denoted $\vec{\mathbf{s_{p}}}$ and $\vec{\mathbf{s_{q}}}$. 
-The angle between the spoke vectors is called the \emph{separation angle}, denoted $\theta$ and the bisector of the spoke vectors is called the \emph{medial bisector}, denoted $\vec{\mathbf{b}}$.
+The vectors from $\mathbf{c}$ to $\mathbf{p}$ and $\mathbf{q}$ are called the \emph{spoke vectors}\marginnote{spoke vectors}\index{spoke vectors}, denoted $\vec{\mathbf{s_{p}}}$ and $\vec{\mathbf{s_{q}}}$. 
+The angle between the spoke vectors is called the \emph{separation angle}\marginnote{separation angle}\index{separation angle}, denoted $\theta$ and the bisector of the spoke vectors is called the \emph{medial bisector}\marginnote{medial bisector}\index{medial bisector}, denoted $\vec{\mathbf{b}}$.
 
-\begin{figure}
+\begin{marginfigure}
 	% \centering
 	% \setcapindent{1em}
 	\centering
-	\begin{minipage}[c]{0.4\linewidth}
+	\begin{minipage}[c]{\linewidth}
 		\includegraphics[width=\linewidth]{figs/medial_atom_geometry.pdf}
+		\vspace{0.1em}
 	\end{minipage}
-	\begin{minipage}[c]{0.45\textwidth}
+	\begin{minipage}[c]{\textwidth}
 		% \hspace{1.1em}
 		\centering
 		\begin{tabular}{ll}
@@ -149,7 +150,7 @@ The angle between the spoke vectors is called the \emph{separation angle}, denot
 	\end{minipage}
 	\caption{The geometry of a medial atom.}
 	\label{fig:medialgeometry}
-\end{figure}
+\end{marginfigure}
 
 % maximal/medial ball, primary and secondary feature point, primary and secondary medial ball, separation angle, bisector, medial atom:point+ball+metrics, 
 % defining local coordinate system
@@ -166,9 +167,9 @@ Using the medial geometry we can describe a number of interesting properties of 
 
 \subsection{Exterior MAT and the MAT of a DTM}
 The MAT can be divided into an interior part and an exterior part.
-So far we have only looked at the \emph{interior MAT}, which consists of medial balls that reside entirely on the inside of an object.
+So far we have only looked at the \emph{interior MAT}\marginnote{interior MAT}\index{interior MAT}, which consists of medial balls that reside entirely on the inside of an object.
 However, in many cases it is also possible to define medial balls that reside entirely on the outside of an object.
-That part of the MAT is called the \emph{exterior MAT}.
+That part of the MAT is called the \emph{exterior MAT}\marginnote{exterior MAT}\index{exterior MAT}.
 An object can only have an exterior MAT if the shape of that object is non-convex, since for convex object it is not possible to find exterior medial balls with a finite radius.
 % In case of a composition of multiple objects, the interaction between these object can also lead to an exterior MAT, even if all objects are convex.\todo{illustrate that}
 
@@ -176,7 +177,7 @@ The separation between inside and outside is very clear and unambiguous for a an
 However, for objects that are not completely closed this separation is less clear, as there could be MAT sheets that connect the interior and exterior parts though holes in the boundary surface.
 In some cases with an open boundary a reasonable distinction can still be made.
 For example for a DTM we can follow the convention that the `ground side` of the DTM is the interior, and the `sky side' is the exterior, as follows from Figure~\ref{fig:object_earth}.
-\begin{figure}
+\begin{figure*}
 	\centering
 	\begin{subfigure}{0.4\linewidth}
 		\includegraphics[width=\linewidth]{figs/object_earth.pdf}
@@ -191,21 +192,21 @@ For example for a DTM we can follow the convention that the `ground side` of the
 	\end{subfigure}
 	\caption{Defining interior and exterior for an open surface such as a terrain.}
 	\label{fig:intext}
-\end{figure}
+\end{figure*}
 Following this convention, we can still define the interior and exterior MAT of a DTM, see for instance Figure~\ref{fig:matterrain}.
 
 \subsection{Medial clusters}
 The interior and exterior MAT can consist of multiple disjoint parts (\eg\ in Figure~\ref{fig:matterrain}).
 For closed objects the interior MAT is always one part, whereas the exterior MAT can be multiple parts depending on the number of concavities in the object boundary.
-The disjoint parts are called \emph{medial clusters}.
-Each medial cluster is in fact a set of adjacent sheet where each adjacency is also a junction between medial sheets.
+The disjoint parts are called \emph{medial clusters}\marginnote{medial clusters}\index{medial clusters}.
+Each medial cluster is in fact a set of adjacent sheets where each adjacency is also a junction between medial sheets.
 
 For objects with open boundaries like DTMs, there can also be multiple interior medial clusters.
 In this case one object on the terrain typically corresponds to one medial cluster (Figure~\ref{fig:matterrain}).
 Figure~\ref{fig:smat_r3d_int} also illustrates how the MAT can thus be used to meaningfully subdivide an object into parts.
 For an input that is simply a surface point cloud that happens to contain several object, we can detect easily these objects by looking at the medial clusters of its MAT.
 This effectively decomposes the object into meaningful sub-objects.
-\begin{figure}
+\begin{figure*}
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_surface.png}
 		\subcaption{Surface points.}
@@ -241,9 +242,9 @@ This effectively decomposes the object into meaningful sub-objects.
 		\subcaption{Surface points corresponding to interior medial clusters.}
 		\label{fig:smat_r3d_surface_int}
 	\end{subfigure}
-	\caption{Interior MAT part in.}
+	\caption{Decomposing an object into parts using the MAT and its interior medial clusters.}
 	\label{fig:smat_r3d_int}
-\end{figure}
+\end{figure*}
 
 % \begin{figure}
 % 	\centering
@@ -268,7 +269,7 @@ During the first step, \ie\ \emph{MAT approximation}, a noisy approximation of t
 
 \subsection{MAT approximation}
 The MAT can be approximated in various ways, \eg~by using voxels and distance transforms or as a subset of the Voronoi diagram.
-In this lesson, however, we will focus on the so-called shrinking-ball algorithm.
+However, here we will focus on the so-called shrinking-ball algorithm.
 
 \subsubsection{The shrinking-ball algorithm}
 The shrinking-ball algorithm works well for robustly approximating the MAT of 3D objects that are represented using boundary points, \ie point clouds.
@@ -280,7 +281,7 @@ It outputs a disjoint set of medial atoms.
 The algorithm is based on the observation that the medial atom corresponding to a boundary point $\mathbf{p}$ must be positioned somewhere on the line $L$ through the normal $\vec{\mathbf{n}}$ of $\mathbf{p}$.
 This observation is used to restrict the search space for the medial ball of $\mathbf{p}$ to the line $L$.
 As illustrated by Figure~\ref{fig:shrinkballAlgo}, the algorithm begins with a very large candidate ball for $\mathbf{p}$ that is centered on $L$.
-\begin{figure}[tbp]
+\begin{figure*}[tbp]
 	\begin{subfigure}{0.245\linewidth}
 		\includegraphics[width=\textwidth]{figs/fullBallShrink_1.pdf}
 		\subcaption{Initial ball}
@@ -301,9 +302,9 @@ As illustrated by Figure~\ref{fig:shrinkballAlgo}, the algorithm begins with a v
 		\subcaption{Fourth iteration.}
 		\label{fig:fullBallShrink_4}
 	\end{subfigure}
-	\caption{Ball shrinking iterations with the shrinking-ball algorithm. The final iteration yields a \emph{medial} ball. A legend is given in \subref{fig:fullBallShrink_2}.}
+	\caption{Ball shrinking iterations with the shrinking-ball algorithm. The final iteration yields a \emph{medial} ball. A legend is given in (\subref{fig:fullBallShrink_2}).}
 	\label{fig:shrinkballAlgo}
-\end{figure}
+\end{figure*}
 At each consecutive iteration, a new candidate ball is constructed that is smaller than the previous one and closer to the final \emph{medial} ball.
 Every ball is constructed so that it touches $\mathbf{p}$ and is centred on $L$.
 Only the candidate feature point $\mathbf{q}$ changes with each iteration.
@@ -336,7 +337,7 @@ Algorithm~\ref{alg:shrinkBall} gives the pseudo-code for the shrinking-ball algo
 	\label{alg:shrinkBall}
 \end{algorithm}
 
-The algorithm is run for each point in the input point cloud. 
+The algorithm is ran for each point in the input point cloud. 
 If the normal vectors point away from the interior, the interior MAT is computed.
 And by flipping the orientation of the normal vector, the exterior MAT can also be computed.
 If normals are not available for a point cloud, these can be estimated using local plane fitting, \ie\ by fitting a plane to the $k$ nearest neighbours of each boundary point. 
@@ -351,13 +352,11 @@ Observe how the MAT describes the valleys (exterior MAT) and ridges (interior MA
 		\caption{Interior MAT.}
 		\label{fig:ca_ridge:imat}
 	\end{subfigure}
-	\quad
 	\begin{subfigure}{0.310\linewidth}
 		\includegraphics[angle=90,width=\linewidth]{figs/terrain.png}
 		\caption{Terrain points}
 		\label{fig:ca_ridge:terrain}
 	\end{subfigure}
-	\quad
 	\begin{subfigure}{0.310\linewidth}
 		\includegraphics[angle=90,width=\linewidth]{figs/oMAT.png}
 		\caption{Exterior MAT}
@@ -413,7 +412,7 @@ Based on these properties, an importance measure for each medial atom is defined
 The resulting (pruned) MAT is usually a subset of the original MAT. 
 Some methods preserve topology, others do not or do so only up to a certain level. 
 The main challenge is often selecting the optimal threshold value---a compromise between removing noisy MAT parts and not removing fine detail, \ie\ often the endpoints of good MAT branches are also affected by pruning.
-Examples of importance measures for pruning are the separation angle $\theta$ (recall this is the angle between the spoke vectors) and the separation distance $\lambda$, \ie the distance between the two feature points of a medial atom. 
+Examples of importance measures for pruning are the separation angle $\theta$ (recall this is the angle between the spoke vectors) and the separation distance $\lambda$, \ie\ the distance between the two feature points of a medial atom. 
 These values are typically low for noisy parts of the MAT.
 Figure~\ref{fig:imaimp} gives an example of pruning with the separation distance.
 \begin{figure}
@@ -453,7 +452,7 @@ Figure~\ref{fig:imaimp} gives an example of pruning with the separation distance
 		\caption{Reconstructed object for $\lambda=10$. Notice how the tree is separated from the the ground and that edges have become rounder.}
 		\label{fig:imaimp:f}
 	\end{subfigure}
-	\caption{The effect of different levels of pruning on the MAT.}
+	\caption{The effect of different levels of pruning based on the separation distance $\lambda$ on the MAT.}
 	\label{fig:imaimp}
 \end{figure}
 
