@@ -5,33 +5,46 @@
 \graphicspath{{bim/}}
 \renewcommand*{\thelesson}{6.2}
 
-\chapter{Building information modelling}%
+\chapter{Building information models}%
 \label{chap:bim}
 
-Building information modelling (BIM) is a somewhat fuzzy concept that means different things to different people.
-Broadly speaking, it involves the creation and use of detailed digital 3D models of buildings or infrastructure in a way that supports their design and construction, but hopefully also extending to their planning, operation, maintenance, refurbishing and/or demolition.
 
-In industry, this is commonly seen as improving existing processes (\eg\ minimising errors during design and construction), and so the 3D models are only important insofar as they support these processes.
-By contrast, a common academic/government view is that BIM is mainly about the 3D models themselves, and thus it is important that they reflect the real situation as much as possible.
+Building information model (BIM) is a different kind of 3D model with respect to the 3D city model concept.
+
+%Broadly speaking, it involves the creation and use of detailed digital 3D models of buildings or infrastructure in a way that supports their design and construction, but hopefully also extending to their planning, operation, maintenance, refurbishing and/or demolition.
+
+
+The original scope of such 3D information systems is to support a building's design and construction in the Architecture Engineering and Construction (AEC) field.
+However, BIM models are supposed to be useful for much more than this narrow purpose, representing a central platform for collaboration during the design phase of a building (architectural design, structural design, installations design, etc.), supporting coordination between disciplines and analysis of the designed building within the same modelling tool or within compatible ones, and once built, being a base data set that can be reused and maintained to support the asset and facility management of the modelled object.
+
+In industry, BIM is commonly intended at improving existing processes (\eg\ minimising errors during design and construction, optimize resources, improve coordination and control). %, and so the 3D models are only important insofar as they support these processes.
+However, the automation of a number of further use cases is enabled by the re-use of the BIM within different applications (\eg\ structural analysis, energy simulations, urban planning and building permitting, documentation for circular city purposes).
+It often implies the conversion and integration with other formats, such as the 3D city models.
+%By contrast, a common academic/government view is that BIM is mainly about the 3D models themselves, and thus it is important that they reflect the real situation as much as possible.
 In this latter view, the improved processes and new applications are simply the result of using these models in a smart way.
+This is why it is relevant to know and manage such a different kind of 3D model.
+
+
 
 \section{How BIM came to be}
 
 Traditionally, the design of buildings and infrastructure mostly relied on technical drawings on paper, often as a combination of more engineering-focused 2D cross-sections and floor plans, with more visual drawings (\eg\ architectural sketches) that showed an overview of project as 2D perspective views, either in a stylised or in a realistic way.
-These were sometimes supplemented with 3D physical models (\ie\ maquettes), but they were created much less frequently than the 2D drawings upon which they were based.
+These were sometimes supplemented with 3D physical models (\ie\ maquettes).
 
-When these design processes were (partly) transferred to computers, it mostly meant the use of 2D computer-aided design (CAD) software to create the technical drawings and the use of general-purpose graphics editing software for the other views.
+Although the initial concept of BIM was developed starting from the 1980s, when these design processes were (partly) transferred to computers, it mostly meant the use of 2D computer-aided design (CAD) software to create the technical drawings and the use of general-purpose graphics editing software for the other views.
 While this simplified many tasks (\eg\ iterating to make small changes and printing new versions), it is worth noting that the use of these kinds of software did not fundamentally change the nature of designing a building, or of using the archived versions of such designs for later purposes (\eg\ locating pipes and wires), which were most likely only stored in print anyway.
 
 BIM is often considered as an evolution from these CAD-based processes, which is partly true, but it is also a very different way to model buildings and infrastructure.
 This is mainly because it models a building or infrastructure project as a single model composed of a large set of 3D objects, as opposed to a series of unconnected 2D drawings showing different views of subsets of these objects.
 The kind of technical drawings that were made before are still common, but they can be semi-automatically generated from the BIM model using software.
 
-The objects in a BIM model include the 3D structural elements that a building is composed of (\eg\ beams, columns, stairs and windows) with their accompanying relevant attributes (\eg\ the materials they are made of and their properties), as well as more abstract elements that represent the project itself (\eg\ construction timelines and costs).
+The objects represented in a BIM model include the 3D elements that a building is composed of (\eg\ beams, columns, stairs and windows).
+They can range from higher level representations (less detailed) until the millimetric representation of single screws, with their accompanying relevant attributes (\eg\ the materials they are made of and their properties).
+Moreover, the more abstract elements are included that describe the project itself (\eg\ construction timelines and costs).
 There is also a large number of relations between the objects, which are often used by software to support smart editing features, such as keeping sets of related objects together when one of them is moved.
 
 Note that a key aspect of BIM is that it focusses on volume-filling physical objects (Figure~\ref{fig:volumetric}), such as walls, whereas GIS representations instead tend to model the objects' outer surfaces (\eg\ wall surfaces) and the voids between them (\eg\ rooms).
-This means that BIM models and usually more detailed and have semantics that are more meaningful for some purposes (\eg\ construction or refurbishing), but 3D GIS models have higher-level semantics that are easier for many applications (\eg\  navigation and spatial analyses).
+This means that BIMs are usually more detailed and have semantics that are more meaningful for some purposes (\eg\ construction or refurbishing), but 3D GIS models have higher-level semantics that are easier for many applications (\eg\  navigation and spatial analyses) (Table~\ref{tab:vs}).
 
 \begin{figure}
 \centering
@@ -40,6 +53,28 @@ This means that BIM models and usually more detailed and have semantics that are
 \label{fig:volumetric}
 \end{figure}
 
+
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|m{2.5cm}|m{3.5cm}|m{3.5cm}|}
+		\hline
+		& \textbf{3D city models} & \textbf{BIM}  \\ \hline
+		\textit{Geometry} & mainly boundary representation (explicit) & mainly parametrically modelled solids (implicit) \\ \hline
+		\textit{Main data source }& survey of real world objects & design \\ \hline
+		\textit{Approximate range of detail (d)} & $1000>d>0.1 m$ & $50>d>0.001 m$ \\ \hline
+		\textit{Semantics} & aimed at the description of city/landscape representation & aimed at the description of small building elements representation  \\ \hline
+		\textit{Georeferencing} & compulsory & optional  \\ \hline
+		\textit{Supported analysis and decisions} & city-level & building-level \\ \hline
+		\textit{Evolution of} & Geographical Information Systems (GIS) & Computer-Aided Design (CAD) \\ \hline
+		\textit{Dominated by} & government & industry \\ \hline
+	\end{tabular}
+	\caption{Comparison between 3D city models features and BIM aspects.}%
+	\label{tab:vs}
+\end{table}
+
+
+
 \subsection{Use of BIM and common terminology}
 
 BIM was originally focussed on the design of buildings, but its reach has expanded significantly in recent years and is continuing to do so in a number of ways.
@@ -47,19 +82,32 @@ Firstly, it is attempting to cover all sorts of non-building infrastructure proj
 Secondly, it also aims to support all the stages of the lifecycle of an asset using the same base data, including its planning (with the help of GIS data), design, construction, operation, maintenance, refurbishing and demolition.
 These stages will likely involve different software, \eg\ specialised building design and asset management software; and it will also likely involve different people, \eg\ architects, surveyors, civil engineers, etc.
 
+
+
+
+
 Relevant to this, some software vendors and organisations (\eg\ the American Institute of Architects and the UK BIM Task Group) have come up with the concept of the level of development (LOD) of a BIM model, which is equivalent to the concept of level of detail (also LOD or LoD) in GIS\@.
 While both terms are directly related to how abstract a model is, and indirectly to how complex the geometries in it are, the two terms are somewhat different.
 Different LoDs in GIS usually model the same features at the same time, but they are captured at or generalised to different levels of detail.
-Different LODs in a BIM model instead show the same asset at the different stages that it goes through, from its conception (as a rough ketch or even with no geometry), and gaining more detail as it passes through its design and to its construction.
-Ideally, this extends to modification of the model to reflect its as-built state, which can be then used for asset management and other applications.
-The exact terms used for different BIM LODs differ, but a common scheme is from LOD 100 (concept), LOD 200 (design during development), LOD 300 (detailed design to calculate materials and costs), LOD 400 (construction) and LOD 500 (asset management).
-Other schemes use smaller numbers, such as 1 to 7 in the United Kingdom, or use the same hundreds-series numbers but with different definitions.
+Different LODs in a BIM model instead show the same asset at the different stages that it goes through, from its conception (as a rough sketch or even with no geometry), and gaining more detail as it passes through its design and to its construction.
 
-Another important set of terms is related to the dimensions in BIM, which are commonly used but they are used inconsistently\@.
-In this, practitioners and software vendors very often refer to 4D BIM, which means that a model includes time information, generally in the context of construction scheduling.
-Note however that this information might not be in a convenient format, \eg\ a linked Word file with a textual description.
-Other dimension definitions sometimes refer to 5D BIM, which usually means a model with cost information.
-Finally, different people use 6D or 7D BIM to refer to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
+In the recent ISO 19560 (Organization and digitization of information about buildings and civil engineering works, including building information modelling (BIM) — Information management using building information modelling), the Level of Information Need (LOIN) is defined as a `framework which defines the extent and granularity of information' and is intended to substitute the many and inconsistent previous classifications of LODs.
+The LOIN is intended for clients who define their information needs for project management: various metrics can be used to measure the information to be delivered.
+For example, geometry, alphanumeric data and documents, as well as unstructured information such as plans, reports, photographs and so on, with the alphanumeric information considered at least as important as geometry, helping in the process of passing from documents (reports, manuals, product specification sheets) to the BIM itself for the description, storage and management of the information related to the building.
+
+%Ideally, this extends to modification of the model to reflect its as-built state, which can be then used for asset management and other applications.
+%The exact terms used for different BIM LODs differ, but a common scheme is from LOD 100 (concept), LOD 200 (design during development), LOD 300 (detailed design to calculate materials and costs), LOD 400 (construction) and LOD 500 (asset management).
+%Other schemes use smaller numbers, such as 1 to 7 in the United Kingdom, or use the same hundreds-series numbers but with different definitions.
+
+
+Another important set of terms is related to the dimensions in BIM: in a similar but already stronger concept than for GIS, BIM is often presented as `multidimensional', being (usually, as example) 4D with the time, 5D with cost information, 6D and higher referring to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
+
+%Another important set of terms is related to the dimensions in BIM, which are commonly used but they are used inconsistently\@.
+%In this, practitioners and software vendors very often refer to 4D BIM, which means that a model includes time information, generally in the context of construction scheduling.
+%Note however that this information might not be in a convenient format, \eg\ a linked Word file with a textual description.
+%Other dimension definitions sometimes refer to 5D BIM, which usually means a model with cost information.
+%Finally, different people use 6D or 7D BIM to refer to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
+
 
 Apart from the core applications of BIM in managing a building's lifecycle mentioned above, it is worth noting that there are also many new possibilities that are currently being studied, such as the automatic conversion of BIM models into GIS-ready models that can be integrated into 3D city models, applying environmental analyses directly on BIM models (\eg\ shadow analyses), improving the sustainability of buildings (green BIM), using BIM models to automate building permit issuing, and as will be further discussed in this course, the integration of BIM models with GIS data (GeoBIM).
 
@@ -72,6 +120,7 @@ As a way to solve this problem, the buildingSMART consortium, which notably incl
 IFC has been further standardised as ISO 16739~\citep{ISO16739:2013} with its geometry definitions in ISO 10303~\citep{ISO10303:2014}.
 
 IFC files are often large (hundreds of MBs), and their structure is rather complex.
+
 They can contain many types of classes (130 defined types, 217 enumeration types, 60 select types, 816 entities, 47 functions, 2 rules, 415 property sets, 93 quantity sets and 1697 individual properties in IFC 4.2\footnote{\url{https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/}}), which are defined using the EXPRESS data modelling language.
 Among others, there are several classes to model actors (\eg\ people and organisations), controls (\eg\ specifications, regulations, schedules and other requirements), processes (\eg\ actions during construction), products (\eg\ physical building elements and other spatially defined objects), the project itself (\eg\ where it is placed), and resources (\eg\ cost, materials and equipment), as well as groups of other classes (\eg\ those having a common purpose).
 In the rest of this handout, we will mostly focus on products.
@@ -115,6 +164,9 @@ These parameters can be empty (\texttt{\$}), a number, a list (a comma separated
 In addition to STEP files, there is also an XML encoding of the standard (IFC-XML) with file extension \texttt{.ifcXML}, as well as a zipped version of the other encodings with extension \texttt{.ifcZIP}.
 These two are less convenient due to the large file of XML files and the need to uncompress its zipped version.
 They are thus rarely used in practice.
+In addition, recent proposals add new options to store the IFC files, in order to enable the use of further technologies for their management.
+For example, the Ontology Web Language (OWL) format is considered in ifcOWL, and the ifcJSON is being developed.
+An overview of available formats is given at \url{https://technical.buildingsmart.org/standards/ifc/ifc-formats/}
 
 \subsection{How objects are modelled}
 
@@ -138,6 +190,7 @@ The geometry of a physical element can be created using a variety of representat
   \item[B-rep:] an object is represented by its bounding surfaces, either triangulated meshes, polygonal meshes or topological arrangements of free-form surfaces (Figure~\ref{fig:brep}).
 \end{description}
 These paradigms can be used independently or combined with each other in a hierarchy.
+
 
 \begin{figure}
 \begin{lstlisting}[frame=single]
@@ -206,50 +259,193 @@ Every point is defined as an \texttt{IfcCartesianPoint}, then the polygon is def
 \label{fig:brep}
 \end{figure}
 
+
+Two constructs (and related IFC classes) are particularly important: \textit{IfcOpenings} and \textit{IfcSpaces}.
+
+Subtraction relationships are part of the IFC model, representing openings by means of the voiding mechanism:
+\textit{IfcOpening} defines the objects used to be subtracted from another geometry (\eg\ an \textit{IfcWall} or an \textit{IfcSlab}) in order to generate an opening in a consistent way, according to the data model.
+The \textit{IfcOpening} can be in turn filled by an element, like an \textit{IfcWindow} or \textit{IfcDoor}.
+
+A second important element is the explicit modelling of \textit{IfcSpaces}, which are filling the empty spaces (for example, rooms) and defining them.
+It is possible to associate attributes to them, and their geometry is generally very relevant to conversion procedures.
+
 \subsection{Semantics}
 
-The semantics in an IFC file are stored in two main ways: by using specific entities and by storing them in the attributes of more generic classes.
+The semantics in an IFC file are stored within a structure of entities, attributes and relationships similar to any information system data model.
 
-An example of the first case is given by all the subentities of \texttt{IfcBuildingElement}, including: \texttt{IfcBeam}, \texttt{IfcBuildingElementComponent}, \texttt{IfcBuildingElementProxy}, \texttt{Ifc\-Chim\-ney}, \texttt{Ifc\-Co\-lumn}, \texttt{IfcCovering}, \texttt{IfcCurtainWall}, \texttt{IfcDoor}, \texttt{IfcFooting}, \texttt{IfcMember}, \texttt{IfcPile}, \texttt{Ifc\-Plate}, \texttt{Ifc\-Rai\-ling}, \texttt{IfcRamp}, \texttt{Ifc\-Ramp\-Flight}, \texttt{IfcRoof}, \texttt{IfcShadingDevice}, \texttt{IfcSlab}, \texttt{Ifc\-Stair}, \texttt{Ifc\-Stair\-Flight}, \texttt{IfcWall}, and \texttt{Ifc\-Win\-dow}.
-These can be used to represent the different functions that a building element has, although there is also a commonly used generic one (\ie\ \texttt{IfcBuildingElementProxy}) that does not provide this information.
+An example of entities (classes) is given by all the subentities of \texttt{IfcBuildingElement}, including: \texttt{IfcBeam}, \texttt{IfcBuildingElementComponent}, \texttt{IfcBuildingElementProxy}, \texttt{Ifc\-Chim\-ney}, \texttt{Ifc\-Co\-lumn}, \texttt{IfcCovering}, \texttt{IfcCurtainWall}, \texttt{IfcDoor}, \texttt{IfcFooting}, \texttt{IfcMember}, \texttt{IfcPile}, \texttt{Ifc\-Plate}, \texttt{Ifc\-Rai\-ling}, \texttt{IfcRamp}, \texttt{Ifc\-Ramp\-Flight}, \texttt{IfcRoof}, \texttt{IfcShadingDevice}, \texttt{IfcSlab}, \texttt{Ifc\-Stair}, \texttt{Ifc\-Stair\-Flight}, \texttt{IfcWall}, and \texttt{Ifc\-Win\-dow}.
+%
+%These can be used to represent the different functions that a building element has, although there is also a commonly used generic one (\ie\ \texttt{IfcBuildingElementProxy}) that does not provide this information.
 Similar subentities exist in other parts of the standard, such as for distribution elements (\eg\ for heating, cooling, ventilation and plumbing).
+The concepts represented in IFC are organized in four conceptual layers, as represented in Figure~\ref{fig:ifclayers}.
 
-Regarding the second case, a good example is given by the various property sets of IFC\@.
+\begin{figure}[ht!]
+	\begin{center}
+		\includegraphics[width=2\columnwidth]{figs/IFC4LayeredArchitecture.png}
+		\caption{{The four layers in which the Industry Foundation Classes are organised. Source: IFC4.1 specification}}%
+		\label{fig:ifclayers}
+	\end{center}
+\end{figure}
+
+The core layer contains the classes which are central and most general in the data model.
+In particular, the Kernel contains the root classes for the definition of objects, relationships and properties and their relationships (\eg\ \textit{IfcRoot}, superclass of all the other entities; \textit{IfcRelationship}, superclass of all relationships; \textit{IfcObject}, which is the parent entity of \textit{IfcGroup, IfcActor, IfcResource, IfcControl, IfcProcess, IfcProject} and \textit{IfcProduct}, being specified in the further extensions of the model).
+In the core layer there are also the three main extensions representing the foreseen possible representations by IFC:\@ product, control and process.
+
+The interoperability layer includes classes specializing those defined in the \textit{IfcProductExtension} schema, increasing the level of detail of the represented information. The included entities can be of interest to multiple domains.
+
+Some even more specific information can be represented through the domain specific part of the schema, which can specify either classes represented in the interoperability layer or in the product extension directly (\textit{IfcArchitectureDomain, IfcBuildingControlsDomain, IfcConstructionMgmtDomain, IfcElectricalDomain, IfcHvacDomain, IfcPlumbingFireProtectionDomain, IfcStructuralAnalysisDomain, IfcStructuralElementsDomain}).
+
+The resource layer defines entities to further describe the objects defined in the other levels.
+
+In order to represent objects which are not included in the IFC model, an \textit{IfcProxy} element is foreseen, as a subclass of \textit{IfcProduct}.
+In particular, the entity \textit{IfcBuildingElementProxy} is frequently used in models to substitute other entities.
+This is useful in order not to prevent the addition of customised entities to models. However, many times this is instead used (or misused) to represent also objects which have suitable entities in the IFC model.
+This is a problem, since a correct interpretation of such models from the semantic point of view becomes more difficult, requiring either manual work or complex inferences based on their geometry.
+
+Moreover, it is often possible to store the same kind of object by means of several entities.
+For example, the layers within a compound wall object can be represented by means of an associated \texttt{IfcMaterialLayerSet}, but also as a more generic decomposition where every wall layer is modelled as a distinct \texttt{IfcBuildingElementPart}.
+
+Although the richness of the data model is not thoroughly used within the BIMs,
+IFC classes are structured in a deep hierarchies (is-a relationships), additionally organized in
+meronymic (part-of) trees too.
+
+Spatial composition, by means of \textit{IfcSpatialStructureElements}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD1/HTML/schema/ifcproductextension/lexical/ifcspatialstructureelement.htm}} (Site/Building/Storey/Space/Zone) is one more kind of aggregation, different from the element (meronymical) composition one (\eg\ a stair and the assembled elements in it).
+\textit{IfcSpatialStructureElement} is used to define a spatial units structure, by means of which the building project is organized.
+
+Elements are also related to one another for example for wall connectivity and space boundaries.
+
+In addition, various forms of semantic information can be associated to the elements, such as materials, properties (key-value pairs) and even scheduling.
+Many attributes can be provided for elements, as foreseen by class specifications that can be inherited from their parents.
+In addition, property sets (already in the standard or added as extension) can be used.
+%Regarding the attributes, a good example is given by the various property sets of IFC\@.
 For instance, a building's use can be defined using the property set \texttt{Pset\_BuildingUse}, which includes things like its market category (\eg\ residential or commercial).
 Another example is given in Figure~\ref{fig:pset}, where custom properties are defined in order to store specific semantics of a model.
 
 \begin{figure}
-\begin{lstlisting}[frame=single]
-#991622=IFCPROPERTYSINGLEVALUE('End Extension Calculation',$,IFCLENGTHMEASURE(3000.),$);
-#991623=IFCPROPERTYSINGLEVALUE('Material',$,IFCLABEL('NL_01_hout_plaat'),$);
-#991624=IFCPROPERTYSINGLEVALUE('Length',$,IFCLENGTHMEASURE(2594.),$);
-#991625=IFCPROPERTYSINGLEVALUE('Start Release',$,IFCINTEGER(3),$);
-#991626=IFCPROPERTYSINGLEVALUE('End Release',$,IFCINTEGER(1),$);
-#991627=IFCPROPERTYSINGLEVALUE('Cut Length',$,IFCLENGTHMEASURE(2594.000000000001),$);
-#991628=IFCPROPERTYSINGLEVALUE('Structural Usage',$,IFCINTEGER(10),$);
-#991629=IFCPROPERTYSINGLEVALUE('Analyze As',$,IFCINTEGER(1),$);
-#991630=IFCPROPERTYSINGLEVALUE('Volume',$,IFCVOLUMEMEASURE(13602936.00000029),$);
-\end{lstlisting}
-\caption{Defining properties to store the semantics in an IFC model.}%
-\label{fig:pset}
+	\begin{lstlisting}[frame=single]
+	#991622=IFCPROPERTYSINGLEVALUE('End Extension Calculation',$,IFCLENGTHMEASURE(3000.),$);
+	#991623=IFCPROPERTYSINGLEVALUE('Material',$,IFCLABEL('NL_01_hout_plaat'),$);
+	#991624=IFCPROPERTYSINGLEVALUE('Length',$,IFCLENGTHMEASURE(2594.),$);
+	#991625=IFCPROPERTYSINGLEVALUE('Start Release',$,IFCINTEGER(3),$);
+	#991626=IFCPROPERTYSINGLEVALUE('End Release',$,IFCINTEGER(1),$);
+	#991627=IFCPROPERTYSINGLEVALUE('Cut Length',$,IFCLENGTHMEASURE(2594.000000000001),$);
+	#991628=IFCPROPERTYSINGLEVALUE('Structural Usage',$,IFCINTEGER(10),$);
+	#991629=IFCPROPERTYSINGLEVALUE('Analyze As',$,IFCINTEGER(1),$);
+	#991630=IFCPROPERTYSINGLEVALUE('Volume',$,IFCVOLUMEMEASURE(13602936.00000029),$);
+	\end{lstlisting}
+	\caption{Defining properties to store the semantics in an IFC model.}%
+	\label{fig:pset}
 \end{figure}
+
+
+This semantic complexity is intended to represent faithfully the buildings as functional to the designed scope.
+However, the implementation and use of such theoretically precise models is difficult and can result in inaccuracies or the underuse of the most complex features, besides hindering interoperability by providing a very high degree of freedom to fill in the information in different ways and by choosing one of the many possible kinds of representations that can be used.
+
+
+\subsubsection{Model View Definitions}
+
+In order to define subsets of the IFC models to be implemented, the Information Delivery Manual (IDM) is added as part of the buildingSMART standard.
+It defines the workflow and the information exchange specifications and requirements for needed use cases.
+From each IDM, a set of Model View Definitions (MVD) can be defined for identifying the portion of the IFC model which is needed for the information exchange described in the IDM to be fulfilled.
+
+The documentation of an MVD allows the exchange to be repeated, providing consistency and predictability across a variety of projects and software platforms.
+MVDs are provided as part of the IFC releases and at present, the mostly implemented by software are the `Coordination view' for IFC version 2x3 and the `Design Transfer view' and `Reference view' for IFC version 4, designed with slightly different aims.
+
+The standard foresees the possibility of defining custom MVDs based on own specific requirements of the use case, although the implementation possibilities (by means of the mvdxml constructs) still present some weakness.
+
+
+\subsubsection{Disciplinary models and federated model}\label{sec:fedmodels}
+
+BIMs are usually split into several models, each of which describe the information related to a design discipline: architectural, structural, installations.
+They are combined together in a federated model.
+
+For using the BIM, and in particular the IFC files representing each model, which are separately exported, it is important to know what to expect within each model: what elements are included and which ones are not.
+Note that these are potentially sharing the same space.
+%
+%The correct merger of multiple models into one is important for many use cases.
+%For example, the computation of routes within the building should consider all the walls, whether they are load-bearing or not, and the calculation of volumes and heights have to count on all walls and slabs.
+%Also with respect to integration with geoinformation, it is important to know which surrounding elements from the context where the building is designed are stored in the BIM\@.
+%Another example is the computation of the maximum envelope of the building, such as for building permit regulation checks \citep{noardo2020investigating}, where all the elements that extend towards the outside of the building should be included (\eg\ chimneys and balconies).
+
+Unfortunately for interoperability, a unique subdivision of elements within such models is neither provided by standardization nor by shared practice.
+Instead, requirements and specifications are defined in each call for tenders according to the specific requirements of a particular use case.
+Although suboptimal, it is currently the most reasonable choice in order for users to obtain exactly the representation(s) they need.
+However, it means that: first, the elements can be stored in any of the models composing the federated one; and second, an element (such as a slab or a wall or an installation part) can be stored redundantly (and possibly inconsistently) within several discipline models.
+%Arguably, in these circumstances, a validity checker should not detect the duplication of the same elements as a clash.
+Due to the way references between elements are stored within IFC models, in most cases, references can only be made between elements stored in the same file. This can cause issues when one depends on relationships (such as space boundaries) when the elements are contained in distinct aspect models.
+%\citet{krijnen2020validation} provides options to later infer such relationships.
+%
+%The developers of tools to automatically process IFC models should consider this practice and possibly propose guidelines and prescriptions about the objects to be included in the representation for each case, or about how to document the modelling choices as machine-readable metadata.
+
 
 \subsection{Georeferencing}
 
 Properly georeferencing an IFC file makes it possible to link the (local) coordinates inside an IFC model with their corresponding real-world coordinates, and thus to place the model of a single building or construction within the virtual environment.
-However, it is important to say that most IFC models are not georeferenced properly (or at all), which is a major issue in practice.
+However, it is important to say that, since it was not a need for designers, most IFC models were not georeferenced properly (or at all), which is a major issue in practice.
 
-In order to georeference an IFC file, it is possible to use the IFC entity \texttt{IfcSite}, which defines an area where construction works are undertaken, and optionally allows for storage of the real-world location of a project using the \emph{RefLatitude}, \emph{RefLongitude} and \emph{RefElevation} attributes.
-The latitude and longitude are defined as angles with degrees, minutes, seconds, and optionally millionths of seconds with respect to the world geodetic system WGS84 (EPSG:4326).
-Positive values represent locations north of the equator, west of the geodetic zero meridian (nominally the Greenwich prime meridian) in IFC2x3, or east of the zero meridian IFC4.
-Negative values represent locations south of the equator, east of the zero meridian in IFC2x3, or west of the zero meridian in IFC4.
-All the components of these angles (\ie\ degrees, minutes, seconds and millionth-seconds of arc) should have the same sign.
-According to the IFC standard, the geographic reference given might be the exact location of the origin of the local placement of the \texttt{IfcSite} or it might be an approximate position for informational purposes only.
-The elevation is defined according to the datum elevation relative to sea level.
 
-The IFC entity \texttt{IfcGeometricRepresentationContext} is used to define the coordinate space of an IFC model in 3D and optionally the 2D plan of such a model.
-This entity can be used to offset the project coordinate system from the global point of origin using the \emph{WorldCoordinateSystem} attribute, it defines the \emph{Precision} under which two given points are still assumed to be identical, and it defines the direction of the \emph{TrueNorth} relative to the underlying coordinate system.
-The latter attribute defaults to the positive direction of the y-axis of the \emph{WorldCoordinateSystem}.
+There are several options to store georeferencing information in IFC, as described by \citet{clemen2019level}. %Francesca: Can we add references?
+These options range from basic address information to the definition of a more detailed position referred to a projected coordinate reference system (CRS).
+In this last case, an offset can be stored between the project coordinate system and the global origin of a CRS ($X$, $Y$ and height).
+The rotation of the $XY$-plane is also included (\Reftab{tab:LoGeoRefs}).
+
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|m{1.5cm}|m{2.5cm}|m{7cm}|}
+		\hline
+		\textbf{LoGeoRef} & \textbf{Supported CRS} & \textbf{Storing entities} \\ \hline
+		\textit{LoGeoRef10} & No CRS, approximate location by means of the address. & \textit{IfcPostalAddress} referenced by either \textit{IfcSite} or \textit{IfcBuilding}. \\ \hline
+		\textit{LoGeoRef20}& WGS84 EPSG:4326 & Attributes \textit{RefLatitude, RefLongitude, RefElevation} within \textit{IfcSite} \\ \hline
+		\textit{LoGeoRef30} & Any Cartesian CRS, including projected coordinates (CRS not specified in the file) & \textit{IfcCartesianPoint} referenced within \textit{IfcSite} (defining the projected coordinates of the model reference point); \textit{IfcDirection} attribute of \textit{IfcSite}.% (stores rotations with respect to the project or global north).
+		\tablefootnote{Ad-hoc solution used by several tools.} \\ \hline
+		\textit{LoGeoRef40} & Any Cartesian CRS, including projected coordinates (CRS not specified in the file) & Attribute \textit{WorldCoordinateSystem} storing the coordinates of the reference point in any Cartesian CRS (including the projected ones) and direction \textit{TrueNorth}. Both are stored within \textit{IfcGeometricRepresentationContext}.\tablefootnote{Most official IFC2x3-way to store the reference system.} \\ \hline
+		\textit{LoGeoRef50} & Specific projected CRS, specified by means of the EPSG code & IFC v.4 only\tablefootnote{The IFC4 way of documenting the used CRS and other georeferencing parameters was proposed to be backported to property sets also for the version 2x3 of IFC\@. (\url{https://forums.buildingsmart.org/t/geolocation-standards-in-ifc2x3-and-ifc4/2329}). This could enable the achievement of \textit{LoGeoRef50} even for IFC2x3 files.}. Coordinates of the reference point stored in \textit{IfcMapConversion} using the attributes \textit{Eastings},	\textit{Northings} and \textit{OrthogonalHeight} for global elevation. Rotation for the XY-plane stored using the attributes \textit{XAxisAbscissa} and \textit{XAxisOrdinate}. The coordinate reference system (CRS) used is specified by \textit{IfcProjectedCRS} in the attribute \textit{Name} by means of the proper EPSG code.  \\ \hline
+	\end{tabular}
+	\caption{Synthesis of \textit{LoGeoRefs} as defined by \citet{clemen2019level}.}%
+	\label{tab:LoGeoRefs}
+\end{table}
+
+
+However, those levels do not necessarily indicate a scale measuring the quality of georeferencing, but they are mostly relevant to identify how the information is stored.
+In fact, in some cases, the accuracy of different \textit{LoGeoRefs} can be absolutely similar (e.g.\ \textit{LoGeoRef30} and \textit{LoGeoRef40}), since the values are supposed to be the same, but stored differently within the IFC file.
+
+%A further note is useful about the storage of the model reference system direction.
+%In the \textit{LoGeoRef40} the stored direction represents the \textit{TrueNorth}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x2/FINAL/HTML/ifcrepresentationresource/lexical/ifcgeometricrepresentationcontext.html}} attribute, defined as \textit{``Direction of the true north relative to the world coordinate system as established by the representation context''}.
+%As also cited in the buildingSMART document about georeferencing\footnote{\url{https://www.buildingsmart.org/wp-content/uploads/2020/02/User-Guide-for-Geo-referencing-in-IFC-v2.0.pdf}}, this could be different from the grid north, considering a Cartesian system and possibly stored as part of the \textit{IfcObjectPlacement} within \textit{IfcSite} (inherited from the class \textit{IfcSpatialStructureElement} and, in turn, \textit{IfcProduct}), according to \textit{LoGeoRef30}.
+As defined in the IFC specifications\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometricconstraintresource/lexical/ifcobjectplacement.html}} \textit{``The object placement can be given:
+	absolute (\ie\ by an axis2 placement, relative to the world coordinate system);
+	relative (\ie\ by an axis2 placement, relative to the object placement of another product);
+	by grid reference (\ie\ by the virtual intersection and reference direction given by two axes of a design grid).
+	In any case the object placement has to unambiguously define the object coordinate system as either two-dimensional axis placement (IfcAxis2Placement2D) or three-dimensional axis placement (IfcAxis2Placement3D).''}
+
+In the case of \textit{IfcSite}, usually it is specified as \textit{IfcLocalPlacement}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometricconstraintresource/lexical/ifclocalplacement.html}}, with attributes: \textit{PlacementRelTo} (which, if omitted, indicates the World Coordinate System to be in theory defined within the geometric representation context) and \textit{RelativePlacement}, filled by means of an \textit{IfcAxis2Placement} class, specified as \textit{IfcAxis2Placement3D}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometryresource/lexical/ifcaxis2placement3d.html}}.
+There, the attributes represented are usually: Location (inherited by \textit{IfcPlacement} and stored as \textit{IfcCartesianPoint}); Axis (representing the direction of the local $Z$ axis); \textit{RefDirection}, storing the direction of the $X$ axis.
+It is relevant to note that in this case the direction of $X$ is stored, whilst in the \textit{LoGeoRef40} case, under \textit{IfcGeometricRepresentationContext} - \textit{TrueNorth} attribute, the $Y$ direction of a possible Cartesian system is stored.
+Therefore, the values of two vectors composing the \textit{IfcDirection} are inverted in the two cases.
+This must be considered when developing software applications reading the data in the two cases.
+
+In the specifications, it is established that, whether omitted, the reference should be the geometric coordinate system (used in \textit{LoGeoRef40}).
+It is therefore necessary to be careful in the priority given to the information stored in the two systems: \textit{LoGeoRef30} should be read first, if absent, then go to \textit{LoGeoRef40}.
+
+
+
+
+
+
+
+
+%In order to georeference an IFC file, it is possible to use the IFC entity \texttt{IfcSite}, which defines an area where construction works are undertaken, and optionally allows for storage of the real-world location of a project using the \emph{RefLatitude}, \emph{RefLongitude} and \emph{RefElevation} attributes.
+%The latitude and longitude are defined as angles with degrees, minutes, seconds, and optionally millionths of seconds with respect to the world geodetic system WGS84 (EPSG:4326).
+%Positive values represent locations north of the equator, west of the geodetic zero meridian (nominally the Greenwich prime meridian) in IFC2x3, or east of the zero meridian IFC4.
+%Negative values represent locations south of the equator, east of the zero meridian in IFC2x3, or west of the zero meridian in IFC4.
+%All the components of these angles (\ie\ degrees, minutes, seconds and millionth-seconds of arc) should have the same sign.
+%According to the IFC standard, the geographic reference given might be the exact location of the origin of the local placement of the \texttt{IfcSite} or it might be an approximate position for informational purposes only.
+%The elevation is defined according to the datum elevation relative to sea level.
+%
+%The IFC entity \texttt{IfcGeometricRepresentationContext} is used to define the coordinate space of an IFC model in 3D and optionally the 2D plan of such a model.
+%This entity can be used to offset the project coordinate system from the global point of origin using the \emph{WorldCoordinateSystem} attribute, it defines the \emph{Precision} under which two given points are still assumed to be identical, and it defines the direction of the \emph{TrueNorth} relative to the underlying coordinate system.
+%The latter attribute defaults to the positive direction of the y-axis of the \emph{WorldCoordinateSystem}.
 
 \section{Exercises}
 
