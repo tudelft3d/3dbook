@@ -218,8 +218,8 @@ The only modifications needed are that, in 3D, polygons become solids, rings bec
 To further explain what the assertions are in 3D, Figure~\ref{fig:validornot}
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{figs/validornot.pdf}
-  \caption{Twelve solids with the numbers in parentheses next to each indicating which OGC assertions are broken if invalid. For solid $s_9$ the colour of the exterior shell is not shown to highlight the interior shell.}%
+  \includegraphics[width=\textwidth]{figs/validornot.pdf}
+  \caption{Twelve solids, some of them valid some invalid. The number of interior shell(s) is ``ishell'', and the numbers in parentheses next to invalid indicates which OGC assertions are broken. For solid $s_9$ the colour of the exterior shell is not shown to highlight the interior shell.}%
 \label{fig:validornot}
 \end{figure}
 shows 12 solids, some of them valid, some not (all the statements below refer to solids in this figure).
@@ -239,8 +239,8 @@ The fourth assertion states that a shell is a 2-manifold and that no dangling pi
 \marginnote{regularisation}\index{regularisation}
 
 The fifth assertion states that the interior of a solid must form a connected point-set (in $\mathbb{R}^3$).
-Consider the solid $s_7$, it is valid since its interior is connected and it fulfils the other assertions; notice that it is a 2-manifold but that unlike other solids in Figure~\ref{fig:validornot} (except $s_8$) its genus is 1.
-If we move the location of the triangular prism so that it touches the boundary of the exterior shell (as in $s_8$), then the solid becomes invalid since its interior is not connected anymore, and also since its exterior shell is not simple anymore (2 edges have 4 incident planar faces, which is not 2-manifold).
+Consider the solid $s_7$, it is valid since its interior is connected and it fulfils the other assertions; notice that: (1) it is a 2-manifold but that unlike other solids in Figure~\ref{fig:validornot} (except $s_8$) its genus is 1; (2) it is modelled only with an exterior shell.
+If we move the location of the triangular prism (which is part of the exterior shell, and is not an interior shell) so that it touches the boundary of the exterior shell (as in $s_8$), then the solid becomes invalid since its interior is not connected anymore, and also since its exterior shell is not simple anymore (2 edges have 4 incident planar faces, which is not 2-manifold).
 It is also possible that the interior shell of a solid separates the solid into two parts: the interior shell of $s_9$ is a pyramid having four of its edges intersecting with the exterior shell, but no two surfaces are shared, thus these interactions are allowed.
 However, the presence of the pyramid separates the interior of the solid into two unconnected volumes (violating assertion 5); for both $s_8$ and $s_9$, the only possible valid representation is with two different solids.
 
@@ -307,7 +307,7 @@ A \texttt{CompositeSolid}, formed by the \texttt{Solids} $A$ and $B$, should ful
 %
 \section{Notes and comments}
 
-The title ``\emph{Are your polyhedra the same as as polyhedra?}'' is taken from the (excellent) paper from \citet{Grunbaum03}.
+The title ``\emph{Are your polyhedra the same as my polyhedra?}'' is taken from the (excellent) paper from \citet{Grunbaum03}.
 
 The 2D GIS data structures that can be used for storing 2-manifolds are, for instance, the half-edge~\citep{Mantyla88}, the quad-edge~\citep{Guibas85}, and the doubly-connected edge list (DCEL)~\citep{Muller78}; all of these store the edge of a polyhedron as the atom, with links to its adjacent edges and incident faces.
 

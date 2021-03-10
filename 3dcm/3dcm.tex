@@ -1,4 +1,8 @@
 %!TEX root = ../3dchapter.tex
+% chktex-file 18 
+% chktex-file 46
+
+
 
 \setchapterpreamble[u]{\margintoc}
 
@@ -197,7 +201,7 @@ CityGML uses the ISO 19107 geometric primitives for representing the geometry of
 While the ISO 19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed, CityGML uses a subset of ISO 19107, with the following two restrictions: (1) \texttt{GM\_Curves} can only be \emph{linear} (thus only \texttt{LineStrings} and \texttt{LinearRings} are used); (2) \texttt{GM\_Surfaces} can only be \emph{planar} (thus \texttt{Polygons} are used).
 
 % TODO : which lesson?
-See Lesson~5.2 for the details of ISO 19107.
+See Lesson~3.2 for the details of ISO 19107.
 
 
 %%%
@@ -591,6 +595,8 @@ CityJSON specifications, examples datasets, tutorials, and software are availabl
 \citet{Helsinki19} describe the efforts and workflows used by the city Helsinki to built both a textures mesh and a semantic 3D city models of their city. 
 Details about how the model is used in practice are also given.
 
+\citet{Kumar19} describe the role and position of LandInfra with respect to CityGML and BIM/IFC.
+
 For the description of LoD of other classes then buildings, see \citet{Kumar19} for terrains, \citet{Labetski18} for roads, and \citet{Ortega18} for trees.
 
 %%%
@@ -599,6 +605,6 @@ For the description of LoD of other classes then buildings, see \citet{Kumar19} 
 
 \begin{enumerate}
   \item It is stated that a given CityJSON file will be on average 6X compacter than an equivalent CityGML file. Explain why CityJSON files are compacter.
-  \item Build manually a CityJSON file of a unit cube that represent a LoD2 building, and assign to its surfaces the correct semantics (roof, ground, façade). Add a few random attributes to the building. Make sure your file is valid by following that tutorial: \url{https://www.cityjson.org/help/users/validation/}
+  \item Build manually a CityJSON file of a unit cube that represent a LoD2 building, and assign to its surfaces the correct semantics (roof, ground, façade). Add a few random attributes to the building. Make sure your file is valid by following that tutorial: \url{https://www.cityjson.org/tutorials/validation/}
   \item What would be the ``best'' format to store the textured mesh of Helsinki (in Figure~\ref{fig:mesh})?
 \end{enumerate}
