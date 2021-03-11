@@ -94,7 +94,9 @@ The VD can be bypassed if a three-dimensional $k$d-tree is used.
 \paragraph{Inverse distance weighting (\textbf{IDW}).}
 The generalisation of this method to three dimensions is straightforward: a searching \emph{sphere} with a given radius is used. 
 The same problems with the one-dimensionality of the method (the value for the search radius) will be even worse because the search must be performed in one more dimension. 
-The method has too many problems to be considered  has a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution (and anisotropy is very frequent in 3D samples, see Lesson~2.2), and the criterion has to be selected carefully by the user.
+The method has too many problems to be considered  has a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution, 
+\marginnote{anisotropic distribution}
+and the criterion has to be selected carefully by the user.
 Note that the implementation problems are also similar to the ones encountered with the previous method, and an auxiliary data structure must be used to avoid testing all the points in a dataset.
 
 
@@ -105,7 +107,7 @@ The barycentric coordinates can be used to linearly interpolate inside a tetrahe
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.9\textwidth]{figs/barycentric}
-  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge.}% 
+  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge. In 3D, the tetrahedron is subdivided into 4 tetrahedra.}% 
 \label{fig:barycentric}
 \end{marginfigure}
 
@@ -161,6 +163,7 @@ Notice however that potentially a lot of the neighbouring points will be the sam
 %
 
 A better approach to this problem is to consider it as a simplification problem.
+\index{simplification}\marginnote{simplification}
 Given a set $S$ of points in $\mathbb{R}^3$ representing a field $f$ (where each point $p$ in $S$ as an attribute $a$ attached to itself), the aim is to find a subset $R$ of $S$ which will approximate $f$ as accurately as possible, using as few points as possible. 
 The subset $R$ will contain the `important' points of $S$, \ie\ a point $p$ is important when $a$ at location $p$ can not be accurately estimated by using the neighbours of $p$.
 
@@ -178,7 +181,7 @@ Both strategies (decimation and refinement) can be implemented.
 The error associated with each point $p$, denoted error($p$), is calculated by interpolating at location $p$ after $p$ has been temporarily removed from the field, and comparing the value obtained with the real attribute $a$ of $p$, thus error($p) = |a - estimation|$. 
 As shown in Figure~\ref{fig:meshsimplification} for a one-dimensional case, when the error is more than $\epsilon_{max}$ then the point must be kept, if it is less then the point can be discarded.
 
-The method for 2D fields in GEO1015 uses linear interpolation in triangles, \ie\ after $p$ has been temporarily deleted from DT($S$), the triangulation is updated and the estimation is obtained with the triangle containing location $p$. 
+The method for 2D fields in GEO1015 uses linear interpolation in triangles, that is after $p$ has been temporarily deleted from DT($S$), the triangulation is updated and the estimation is obtained with the triangle containing location $p$. 
 However, since mentioned earlier, using the DT in 3D for interpolation is not advised (because they contain slivers).
 As an alternative, one could use for instance the natural neighbour interpolation, and each error is calculated by interpolating in the field at the location and comparing the real and the estimated value.
 
@@ -187,9 +190,11 @@ As an alternative, one could use for instance the natural neighbour interpolatio
 \subsection{Conversion to isosurfaces}
 
 Given a trivariate field $f(x,y,z) = a$, an isosurface is the set of points in space where $f(x,y,z) = a_0$, where $a_0$ is a constant. 
-Isosurfaces, also called \emph{level sets}, are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps. 
+Isosurfaces, also called \emph{level sets}, 
+\marginnote{isosurfaces, or level sets}
+are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps. 
 Figure~\ref{fig:isosurface} shows one concrete example.
-\begin{figure}*
+\begin{figure*}
   \centering
   \begin{subfigure}[b]{0.3\linewidth}
     \centering
@@ -210,7 +215,7 @@ Figure~\ref{fig:isosurface} shows one concrete example.
   \end{subfigure}
 \caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
 \label{fig:isosurface}
-\end{figure}*
+\end{figure*}
 
 %
 
@@ -241,25 +246,27 @@ The three-dimensional case is similar, with many more cases possible.
 
 %
 
-\paragraph{From tetrahedral mesh: Marching Tetrahedra.} 
+\paragraph{From a tetrahedral mesh: Marching Tetrahedra.} 
 Although it is possible to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide each cell into simplices (cubes into tetrahedra in 3D). 
 The so-called \emph{Marching Tetrahedra} algorithm is very simple: each tetrahedron is tested for the intersection with the isosurface, and triangular faces are extracted from the tetrahedra by linear interpolation on the edges. 
 The resulting isosurface is guaranteed to be topologically consistent (\ie\ will not contain holes), except at the border of the dataset. 
-But again, if a big tetrahedron is used where the vertices are assigned to a value lower than the minimum value of the field, then all the isosurfaces extracted are guaranteed to be `watertight'. 
+But again, if a ``big tetrahedron'' 
+\index{big tetrahedron}\marginnote{big tetrahedron}
+is used where the vertices are assigned to a value lower than the minimum value of the field, then all the isosurfaces extracted are guaranteed to be `watertight'. 
 The nice thing about the algorithm is that only three cases for the intersection of the isosurface and a tetrahedron can arise:
 \begin{enumerate}
-  \item the four vertices have a higher (or lower) value. No intersection.
-  \item one vertex has a higher (or lower) value, hence the three others have a lower (or higher) value. Three intersections are thus defined, and a triangular face is extracted. See Figure~\ref{fig:isosurface_3cases}(a) on the left.
-  \item two vertices have a higher (or lower) value and the others have a lower (or higher) value. Four intersections are thus defined. To ensure that triangular faces are extracted (better output for graphics cards), the polygon can be split into two triangles, with an arbitrary diagonal. See Figure~\ref{fig:isosurface_3cases}(a) on the right.
-\end{enumerate}
+  \item the four vertices have a higher (or lower) value. No intersection. (Figure~\ref{fig:isosurface_3cases}a)
+  \item one vertex has a higher (or lower) value, hence the three others have a lower (or higher) value. Three intersections are thus defined, and a triangular face is extracted. (Figure~\ref{fig:isosurface_3cases}b)
+  \item two vertices have a higher (or lower) value and the others have a lower (or higher) value. Four intersections are thus defined. To ensure that triangular faces are extracted (better output for graphics cards), the polygon can be split into two triangles, with an arbitrary diagonal. (Figure~\ref{fig:isosurface_3cases}c)
+  \end{enumerate}
 \begin{figure}
   \centering
   \includegraphics[width=1.0\textwidth]{figs/isosurface_3cases}
-  \caption{\textbf{(a)} Two cases for the intersection of an isosurface and a tetrahedron: either 3 or 4 intersections. \textbf{(b)} Three cases when some vertices (the grey ones) have exactly the same value as the isosurface.}% 
+  \caption{Potential isosurface (for an attribute value $v$) extracted for one tetrahedron. Black vertex means that the attribute of this vertex is below $v$; white vertex means it is above; and grey that it is equal.}% 
 \label{fig:isosurface_3cases}
 \end{figure}
 The only degenerate cases possible are when one or more vertices have exactly the same value as the isosurface. 
-These cases are handled very easily, and the intersection is simply assumed to be at the vertices themselves (see Figure~\ref{fig:isosurface_3cases}(b)). 
+These cases are handled very easily, and the intersection is simply assumed to be at the vertices themselves (see Figure~\ref{fig:isosurface_3cases}d/e/f). 
 Notice that the case when three vertices have exactly the same value, then the complete face of the tetrahedron must be extracted to ensure topological consistency.
 
 
@@ -272,14 +279,15 @@ Notice that the case when three vertices have exactly the same value, then the c
 %%%
 \subsection{Points to b-rep}
 
-In the context of the built environment, this would most likely mean that from a point cloud, a LoD2 model of the buildings, and eventually of other objects such as trees and bridges, are reconstructed.
+In the context of the built environment, this would most likely mean that from a point cloud, a LoD2 model of the buildings, and eventually of other objects such as trees and bridges, are reconstructed. See Lesson~2.2.
 
-See Lesson~2.1.
+It should be noticed that the b-rep can be formed solely of triangles, or of polygons.
+The polygons can have interior boundaries, as defined in ISO 19107 (see Lesson~3.2).
 
 %%%
 \subsection{Points/surfaces/volumes to voxels}
 
-The conversions of points, curves, surfaces and volumes to voxels are covered in Lesson~3.1.
+The conversions of points, curves, surfaces and volumes to voxels are covered in Lesson~2.1.
 
 
 %%%
@@ -290,8 +298,8 @@ For the purposes of this lesson, a \emph{mesh} is a collection of simplices that
 If we take the 3D model of a building (say BK-City, see Figure~\ref{fig:bk-mesh}), 
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\linewidth]{figs/bk-mesh}
-  \caption{b-rep model of BK-City, from Lesson~2.1}%
+  \includegraphics[width=\linewidth]{figs/bk-mesh}
+  \caption{b-rep model of BK-City, from Lesson~2.2}%
 \label{fig:bk-mesh}
 \end{figure}
 this model is formed of several planar faces (hopefully) forming a closed 2-manifold.
@@ -299,18 +307,18 @@ this model is formed of several planar faces (hopefully) forming a closed 2-mani
 In practice, if someone wants the mesh of this b-rep, it could mean two different structures:
 \begin{description}
   \item[2D triangulation of each surface:] the constrained Delaunay triangulation, or simply an arbitrary constrained triangulation, for each of the polygon can be created. These are independently performed for each surface, and involve transforming the 3D coordinate of the vertices of the surface to a 2D system; this coordinate system is on the plane defined by the surface. Notice that this assumes that all input surfaces of the b-rep are planar, if it is not the case then finding a projection that preserves the topology of the polygon might not be possible.
-  \item[tetrahedralisation of the volume defined by the surfaces] the constrained tetrahedralisation of the volume defined by the b-rep; see Section~5 of the Lesson~2.2.
+  \item[Tetrahedralisation of the volume defined by the surfaces:] the constrained tetrahedralisation of the volume defined by the b-rep; see Lesson~3.1.
 \end{description}
 
 Figure~\ref{fig:meshing} shows one example,
 \begin{figure}
   \centering
-  \includegraphics[width=0.65\linewidth]{figs/mesh1}
+  \includegraphics[width=\linewidth]{figs/mesh1}
   \caption{BK-City LoD2 b-rep tetrahedralised.}%
 \label{fig:meshing}
 \end{figure}
-notice that the whole 2-manifold is tetrahedralised, but here only some tetrahedra (in grey) are shown. 
-The surfaces of the b-rep also get meshed (each surface is triangulated) in the same process.
+notice that the volume modelled by the boundary is tetrahedralised, but that here only some tetrahedra (in grey) are shown. 
+The surfaces of the b-rep also get meshed in the same process (each surface is triangulated).
 
 
 %%%
@@ -339,7 +347,9 @@ This MSc thesis gives you an idea of what a (very good) thesis should look like,
 \section{Notes and comments}
 
 \citet{Lorensen87} first describe the Marching Cubes algorithm to extract isosurfaces from voxels.
-% Although \citet{Wilhems90} describe various methods to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide the cubes into tetrahedra.
+Although \citet{Wilhems90} describe various methods to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide the cubes into tetrahedra.
+
+\citet{Cheng00} and \citet{Miller02} both describe methods to remove slivers in Delaunay meshes and to improve the shape of tetrahedra (so that they can be used for interpolation).
 
 %%%
 %
