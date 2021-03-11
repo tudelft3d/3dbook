@@ -1,11 +1,13 @@
 %!TEX root = ../3dchapter.tex
+% chktex-file 46
+% chktex-file 36
 
 \setchapterpreamble[u]{\margintoc}
 
 \graphicspath{{conversion/}}
 \renewcommand*{\thelesson}{6.2}
 
-\chapter{Conversions between 3D representations\\ and formats}%
+\chapter{Conversions between 3D representations and formats}%
 \label{chap:conversion}
 
 This lesson describes different conversions between 3D representations and formats that a geomatics engineer might have to perform.
@@ -15,12 +17,19 @@ It does not claim to be an overview of all potential conversions, but it rather 
 
 The lesson is divided into two distinct parts:
 \begin{description}
-  \item[Fields:] conversions that are performed when we are dealing with a field, let it be the temperature or the concentration of a certain chemical in the air (modelled as a 3D volume). 
-  In most cases, the data that are collected to study a field will be sample points in 3D space ($x,y,z$) to which an attribute is attached. 
-  Voxels are usually what is exchanged and analysed.
+  \item[Fields:] conversions that are performed when we are dealing with a \emph{field}, let it be the temperature or the concentration of a certain chemical in the air (modelled as a 3D volume).
+  We name such field a trivariate field: each location ($x,y,z$) in space has one attribute.
+  \index{trivariate field}\marginnote{trivariate field}
+  Voxels are usually what is used to represent, exchange, and analyse fields in 3D.
+  \index{voxels}\marginnote{voxels}
   \item[Objects:] when we are dealing with data (points, surfaces, and volumes) that represent the boundaries of objects in our environment. 
-  These can be sample points from lidar or dense matching of images, or the b-rep of some buildings (which have been reconstructed from different acquisition methods).
+  These can be sample points from lidar or dense matching of images, or the b-rep of some buildings (which have been reconstructed with different acquisition methods).
+  \index{b-rep}\marginnote{boundary representation (b-rep)}
 \end{description}
+
+\begin{kaobox}[frametitle=\faExternalLink\ To read or to watch.]
+  The reader is advised to first read the two chapters about spatial interpolation (Chapters~4 and 5) in the book \emph{Computational modelling of terrains}~\citep{terrain_book}, where the 2D concepts are introduced.
+\end{kaobox}
 
 
 
@@ -29,10 +38,38 @@ The lesson is divided into two distinct parts:
 \section{Conversions for fields}
 
 
+A field is a model of the spatial variation of an attribute $a$ over a spatial domain, we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
+It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
+\[
+  a = f(p)
+\]
+The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate ($x,y$) (\eg\ for the elevation of terrain) or trivariate ($x,y,z$) (\eg\ for the temperature of a body of air).
+
+%
+
+The representation of a field in a computer faces many problems. 
+First, fields are continuous functions, and, by contrast, computers are discrete machines. 
+Fields must therefore be \emph{discretised}, \ie\ broken into finite parts.
+Second, in practice it is usually impossible to measure continuous phenomena everywhere, and we have to resort to collecting samples at some finite locations and reconstructing fields from these samples.
+The discretisation task therefore begins at the acquisition phase, and is affected by the acquisition tools and techniques.
+This fact is aggravated for fields as found in GIS-related disciplines because, unlike disciplines like medicine or engineering, we seldom have direct access to the whole object of interest.
+Indeed, to collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere are collected by devices attached to balloons or airplanes. 
+Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution: as shown in Figure~\ref{fig:watercolumns}, 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.85\textwidth]{figs/watercolumns}
+  \caption{An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m.}% 
+\label{fig:watercolumns}
+\end{figure}
+the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
+
+
 %%%
 \subsection{Points to voxels}
 
-The conversion from scattered points to grid is trivial: simply interpolate at regular locations in three dimensions (which represent the centre of each voxel) and output the results in the appropriate format (grids can be stored in many ways). 
+The conversion from scattered points to grid is trivial: simply interpolate at regular locations in three dimensions 
+\index{interpolation}\marginnote{interpolation}
+(which represent the centre of each voxel) and output the results in the appropriate format (grids can be stored in many ways). 
 Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
 \begin{figure}
   \centering
@@ -42,24 +79,36 @@ Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
 \end{figure}
 
 All the interpolation methods discussed during GEO1015 (Chapters~4 and~5) generalise to three dimensions.
-
-While most of the two-dimensional interpolation methods used in GIS intuitively extend to three dimensions, it is not obvious that they preserve their properties or are appropriate for geoscientific datasets.
+However, it is not obvious that they preserve their properties or are appropriate for geoscientific datasets.
 
 %%%
 \paragraph{Nearest neighbour.} 
-The method, based on the VD, generalises in a straightforward manner to 3D.
+The method, based on the Voronoi diagram (VD), 
+\index{Voronoi diagram}\marginnote{Voronoi diagram}
+generalises in a straightforward manner to 3D.
 It suffices to build the VD and to identify inside which cell the interpolation point lies.
 The VD can be bypassed if a three-dimensional $k$d-tree is used.
 
-%%%
-\paragraph{Natural neighbour interpolation.}
-The theory of this method also generalises in a straightforward manner to 3D.
-Instead of having stolen areas, we have stolen \emph{volumes}.
-However, although the concepts behind the method are simple and easy to understand, its implementation for the 3D case is far from being straightforward. 
-The main reasons are that it requires the computation of two VDs---one with and one without the interpolation point---and also the computation of volumes of Voronoi cells. 
-This involves algorithms for both constructing a VD and deleting a point from it.
 
-The volume of a $d$-dimensional Voronoi cell is computed by decomposing it into $d$-simplices---not necessarily Delaunay simplices---and summing their volumes. 
+%%%
+\paragraph{Inverse distance weighting (\textbf{IDW}).}
+The generalisation of this method to three dimensions is straightforward: a searching \emph{sphere} with a given radius is used. 
+The same problems with the one-dimensionality of the method (the value for the search radius) will be even worse because the search must be performed in one more dimension. 
+The method has too many problems to be considered  has a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution (and anisotropy is very frequent in 3D samples, see Lesson~2.2), and the criterion has to be selected carefully by the user.
+Note that the implementation problems are also similar to the ones encountered with the previous method, and an auxiliary data structure must be used to avoid testing all the points in a dataset.
+
+
+%%%
+\paragraph{Linear interpolation in tetrahedra.}
+This is the generalisation of the popular linear interpolation in TINs where the tetrahedra of the Delaunay tetrahedralisation (DT) are used. 
+The barycentric coordinates can be used to linearly interpolate inside a tetrahedron, as shown in Figure~\ref{fig:barycentric} the volumes of 4 tetrahedra are used (instead of the area for the 2D case.)
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{figs/barycentric}
+  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge.}% 
+\label{fig:barycentric}
+\end{marginfigure}
+
 The volume of a $d$-simplex $\sigma$ is easily computed:
 \begin{equation}
 vol(\sigma) = \frac{1}{d \, !} \left| \,  
@@ -72,43 +121,26 @@ vol(\sigma) = \frac{1}{d \, !} \left| \,
                         \right|
 \end{equation}  
 where $v^{i}$ is a $d$-dimensional vector representing the coordinates of a vertex and $\det()$ is the determinant of the matrix. 
-Triangulating a Voronoi cell is easily performed since it is a convex polytope.
 
-
-%%%
-\paragraph{Linear interpolation in tetrahedra.}
-This is the generalisation of the popular linear interpolation in TINs where the tetrahedra of the DT are used. 
-The barycentric coordinates can be used to linearly interpolate inside a tetrahedron, as shown in Figure~\ref{fig:barycentric} the volume of 4 tetrahedra is used (instead of the area for the 2D case.)
-\begin{marginfigure}
-  \centering
-  \includegraphics[width=0.9\textwidth]{figs/barycentric}
-  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge.}% 
-\label{fig:barycentric}
-\end{marginfigure}
 As explained above, finding tetrahedra having a good shape is not as easy as in two dimensions, and the presence of slivers yield bad results for the interpolation process. 
 To be used in practice, the shape of the tetrahedra is usually improved with techniques involving the insertion of new points and/or applying flips.
 
-%%%
-\paragraph{Nearest neighbour.} 
-Already discussed in Lesson~2.2.
-
-%%%
-\paragraph{Linear interpolation in tetrahedra}
-Already discussed in Lesson~2.2.
 
 %%%
 \paragraph{Natural neighbour interpolation.}
-Already discussed in Lesson~2.2.
+The theory of this method also generalises in a straightforward manner to 3D.
+Instead of having stolen areas, we have stolen \emph{volumes} between the Voronoi cells.
+However, although the concepts behind the method are simple and easy to understand, its implementation for the 3D case is far from being straightforward. 
+The main reasons are that it requires the computation of two VDs---one with and one without the interpolation point---and also the computation of volumes of Voronoi cells. 
+This involves algorithms for both constructing a VD and deleting a point from it.
+
+The volume of a $d$-dimensional Voronoi cell is computed by decomposing it into $d$-simplices---not necessarily Delaunay simplices---and summing their volumes. 
+Triangulating a Voronoi cell is easily performed since it is a convex polyhedron.
+
+
 
 %%%
-\paragraph{Inverse distance weighting (\textbf{IDW}).}
-The generalisation of this method to three dimensions is straightforward: a searching \emph{sphere} with a given radius is used. 
-The same problems with the one-dimensionality of the method will be even worse because the search must be performed in one more dimension. 
-The method has too many problems to be considered  has a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution (and anisotropy is very frequent in 3D samples, see Lesson~2.2), and the criterion has to be selected carefully by the user.
-Note that the implementation problems are also similar to the ones encountered with the previous method, and an auxiliary data structure must be used to avoid testing all the points in a dataset.
-
-%%%
-\paragraph{Kriging.}
+\paragraph{kriging.}
 All of the most common kriging varieties generalise to three dimensions without major changes, including simple kriging and ordinary kriging.
 In the simplest case, covariance functions, experimental variograms and fitted functions work exactly the same as in 2D but are computed using distances in 3D.
 
@@ -116,6 +148,8 @@ However, the vertical direction has a much weaker correlation than the horizonta
 Anisotropy is thus a much more significant factor in 3D and almost always has to be modelled.
 A minimal solution is a custom distance function that scales the vertical direction.
 A better (but still simple) solution involves computing multiple experimental variograms: two (for the horizontal plane \(x,y\) and for the vertical direction \(z\)) or three (for \(x\), \(y\) and \(z\)).
+
+
 
 %%%
 \subsection{Voxels to points}
@@ -155,28 +189,28 @@ As an alternative, one could use for instance the natural neighbour interpolatio
 Given a trivariate field $f(x,y,z) = a$, an isosurface is the set of points in space where $f(x,y,z) = a_0$, where $a_0$ is a constant. 
 Isosurfaces, also called \emph{level sets}, are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps. 
 Figure~\ref{fig:isosurface} shows one concrete example.
-\begin{figure}
+\begin{figure}*
   \centering
   \begin{subfigure}[b]{0.3\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/isosurface2}
     \caption{}
   \end{subfigure}%
-  \qquad
+  \quad
   \begin{subfigure}[b]{0.3\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/isosurface25}
     \caption{}
   \end{subfigure}
-  \qquad
+  \quad
   \begin{subfigure}[b]{0.3\linewidth}
     \centering
     \includegraphics[width=\textwidth]{figs/isosurface3}
     \caption{}
   \end{subfigure}
-\caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}
+\caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
 \label{fig:isosurface}
-\end{figure}
+\end{figure}*
 
 %
 
@@ -199,7 +233,7 @@ The major problem with the marching cubes algorithm is that the isosurface may c
 The ambiguities are shown in Figure~\ref{fig:isosurface_ambiguity} for the two-dimensional case when two vertices are above the threshold, and two under, and they form a `saddle'.
 \begin{figure}
   \centering
-  \includegraphics[width=0.6\textwidth]{figs/isosurface_ambiguity}
+  \includegraphics[width=0.7\textwidth]{figs/isosurface_ambiguity}
   \caption{Ambiguous extraction of an isoline where the attribute is 8.}% 
 \label{fig:isosurface_ambiguity}
 \end{figure}
@@ -311,10 +345,10 @@ This MSc thesis gives you an idea of what a (very good) thesis should look like,
 %
 \section{Exercises}
 
-% TODO : exercises?
 \begin{enumerate}
   \item Converting samples points to voxels require totally different algorithm if the samples point represent a field or an object. Discuss why.
   \item If the b-rep model of BK-city contains intersecting surfaces and has gaps/holes, will it be possible to mesh the model?
   \item For terrains, linear interpolation in a TIN is very popular and used. Why is it less popular for trivariate fields?
+  \item It is stated in the lesson that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron.''. Explain one method.
   \item In the methodology of \citet{Donkers16}, why are the dilation and erosion operators used? Are they always necessary? Can you think of a simple dataset where they could be skipped?
 \end{enumerate}
