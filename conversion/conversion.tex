@@ -18,12 +18,12 @@ It does not claim to be an overview of all potential conversions, but it rather 
 The lesson is divided into two distinct parts:
 \begin{description}
   \item[Fields:] conversions that are performed when we are dealing with a \emph{field}, let it be the temperature or the concentration of a certain chemical in the air (modelled as a 3D volume).
-  We name such field a trivariate field: each location ($x,y,z$) in space has one attribute.
+  We name such field a trivariate field: each location ($x,y,z$) in space has one attribute.%
   \index{trivariate field}\marginnote{trivariate field}
-  Voxels are usually what is used to represent, exchange, and analyse fields in 3D.
+  Voxels are usually what is used to represent, exchange, and analyse fields in 3D.%
   \index{voxels}\marginnote{voxels}
   \item[Objects:] when we are dealing with data (points, surfaces, and volumes) that represent the boundaries of objects in our environment. 
-  These can be sample points from lidar or dense matching of images, or the b-rep of some buildings (which have been reconstructed with different acquisition methods).
+  These can be sample points from lidar or dense matching of images, or the b-rep of some buildings (which have been reconstructed with different acquisition methods).%
   \index{b-rep}\marginnote{boundary representation (b-rep)}
 \end{description}
 
@@ -67,7 +67,7 @@ the distribution can be for instance dense vertically (with a sample every 2m in
 %%%
 \subsection{Points to voxels}
 
-The conversion from scattered points to grid is trivial: simply interpolate at regular locations in three dimensions 
+The conversion from scattered points to grid is trivial: simply interpolate at regular locations in three dimensions% 
 \index{interpolation}\marginnote{interpolation}
 (which represent the centre of each voxel) and output the results in the appropriate format (grids can be stored in many ways). 
 Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
@@ -83,7 +83,7 @@ However, it is not obvious that they preserve their properties or are appropriat
 
 %%%
 \paragraph{Nearest neighbour.} 
-The method, based on the Voronoi diagram (VD), 
+The method, based on the Voronoi diagram (VD),% 
 \index{Voronoi diagram}\marginnote{Voronoi diagram}
 generalises in a straightforward manner to 3D.
 It suffices to build the VD and to identify inside which cell the interpolation point lies.
@@ -162,7 +162,7 @@ Notice however that potentially a lot of the neighbouring points will be the sam
 
 %
 
-A better approach to this problem is to consider it as a simplification problem.
+A better approach to this problem is to consider it as a simplification problem.%
 \index{simplification}\marginnote{simplification}
 Given a set $S$ of points in $\mathbb{R}^3$ representing a field $f$ (where each point $p$ in $S$ as an attribute $a$ attached to itself), the aim is to find a subset $R$ of $S$ which will approximate $f$ as accurately as possible, using as few points as possible. 
 The subset $R$ will contain the `important' points of $S$, \ie\ a point $p$ is important when $a$ at location $p$ can not be accurately estimated by using the neighbours of $p$.
@@ -173,13 +173,13 @@ The two algorithms described in the GEO1015 book (Section~8.3) can in theory be 
 \begin{figure}
   \centering
   \includegraphics[width=0.85\linewidth]{figs/mesh_simplification}
-  \caption{The importance measure of a point can be expressed by its error. When this error is greater than a given threshold $\epsilon_{max}$, the point is kept ($p_1$), else it is discarded ($p_2$).}%
+  \caption{The importance measure of a point can be expressed by its error. When this error is greater than a given threshold $\epsilon_{\max}$, the point is kept ($p_1$), else it is discarded ($p_2$).}%
 \label{fig:meshsimplification}
 \end{figure}
 Both strategies (decimation and refinement) can be implemented.
 
 The error associated with each point $p$, denoted error($p$), is calculated by interpolating at location $p$ after $p$ has been temporarily removed from the field, and comparing the value obtained with the real attribute $a$ of $p$, thus error($p) = |a - estimation|$. 
-As shown in Figure~\ref{fig:meshsimplification} for a one-dimensional case, when the error is more than $\epsilon_{max}$ then the point must be kept, if it is less then the point can be discarded.
+As shown in Figure~\ref{fig:meshsimplification} for a one-dimensional case, when the error is more than $\epsilon_{\max}$ then the point must be kept, if it is less then the point can be discarded.
 
 The method for 2D fields in GEO1015 uses linear interpolation in triangles, that is after $p$ has been temporarily deleted from DT($S$), the triangulation is updated and the estimation is obtained with the triangle containing location $p$. 
 However, since mentioned earlier, using the DT in 3D for interpolation is not advised (because they contain slivers).
@@ -250,7 +250,7 @@ The three-dimensional case is similar, with many more cases possible.
 Although it is possible to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide each cell into simplices (cubes into tetrahedra in 3D). 
 The so-called \emph{Marching Tetrahedra} algorithm is very simple: each tetrahedron is tested for the intersection with the isosurface, and triangular faces are extracted from the tetrahedra by linear interpolation on the edges. 
 The resulting isosurface is guaranteed to be topologically consistent (\ie\ will not contain holes), except at the border of the dataset. 
-But again, if a ``big tetrahedron'' 
+But again, if a ``big tetrahedron''% 
 \index{big tetrahedron}\marginnote{big tetrahedron}
 is used where the vertices are assigned to a value lower than the minimum value of the field, then all the isosurfaces extracted are guaranteed to be `watertight'. 
 The nice thing about the algorithm is that only three cases for the intersection of the isosurface and a tetrahedron can arise:
@@ -359,6 +359,6 @@ Although \citet{Wilhems90} describe various methods to fix the ambiguities, as i
   \item Converting samples points to voxels require totally different algorithm if the samples point represent a field or an object. Discuss why.
   \item If the b-rep model of BK-city contains intersecting surfaces and has gaps/holes, will it be possible to mesh the model?
   \item For terrains, linear interpolation in a TIN is very popular and used. Why is it less popular for trivariate fields?
-  \item It is stated in the lesson that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron.''. Explain one method.
+  \item It is stated in the lesson that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron''. Explain one method.
   \item In the methodology of \citet{Donkers16}, why are the dilation and erosion operators used? Are they always necessary? Can you think of a simple dataset where they could be skipped?
 \end{enumerate}
