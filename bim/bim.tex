@@ -48,26 +48,26 @@ This means that BIMs are usually more detailed and have semantics that are more 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\linewidth]{figs/volumetric.pdf}
+\includegraphics[width=\linewidth]{figs/volumetric.pdf}
 \caption{BIM models focus on volumetric physical elements (centre), whereas 3D GIS models focus on semantic surfaces (left) and the voids between them (right).}%
 \label{fig:volumetric}
 \end{figure}
 
 
-\begin{table}[H]
+\begin{table}
 	\centering
 	\small
-	\begin{tabular}{|m{2.5cm}|m{3.5cm}|m{3.5cm}|}
+	\begin{tabular}{|m{2.3cm}|m{3.5cm}|m{3.5cm}|}
 		\hline
 		& \textbf{3D city models} & \textbf{BIM}  \\ \hline
-		\textit{Geometry} & mainly boundary representation (explicit) & mainly parametrically modelled solids (implicit) \\ \hline
-		\textit{Main data source }& survey of real world objects & design \\ \hline
-		\textit{Approximate range of detail (d)} & $1000>d>0.1 m$ & $50>d>0.001 m$ \\ \hline
-		\textit{Semantics} & aimed at the description of city/landscape representation & aimed at the description of small building elements representation  \\ \hline
-		\textit{Georeferencing} & compulsory & optional  \\ \hline
-		\textit{Supported analysis and decisions} & city-level & building-level \\ \hline
-		\textit{Evolution of} & Geographical Information Systems (GIS) & Computer-Aided Design (CAD) \\ \hline
-		\textit{Dominated by} & government & industry \\ \hline
+		\texttt{Geometry} & mainly boundary representation (explicit) & mainly parametrically modelled solids (implicit) \\ \hline
+		\texttt{Main data source }& survey of real world objects & design \\ \hline
+		\texttt{Approximate range of detail (d)} & $1000>d>0.1 m$ & $50>d>0.001 m$ \\ \hline
+		\texttt{Semantics} & aimed at the description of city/landscape representation & aimed at the description of small building elements representation  \\ \hline
+		\texttt{Georeferencing} & compulsory & optional  \\ \hline
+		\texttt{Supported analysis and decisions} & city-level & building-level \\ \hline
+		\texttt{Evolution of} & Geographical Information Systems (GIS) & Computer-Aided Design (CAD) \\ \hline
+		\texttt{Dominated by} & government & industry \\ \hline
 	\end{tabular}
 	\caption{Comparison between 3D city models features and BIM aspects.}%
 	\label{tab:vs}
@@ -113,15 +113,15 @@ Apart from the core applications of BIM in managing a building's lifecycle menti
 
 \section{IFC}
 
-BIM is an industry-dominated field, and software-specific file formats are still the main way in which files are exchanged, such as using the native formats of Autodesk's Revit\footnote{\url{https://www.autodesk.com/products/revit/overview}} and Graphisoft's ArchiCAD\footnote{\url{https://www.graphisoft.com/archicad/}} (BIMx).
+BIM is an industry-dominated field, and software-specific file formats are still the main way in which files are exchanged, such as using the native formats of Autodesk's Revit\marginnote{\url{https://www.autodesk.com/products/revit/overview}} and Graphisoft's ArchiCAD\marginnote{\url{https://www.graphisoft.com/archicad/}} (BIMx).
 However, such formats are only well supported by their corresponding software programs, which leads to interoperability problems when exchanging files.
 
-As a way to solve this problem, the buildingSMART consortium, which notably includes a number of software companies (including Autodesk and the Graphisoft-owning Nemetschek Group)\footnote{\url{https://www.buildingsmart.org/members/member-directory/}}, created the industry foundation classes (IFC)\footnote{\url{http://www.buildingsmart-tech.org/specifications/ifc-releases}} as an open data model for the exchange of BIM models.
+As a way to solve this problem, the buildingSMART consortium, which notably includes a number of software companies (including Autodesk and the Graphisoft-owning Nemetschek Group)\marginnote{\url{https://www.buildingsmart.org/members/member-directory/}}, created the industry foundation classes (IFC)\marginnote{\url{http://www.buildingsmart-tech.org/specifications/ifc-releases}} as an open data model for the exchange of BIM models.
 IFC has been further standardised as ISO 16739~\citep{ISO16739:2013} with its geometry definitions in ISO 10303~\citep{ISO10303:2014}.
 
 IFC files are often large (hundreds of MBs), and their structure is rather complex.
 
-They can contain many types of classes (130 defined types, 217 enumeration types, 60 select types, 816 entities, 47 functions, 2 rules, 415 property sets, 93 quantity sets and 1697 individual properties in IFC 4.2\footnote{\url{https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/}}), which are defined using the EXPRESS data modelling language.
+They can contain many types of classes (130 defined types, 217 enumeration types, 60 select types, 816 entities, 47 functions, 2 rules, 415 property sets, 93 quantity sets and 1697 individual properties in IFC 4.2\marginnote{\url{https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/}}), which are defined using the EXPRESS data modelling language.
 Among others, there are several classes to model actors (\eg\ people and organisations), controls (\eg\ specifications, regulations, schedules and other requirements), processes (\eg\ actions during construction), products (\eg\ physical building elements and other spatially defined objects), the project itself (\eg\ where it is placed), and resources (\eg\ cost, materials and equipment), as well as groups of other classes (\eg\ those having a common purpose).
 In the rest of this handout, we will mostly focus on products.
 
@@ -175,7 +175,7 @@ This reflects the fact that in BIM and CAD, objects are generally modelled indep
 In practice, this means that the location of an independently-modelled element is defined by a hierarchy of transformations.
 For example, these levels can correspond to the levels in a decomposition structure (typically a site, project, building and individual floors), or link an element to another element (a dependent element linked to one it is attached to).
 
-In concrete terms, a product in IFC (\ie\ \texttt{IfcProduct}, which is a superclass of \texttt{IfcElement}), is linked to a geometry (\ie\ \texttt{IfcProductRepresentation}) and to the local coordinate system that defines its location (\ie\ \texttt{IfcObjectPlacement}).
+In concrete terms, a product in IFC (\ie\ \texttt{IfcProduct}, which is a superclass of \texttt{IfcElement}), is linked to a geometry (\ie\ \texttt{IfcProductRepresentation}) and to the local coordinate system that defines its location (\ie\ \texttt{Ifc\-Ob\-ject\-Place\-ment}).
 The latter can be absolute (\ie\ defined with respect to the whole project's coordinate system) or relative (\ie\ defined with respect to another product).
 
 \subsection{Geometry}
@@ -200,7 +200,7 @@ These paradigms can be used independently or combined with each other in a hiera
 #17084= IFCRECTANGLEPROFILEDEF(.AREA.,'',#17083,0.885,2.01);
 \end{lstlisting}
 \caption{Defining a rectangular profile (\ie\ \texttt{IfcRectangleProfileDef}) parametrically.
-The rectangle extends 0.885 units along the x-axis, which is defined by the direction given in its \texttt{IfcAxis2Placement2D} \((1,0)\), and 2.01 units along the y-axis (perpendicular to the x-axis).}%
+The rectangle extends 0.885 units along the x-axis, which is defined by the direction given in its \texttt{IfcAxis2Placement2D} \((1,0)\), and 2.01 units along the \(y\)-axis (perpendicular to the \(x\)-axis).}%
 \label{fig:parametric}
 \end{figure}
 
@@ -210,6 +210,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 	\includegraphics[width=\linewidth]{figs/profiles}%
 	\label{subfig:profiles}
 \end{subfigure}
+\quad
 \begin{subfigure}[b]{0.45\linewidth}
 	\includegraphics[width=\linewidth]{figs/letter_profiles}%
 	\label{subfig:letter-profiles}
@@ -260,45 +261,45 @@ Every point is defined as an \texttt{IfcCartesianPoint}, then the polygon is def
 \end{figure}
 
 
-Two constructs (and related IFC classes) are particularly important: \textit{IfcOpenings} and \textit{IfcSpaces}.
+Two constructs (and related IFC classes) are particularly important: \texttt{IfcOpenings} and \texttt{IfcSpaces}.
 
 Subtraction relationships are part of the IFC model, representing openings by means of the voiding mechanism:
-\textit{IfcOpening} defines the objects used to be subtracted from another geometry (\eg\ an \textit{IfcWall} or an \textit{IfcSlab}) in order to generate an opening in a consistent way, according to the data model.
-The \textit{IfcOpening} can be in turn filled by an element, like an \textit{IfcWindow} or \textit{IfcDoor}.
+\texttt{IfcOpening} defines the objects used to be subtracted from another geometry (\eg\ an \texttt{IfcWall} or an \texttt{IfcSlab}) in order to generate an opening in a consistent way, according to the data model.
+The \texttt{IfcOpening} can be in turn filled by an element, like an \texttt{IfcWindow} or \texttt{IfcDoor}.
 
-A second important element is the explicit modelling of \textit{IfcSpaces}, which are filling the empty spaces (for example, rooms) and defining them.
+A second important element is the explicit modelling of \texttt{IfcSpaces}, which are filling the empty spaces (for example, rooms) and defining them.
 It is possible to associate attributes to them, and their geometry is generally very relevant to conversion procedures.
 
 \subsection{Semantics}
 
 The semantics in an IFC file are stored within a structure of entities, attributes and relationships similar to any information system data model.
 
-An example of entities (classes) is given by all the subentities of \texttt{IfcBuildingElement}, including: \texttt{IfcBeam}, \texttt{IfcBuildingElementComponent}, \texttt{IfcBuildingElementProxy}, \texttt{Ifc\-Chim\-ney}, \texttt{Ifc\-Co\-lumn}, \texttt{IfcCovering}, \texttt{IfcCurtainWall}, \texttt{IfcDoor}, \texttt{IfcFooting}, \texttt{IfcMember}, \texttt{IfcPile}, \texttt{Ifc\-Plate}, \texttt{Ifc\-Rai\-ling}, \texttt{IfcRamp}, \texttt{Ifc\-Ramp\-Flight}, \texttt{IfcRoof}, \texttt{IfcShadingDevice}, \texttt{IfcSlab}, \texttt{Ifc\-Stair}, \texttt{Ifc\-Stair\-Flight}, \texttt{IfcWall}, and \texttt{Ifc\-Win\-dow}.
+An example of entities (classes) is given by all the subentities of \texttt{Ifc\-Buil\-ding\-E\-le\-ment}, including: \texttt{Ifc\-Beam}, \texttt{Ifc\-Buil\-ding\-E\-le\-ment\-Com\-po\-nent}, \texttt{Ifc\-Buil\-ding\-E\-le\-ment\-Pro\-xy}, \texttt{Ifc\-Chim\-ney}, \texttt{Ifc\-Co\-lumn}, \texttt{Ifc\-Co\-ve\-ring}, \texttt{Ifc\-Cur\-tain\-Wall}, \texttt{Ifc\-Door}, \texttt{Ifc\-Foo\-ting}, \texttt{Ifc\-Mem\-ber}, \texttt{Ifc\-Pile}, \texttt{Ifc\-Plate}, \texttt{Ifc\-Rai\-ling}, \texttt{Ifc\-Ramp}, \texttt{Ifc\-Ramp\-Flight}, \texttt{Ifc\-Roof}, \texttt{Ifc\-Sha\-ding\-De\-vice}, \texttt{Ifc\-Slab}, \texttt{Ifc\-Stair}, \texttt{Ifc\-Stair\-Flight}, \texttt{Ifc\-Wall}, and \texttt{Ifc\-Win\-dow}.
 %
 %These can be used to represent the different functions that a building element has, although there is also a commonly used generic one (\ie\ \texttt{IfcBuildingElementProxy}) that does not provide this information.
 Similar subentities exist in other parts of the standard, such as for distribution elements (\eg\ for heating, cooling, ventilation and plumbing).
 The concepts represented in IFC are organized in four conceptual layers, as represented in Figure~\ref{fig:ifclayers}.
 
-\begin{figure}[ht!]
+\begin{figure}
 	\begin{center}
-		\includegraphics[width=2\columnwidth]{figs/IFC4LayeredArchitecture.png}
+		\includegraphics[width=\linewidth]{figs/IFC4LayeredArchitecture.png}
 		\caption{{The four layers in which the Industry Foundation Classes are organised. Source: IFC4.1 specification}}%
 		\label{fig:ifclayers}
 	\end{center}
 \end{figure}
 
 The core layer contains the classes which are central and most general in the data model.
-In particular, the Kernel contains the root classes for the definition of objects, relationships and properties and their relationships (\eg\ \textit{IfcRoot}, superclass of all the other entities; \textit{IfcRelationship}, superclass of all relationships; \textit{IfcObject}, which is the parent entity of \textit{IfcGroup, IfcActor, IfcResource, IfcControl, IfcProcess, IfcProject} and \textit{IfcProduct}, being specified in the further extensions of the model).
+In particular, the Kernel contains the root classes for the definition of objects, relationships and properties and their relationships (\eg\ \texttt{IfcRoot}, superclass of all the other entities; \texttt{IfcRelationship}, superclass of all relationships; \texttt{IfcObject}, which is the parent entity of \texttt{IfcGroup}, \texttt{IfcActor}, \texttt{IfcResource}, \texttt{Ifc\-Con\-trol}, \texttt{IfcProcess}, \texttt{IfcProject} and \texttt{IfcProduct}, being specified in the further extensions of the model).
 In the core layer there are also the three main extensions representing the foreseen possible representations by IFC:\@ product, control and process.
 
-The interoperability layer includes classes specializing those defined in the \textit{IfcProductExtension} schema, increasing the level of detail of the represented information. The included entities can be of interest to multiple domains.
+The interoperability layer includes classes specializing those defined in the \texttt{IfcProductExtension} schema, increasing the level of detail of the represented information. The included entities can be of interest to multiple domains.
 
-Some even more specific information can be represented through the domain specific part of the schema, which can specify either classes represented in the interoperability layer or in the product extension directly (\textit{IfcArchitectureDomain, IfcBuildingControlsDomain, IfcConstructionMgmtDomain, IfcElectricalDomain, IfcHvacDomain, IfcPlumbingFireProtectionDomain, IfcStructuralAnalysisDomain, IfcStructuralElementsDomain}).
+Some even more specific information can be represented through the domain specific part of the schema, which can specify either classes represented in the interoperability layer or in the product extension directly (\texttt{IfcArchitectureDomain}, \texttt{IfcBuildingControlsDomain}, \texttt{Ifc\-Cons\-truc\-tion\-Mgmt\-Do\-main}, \texttt{IfcElectricalDomain}, \texttt{IfcHvacDomain}, \texttt{Ifc\-Plum\-bing\-Fire\-Pro\-tec\-tion\-Do\-main}, \texttt{Ifc\-Struc\-tu\-ral\-A\-na\-ly\-sis\-Do\-main}, \texttt{Ifc\-Struc\-tu\-ral\-E\-le\-ments\-Do\-main}).
 
 The resource layer defines entities to further describe the objects defined in the other levels.
 
-In order to represent objects which are not included in the IFC model, an \textit{IfcProxy} element is foreseen, as a subclass of \textit{IfcProduct}.
-In particular, the entity \textit{IfcBuildingElementProxy} is frequently used in models to substitute other entities.
+In order to represent objects which are not included in the IFC model, an \texttt{IfcProxy} element is foreseen, as a subclass of \texttt{IfcProduct}.
+In particular, the entity \texttt{IfcBuildingElementProxy} is frequently used in models to substitute other entities.
 This is useful in order not to prevent the addition of customised entities to models. However, many times this is instead used (or misused) to represent also objects which have suitable entities in the IFC model.
 This is a problem, since a correct interpretation of such models from the semantic point of view becomes more difficult, requiring either manual work or complex inferences based on their geometry.
 
@@ -309,8 +310,8 @@ Although the richness of the data model is not thoroughly used within the BIMs,
 IFC classes are structured in a deep hierarchies (is-a relationships), additionally organized in
 meronymic (part-of) trees too.
 
-Spatial composition, by means of \textit{IfcSpatialStructureElements}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD1/HTML/schema/ifcproductextension/lexical/ifcspatialstructureelement.htm}} (Site/Building/Storey/Space/Zone) is one more kind of aggregation, different from the element (meronymical) composition one (\eg\ a stair and the assembled elements in it).
-\textit{IfcSpatialStructureElement} is used to define a spatial units structure, by means of which the building project is organized.
+Spatial composition, by means of \texttt{IfcSpatialStructureElements}\marginnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD1/HTML/schema/ifcproductextension/lexical/ifcspatialstructureelement.htm}} (Site / Building / Storey / Space / Zone) is one more kind of aggregation, different from the element (meronymical) composition one (\eg\ a stair and the assembled elements in it).
+\texttt{IfcSpatialStructureElement} is used to define a spatial units structure, by means of which the building project is organized.
 
 Elements are also related to one another for example for wall connectivity and space boundaries.
 
@@ -332,7 +333,7 @@ Another example is given in Figure~\ref{fig:pset}, where custom properties are d
 	#991628=IFCPROPERTYSINGLEVALUE('Structural Usage',$,IFCINTEGER(10),$);
 	#991629=IFCPROPERTYSINGLEVALUE('Analyze As',$,IFCINTEGER(1),$);
 	#991630=IFCPROPERTYSINGLEVALUE('Volume',$,IFCVOLUMEMEASURE(13602936.00000029),$);
-	\end{lstlisting}
+\end{lstlisting}
 	\caption{Defining properties to store the semantics in an IFC model.}%
 	\label{fig:pset}
 \end{figure}
@@ -384,49 +385,49 @@ Properly georeferencing an IFC file makes it possible to link the (local) coordi
 However, it is important to say that, since it was not a need for designers, most IFC models were not georeferenced properly (or at all), which is a major issue in practice.
 
 
-There are several options to store georeferencing information in IFC, as described by \citet{clemen2019level}. %Francesca: Can we add references?
+There are several options to store georeferencing information in IFC, as described by \citet{clemen2019level}.
 These options range from basic address information to the definition of a more detailed position referred to a projected coordinate reference system (CRS).
 In this last case, an offset can be stored between the project coordinate system and the global origin of a CRS ($X$, $Y$ and height).
-The rotation of the $XY$-plane is also included (\Reftab{tab:LoGeoRefs}).
+The rotation of the $XY$-plane is also included (Table~\ref{tab:LoGeoRefs}).
 
-\begin{table}[H]
+\begin{table}
 	\centering
 	\small
-	\begin{tabular}{|m{1.5cm}|m{2.5cm}|m{7cm}|}
+	\begin{tabular}{|m{1.6cm}|m{2.2cm}|m{5.5cm}|}
 		\hline
 		\textbf{LoGeoRef} & \textbf{Supported CRS} & \textbf{Storing entities} \\ \hline
-		\textit{LoGeoRef10} & No CRS, approximate location by means of the address. & \textit{IfcPostalAddress} referenced by either \textit{IfcSite} or \textit{IfcBuilding}. \\ \hline
-		\textit{LoGeoRef20}& WGS84 EPSG:4326 & Attributes \textit{RefLatitude, RefLongitude, RefElevation} within \textit{IfcSite} \\ \hline
-		\textit{LoGeoRef30} & Any Cartesian CRS, including projected coordinates (CRS not specified in the file) & \textit{IfcCartesianPoint} referenced within \textit{IfcSite} (defining the projected coordinates of the model reference point); \textit{IfcDirection} attribute of \textit{IfcSite}.% (stores rotations with respect to the project or global north).
+		\texttt{LoGeoRef10} & No CRS, approximate location by means of the address. & \texttt{IfcPostalAddress} referenced by either \texttt{IfcSite} or \texttt{IfcBuilding}. \\ \hline
+		\texttt{LoGeoRef20}& WGS84 EPSG:4326 & Attributes \texttt{RefLatitude, RefLongitude, RefElevation} within \texttt{IfcSite} \\ \hline
+		\texttt{LoGeoRef30} & Any Cartesian CRS, including projected coordinates (CRS not specified in the file) & \texttt{IfcCartesianPoint} referenced within \texttt{IfcSite} (defining the projected coordinates of the model reference point); \texttt{IfcDirection} attribute of \texttt{IfcSite}.% (stores rotations with respect to the project or global north).
 		\tablefootnote{Ad-hoc solution used by several tools.} \\ \hline
-		\textit{LoGeoRef40} & Any Cartesian CRS, including projected coordinates (CRS not specified in the file) & Attribute \textit{WorldCoordinateSystem} storing the coordinates of the reference point in any Cartesian CRS (including the projected ones) and direction \textit{TrueNorth}. Both are stored within \textit{IfcGeometricRepresentationContext}.\tablefootnote{Most official IFC2x3-way to store the reference system.} \\ \hline
-		\textit{LoGeoRef50} & Specific projected CRS, specified by means of the EPSG code & IFC v.4 only\tablefootnote{The IFC4 way of documenting the used CRS and other georeferencing parameters was proposed to be backported to property sets also for the version 2x3 of IFC\@. (\url{https://forums.buildingsmart.org/t/geolocation-standards-in-ifc2x3-and-ifc4/2329}). This could enable the achievement of \textit{LoGeoRef50} even for IFC2x3 files.}. Coordinates of the reference point stored in \textit{IfcMapConversion} using the attributes \textit{Eastings},	\textit{Northings} and \textit{OrthogonalHeight} for global elevation. Rotation for the XY-plane stored using the attributes \textit{XAxisAbscissa} and \textit{XAxisOrdinate}. The coordinate reference system (CRS) used is specified by \textit{IfcProjectedCRS} in the attribute \textit{Name} by means of the proper EPSG code.  \\ \hline
+		\texttt{LoGeoRef40} & Any Cartesian CRS, including projected coordinates (CRS not specified in the file) & Attribute \texttt{WorldCoordinateSystem} storing the coordinates of the reference point in any Cartesian CRS (including the projected ones) and direction \texttt{TrueNorth}. Both are stored within \texttt{IfcGeometricRepresentationContext}.\tablefootnote{Most official IFC2x3-way to store the reference system.} \\ \hline
+		\texttt{LoGeoRef50} & Specific projected CRS, specified by means of the EPSG code & IFC v.4 only\tablefootnote{The IFC4 way of documenting the used CRS and other georeferencing parameters was proposed to be backported to property sets also for the version 2x3 of IFC\@. (\url{https://forums.buildingsmart.org/t/geolocation-standards-in-ifc2x3-and-ifc4/2329}). This could enable the achievement of \texttt{LoGeoRef50} even for IFC2x3 files.}. Coordinates of the reference point stored in \texttt{IfcMapConversion} using the attributes \texttt{Eastings},	\texttt{Northings} and \texttt{OrthogonalHeight} for global elevation. Rotation for the XY-plane stored using the attributes \texttt{XAxisAbscissa} and \texttt{XAxisOrdinate}. The coordinate reference system (CRS) used is specified by \texttt{IfcProjectedCRS} in the attribute \texttt{Name} by means of the proper EPSG code.  \\ \hline
 	\end{tabular}
-	\caption{Synthesis of \textit{LoGeoRefs} as defined by \citet{clemen2019level}.}%
+	\caption{Synthesis of \texttt{LoGeoRefs} as defined by \citet{clemen2019level}.}%
 	\label{tab:LoGeoRefs}
 \end{table}
 
 
 However, those levels do not necessarily indicate a scale measuring the quality of georeferencing, but they are mostly relevant to identify how the information is stored.
-In fact, in some cases, the accuracy of different \textit{LoGeoRefs} can be absolutely similar (e.g.\ \textit{LoGeoRef30} and \textit{LoGeoRef40}), since the values are supposed to be the same, but stored differently within the IFC file.
+In fact, in some cases, the accuracy of different \texttt{LoGeoRefs} can be absolutely similar (e.g.\ \texttt{LoGeoRef30} and \texttt{LoGeoRef40}), since the values are supposed to be the same, but stored differently within the IFC file.
 
 %A further note is useful about the storage of the model reference system direction.
-%In the \textit{LoGeoRef40} the stored direction represents the \textit{TrueNorth}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x2/FINAL/HTML/ifcrepresentationresource/lexical/ifcgeometricrepresentationcontext.html}} attribute, defined as \textit{``Direction of the true north relative to the world coordinate system as established by the representation context''}.
-%As also cited in the buildingSMART document about georeferencing\footnote{\url{https://www.buildingsmart.org/wp-content/uploads/2020/02/User-Guide-for-Geo-referencing-in-IFC-v2.0.pdf}}, this could be different from the grid north, considering a Cartesian system and possibly stored as part of the \textit{IfcObjectPlacement} within \textit{IfcSite} (inherited from the class \textit{IfcSpatialStructureElement} and, in turn, \textit{IfcProduct}), according to \textit{LoGeoRef30}.
-As defined in the IFC specifications\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometricconstraintresource/lexical/ifcobjectplacement.html}} \textit{``The object placement can be given:
+%In the \texttt{LoGeoRef40} the stored direction represents the \texttt{TrueNorth}\marginnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x2/FINAL/HTML/ifcrepresentationresource/lexical/ifcgeometricrepresentationcontext.html}} attribute, defined as \texttt{``Direction of the true north relative to the world coordinate system as established by the representation context''}.
+%As also cited in the buildingSMART document about georeferencing\marginnote{\url{https://www.buildingsmart.org/wp-content/uploads/2020/02/User-Guide-for-Geo-referencing-in-IFC-v2.0.pdf}}, this could be different from the grid north, considering a Cartesian system and possibly stored as part of the \texttt{IfcObjectPlacement} within \texttt{IfcSite} (inherited from the class \texttt{IfcSpatialStructureElement} and, in turn, \texttt{IfcProduct}), according to \texttt{LoGeoRef30}.
+As defined in the IFC specifications\marginnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometricconstraintresource/lexical/ifcobjectplacement.html}} \emph{``The object placement can be given:
 	absolute (\ie\ by an axis2 placement, relative to the world coordinate system);
 	relative (\ie\ by an axis2 placement, relative to the object placement of another product);
 	by grid reference (\ie\ by the virtual intersection and reference direction given by two axes of a design grid).
 	In any case the object placement has to unambiguously define the object coordinate system as either two-dimensional axis placement (IfcAxis2Placement2D) or three-dimensional axis placement (IfcAxis2Placement3D).''}
 
-In the case of \textit{IfcSite}, usually it is specified as \textit{IfcLocalPlacement}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometricconstraintresource/lexical/ifclocalplacement.html}}, with attributes: \textit{PlacementRelTo} (which, if omitted, indicates the World Coordinate System to be in theory defined within the geometric representation context) and \textit{RelativePlacement}, filled by means of an \textit{IfcAxis2Placement} class, specified as \textit{IfcAxis2Placement3D}\footnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometryresource/lexical/ifcaxis2placement3d.html}}.
-There, the attributes represented are usually: Location (inherited by \textit{IfcPlacement} and stored as \textit{IfcCartesianPoint}); Axis (representing the direction of the local $Z$ axis); \textit{RefDirection}, storing the direction of the $X$ axis.
-It is relevant to note that in this case the direction of $X$ is stored, whilst in the \textit{LoGeoRef40} case, under \textit{IfcGeometricRepresentationContext} - \textit{TrueNorth} attribute, the $Y$ direction of a possible Cartesian system is stored.
-Therefore, the values of two vectors composing the \textit{IfcDirection} are inverted in the two cases.
+In the case of \texttt{IfcSite}, usually it is specified as \texttt{IfcLocalPlacement}\marginnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometricconstraintresource/lexical/ifclocalplacement.html}}, with attributes: \texttt{PlacementRelTo} (which, if omitted, indicates the World Coordinate System to be in theory defined within the geometric representation context) and \texttt{RelativePlacement}, filled by means of an \texttt{IfcAxis2Placement} class, specified as \texttt{IfcAxis2Placement3D}\marginnote{\url{https://standards.buildingsmart.org/IFC/RELEASE/IFC2x/ADD1/HTML/ifcgeometryresource/lexical/ifcaxis2placement3d.html}}.
+There, the attributes represented are usually: Location (inherited by \texttt{IfcPlacement} and stored as \texttt{IfcCartesianPoint}); Axis (representing the direction of the local $Z$ axis); \texttt{RefDirection}, storing the direction of the $X$ axis.
+It is relevant to note that in this case the direction of $X$ is stored, whilst in the \texttt{LoGeoRef40} case, under \texttt{IfcGeometricRepresentationContext} - \texttt{TrueNorth} attribute, the $Y$ direction of a possible Cartesian system is stored.
+Therefore, the values of two vectors composing the \texttt{IfcDirection} are inverted in the two cases.
 This must be considered when developing software applications reading the data in the two cases.
 
-In the specifications, it is established that, whether omitted, the reference should be the geometric coordinate system (used in \textit{LoGeoRef40}).
-It is therefore necessary to be careful in the priority given to the information stored in the two systems: \textit{LoGeoRef30} should be read first, if absent, then go to \textit{LoGeoRef40}.
+In the specifications, it is established that, whether omitted, the reference should be the geometric coordinate system (used in \texttt{LoGeoRef40}).
+It is therefore necessary to be careful in the priority given to the information stored in the two systems: \texttt{LoGeoRef30} should be read first, if absent, then go to \texttt{LoGeoRef40}.
 
 
 
