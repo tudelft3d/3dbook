@@ -112,27 +112,33 @@ To avoid the fact that every city/country defines its own classes to decompose a
 \index{CityJSON}
 
 CityGML is an open data model to represent semantic 3D models of cities and landscapes, and it is standardised by the Open Geospatial Consortium (OGC). 
-\marginnote{\url{https://www.opengeospatial.org/standards/citygml}}
+\marginnote{\faExternalLink\ \url{https://www.opengeospatial.org/standards/citygml}}
 Its first version (v1.0.0) was released in 2008, and the current version (v3.0.0) in 2021.
 
 The classes possible in CityGML are grouped into different modules, as can be seen in Figure~\ref{fig:citygml_modules}.
-\begin{figure}
+\begin{marginfigure}
   \centering
-  \includegraphics[width=0.75\linewidth]{figs/citygml_modules.png}
+  \includegraphics[width=\linewidth]{figs/citygml_modules.png}
   \caption{The modules of the CityGML data model.}%
 \label{fig:citygml_modules}
-\end{figure}
-
-%
-
-Figure~\ref{fig:citygml_uml_core} shows the core module of CityGML\@.
-As can be noticed, the language UML is used, and it is a rather complex model.
+\end{marginfigure}
+In the specifications, each module is described with text and the UML diagram of the classes is available.
+Figure~\ref{fig:citygml_uml_core} shows the core module, and Figure~\ref{fig:citygml_uml_building} the classes for the Building module.
+It can be seen that both the exterior and the interior of a building can be described, a building can for instance have different rooms (\emph{BuildingRoom}), different storeys or units (\texttt{BuildingStorey} and \texttt{BuildingUnit}), but also installations (\eg\ chimneys, antennas, balconies, etc.).
 \begin{figure*}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/citygml_uml_core}
   \caption{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2021 Open Geospatial Consortium, Inc.)}%
 \label{fig:citygml_uml_core}
 \end{figure*}
+\begin{figure*}
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/citygml_uml_building}
+  \caption{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2021 Open Geospatial Consortium, Inc.)}%
+\label{fig:citygml_uml_building}
+\end{figure*}
+
+
 
 %
 
@@ -145,7 +151,7 @@ Figure~\ref{fig:officiallods}
 \begin{marginfigure}
   \centering
   \includegraphics[width=\textwidth]{figs/CityGML-LODs-c3.png}
-  \caption{The four LODs for buildings in CityGML\@.}%
+  \caption{The four LoDs in CityGML for the exterior of a building.}%
 \label{fig:officiallods}
 \end{marginfigure}
 shows the ones for the buildings, and they are as follows:
@@ -256,7 +262,8 @@ Based on the CityGML data model, there exist three encodings:
 \begin{enumerate}
   \item XML-based encoding, also called ``CityGML''
   \item CityJSON
-  \item a database schema called 3DCityDB, which can be implemented both for PostgreSQL and Oracle Spatial. This is not an official standard. Details at \url{https://www.3dcitydb.org/3dcitydb/}
+  \item a database schema called 3DCityDB, which can be implemented both for PostgreSQL and Oracle Spatial. This is not an official standard, but is nonetheless used by several municipalities around the world.
+  \marginnote{\faExternalLink\ \url{https://www.3dcitydb.org}}
 \end{enumerate}
 We discuss in the following the first two.
 
@@ -265,16 +272,16 @@ We discuss in the following the first two.
 \section[XML-encoded CityGML]{The XML encoding of CityGML}%
 \label{sec:citygmlxml}
 
-The XML encoding of the CityGML data model is an application schema of GML, the \emph{Geography Markup Language}, also standardised by the OGC\marginnote{GML specifications: \url{https://www.opengeospatial.org/standards/gml}}.
+The XML encoding of the CityGML data model is an application schema of GML, the \emph{Geography Markup Language}, also standardised by the OGC\marginnote{GML specifications: \faExternalLink\ \url{https://www.opengeospatial.org/standards/gml}}.
 
 Observe that both the data model and the XML encoding are officially called `CityGML', but that since this is too confusing in practice, in this book we refer to the data model by using simply `CityGML', and to the encoding by using `CityGML-XML'.
 \marginnote{CityGML vs CityGML-XML}
 
-\begin{kaobox-toread}[frametitle=\faExclamationTriangle\ There is not XML encoding yet for CityGML v3.0.0]
-  At the moment of writing this book, the CityGML-XML encoding had not been standardised yet.
+\begin{kaobox-warning}[frametitle=\faExclamationTriangle\ There is no XML encoding yet for CityGML v3.0.0]
+  At the moment of writing this book (January 2022), the CityGML-XML encoding has not been standardised yet.
   \\ \\
-  There is however a draft available: \url{https://github.com/opengeospatial/CityGML-3.0Encodings/}
-\end{kaobox-toread}
+  There is however a draft available: \faExternalLink\ \url{https://github.com/opengeospatial/CityGML-3.0Encodings/}.
+\end{kaobox-warning}
 
 
 %
@@ -341,12 +348,12 @@ The vast majority of the efforts concerning CityGML have been spent on developin
 Indeed, the XML encoding is verbose, hierarchical, complex, and not adapted for the web.
 These drawbacks hinder the use of CityGML in practice, which can be observed by: (1) the low number of software packages supporting full read/write/edit capabilities for CityGML files; and (2) the relatively low number of datasets stored in CityGML files.
 
-\begin{kaobox-toread}[frametitle=\faExclamationTriangle\ GML madness]
-  The \emph{GML Madness} blog post shows 25 different ways to store a simple square in GML. 
+\begin{kaobox-warning}[frametitle=\faExclamationTriangle\ GML madness]
+  The \emph{GML Madness} blog post shows 25 different ways to store a simple square in GML\@. 
   This means that a developer implementing a parser for CityGML would have to support them all, and more for the primitives in higher dimensions! 
   \\ \\
-  \faExternalLink\ \url{https://erouault.blogspot.com/2014/04/gml-madness.html})
-\end{kaobox-toread}
+  \faExternalLink\ \url{https://erouault.blogspot.com/2014/04/gml-madness.html}
+\end{kaobox-warning}
 
 CityGML files are notoriously known to be very difficult to parse and to extract information from.
 This has to do with the fact that XML itself requires special libraries to handle the data, that GML has several different ways to store the same geometry, and that CityGML files have deep hierarchies (which are problematic for DBMS implementation, which tend to be `flat') and several XLinks.
@@ -358,8 +365,9 @@ This has to do with the fact that XML itself requires special libraries to handl
 \index{CityJSON}
 
 CityJSON is a JSON-based encoding 
-\marginnote{\textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation: \url{http://json.org}}
 for a subset of the  CityGML data model (version 3.0). 
+\marginnote{\textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation}
+\marginnote{\faExternalLink\ \url{http://json.org}}
 It defines how to store digital 3D models of cities and landscapes. 
 The aim of CityJSON is to offer an alternative to the GML encoding of CityGML, which can be verbose and complex to read and manipulate. 
 CityJSON aims at being easy-to-use, both for reading datasets and for creating them. 
@@ -368,14 +376,15 @@ It was designed with programmers in mind, so that tools and APIs supporting it c
 %
 
 The current version of CityJSON is 1.1, 
-\marginnote{\url{https://cityjson.org}}
 and it is a standard of the Open Geospatial Consortium (OGC).
+\marginnote{\faExternalLink\ \url{https://cityjson.org}}
 
 %
 
-CityJSON has a number of advantages over CityGML-XML.
+CityJSON has a number of advantages over CityGML-XML\@.
 First, and foremost, JSON dominates the web: nowadays if two applications need to exchange data they will most likely use JSON (over XML).
-Of the ten most popular APIs on the web, only one exposes its data in XML, the others all use JSON\sidenote{\url{https://twobithistory.org/2017/09/21/the-rise-and-rise-of-json.html}}.
+Of the ten most popular APIs on the web, only one exposes its data in XML, the others all use JSON\@.
+\sidenote{\faExternalLink\ \url{https://twobithistory.org/2017/09/21/the-rise-and-rise-of-json.html}}
 Second, JSON is predominantly favoured by developers (on \emph{Stack Overflow} it is by far the most discussed exchange format) which means that more libraries and software will support it, and these will most likely be maintained.
 Finally, JSON is based on two data structures that are available in virtually every programming language (more details below), and we can thus structure a file in a way that  developers would build and index in memory the objects (developers then do not need to use external libraries, all features and geometries are already indexed, and ready to use). 
 
@@ -487,11 +496,12 @@ A geometric primitive does not list all the coordinates of its vertices, rather 
     [23134, 625134, 203]
   ]
 \end{lstlisting}
-The indexing mechanism of the format \emph{Wavefront OBJ}\marginnote{OBJ specifications: \url{https://en.wikipedia.org/wiki/Wavefront_.obj_file}} is reused, because it has been used for many years, with success, in the computer graphics community.
+The indexing mechanism of the format \emph{Wavefront OBJ}\marginnote{\faExternalLink\ \url{https://en.wikipedia.org/wiki/Wavefront_.obj_file}} is reused, because it has been used for many years, with success, in the computer graphics community.
 This mechanism is modified so that the coordinates of the vertices of the geometries are represented integer values (and not float).
 This is to reduce the size of a CityJSON object (and thus the size of files) and to ensure that only a fixed number of digits is stored for the coordinates of the geometries (eg to have millimetre precision).
-This is achieved by using a simple \emph{quantization} method, where the scale factor and the translation needed to obtain the original coordinates are stored.
-\marginnote{\url{https://www.cityjson.org/specs/\#transform-object}}
+This is achieved by using a simple \emph{quantization} method, 
+\marginnote{\faExternalLink\ \url{https://www.cityjson.org/specs/\#transform-object}}
+where the scale factor and the translation needed to obtain the original coordinates are stored.
 
 There are several advantages to storing vertices once (instead of repeating them as in GML).
 First, the files can be compressed: 3D vertices are often shared by several surfaces, and repeating them can be costly (especially if they are very precise, often sub-millimetre is used).
@@ -503,8 +513,8 @@ Third, it is very easy to convert to a representation listing all coordinates; t
 The geometry is based on an enumeration of the vertices forming each ring of a surface, as follows.
 A \texttt{"MultiSurface"} has an array containing surfaces, where each surface is modelled by an array of arrays, the first array being the exterior boundary of the surface, and the others the interior boundaries.
 A \texttt{"Solid"} has an array of shells, the first array being the exterior shell of the solid, and the others being the interior shells; each shell has an array of surfaces, modelled in the exact same way as a \texttt{"MultiSurface"}.
-Concrete examples of each geometric type are given at \url{https://www.cityjson.org/help/geom-arrays/}.
 Notice that unlike with GML and CityGML-XML, there is only one variation per geometry type, which (greatly) simplifies the life of developers.
+\marginnote{Concrete examples of each geometric type are given at \faExternalLink\ \url{https://www.cityjson.org/help/geom-arrays/}.}
 \begin{lstlisting}
   {
     "type": "Solid",
@@ -521,8 +531,10 @@ Notice that unlike with GML and CityGML-XML, there is only one variation per geo
 \subsection{Appearance}
 
 Both textures and materials are supported, and the same mechanisms as CityGML are used for these. 
-The material is represented with the X3D specifications\marginnote{X3D specifications: \url{https://en.wikipedia.org/wiki/X3D}}, as is the case for CityGML\@. 
-For the texture, the COLLADA specifications\marginnote{COLLADA specifications: \url{https://www.khronos.org/collada/}} are reused, as is the case for CityGML\@.
+The material is represented with the X3D specifications, as is the case for CityGML\@. 
+\marginnote{\faExternalLink\ \url{https://en.wikipedia.org/wiki/X3D}}
+For the texture, the COLLADA specifications are reused, as is the case for CityGML\@.
+\marginnote{\faExternalLink\ \url{https://www.khronos.org/collada/}}
 
 
 %%%
@@ -631,7 +643,7 @@ CityJSON specifications, examples datasets, tutorials, and software are availabl
 \citet{Helsinki19} describe the efforts and workflows used by the city Helsinki to built both a textures mesh and a semantic 3D city models of their city. 
 Details about how the model is used in practice are also given.
 
-\citet{Kumar19} describe the role and position of LandInfra with respect to CityGML and BIM/IFC.
+\citet{Kumar19} describe the role and position of LandInfra with respect to CityGML and BIM/IFC\@.
 
 For the description of LoD of other classes then buildings, see \citet{Kumar19} for terrains, \citet{Labetski18} for roads, and \citet{Ortega18} for trees.
 
