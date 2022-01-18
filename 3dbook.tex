@@ -14,6 +14,7 @@
 % Choose the language
 \usepackage[english]{babel} % Load characters and hyphenation
 \usepackage[english=british]{csquotes}  % English quotes
+\usepackage{tablefootnote}
 
 % Load packages for testing
 \usepackage{blindtext}
@@ -118,6 +119,17 @@
 
 \setcounter{secnumdepth}{3}
 
+\newmdenv[
+  style=kaoboxstyle,
+  backgroundcolor=Red!25!White,
+  frametitlebackgroundcolor=Red!25!White,
+]{kaobox-warning}
+\newmdenv[
+  style=kaoboxstyle,
+  backgroundcolor=Dandelion!25!White,
+  frametitlebackgroundcolor=Dandelion!25!White,
+]{kaobox-toread}
+
 
 %----------------------------------------------------------------------------------------
 
@@ -130,7 +142,7 @@
 
 \title{3D modelling of the built environment}
 \author{Ken Arroyo Ohori \hspace{7mm} Hugo Ledoux \hspace{7mm} Ravi Peters}
-\date{\texttt{v0.1}}
+\date{\texttt{v0.8}}
 
 % \publishers{\includegraphics[width=\linewidth]{front-back/saba.png}}
 
@@ -218,7 +230,7 @@
 \include{brep/brep}
 \include{dtvd3d/dtvd3d}
 \include{voxels/voxels}
-\include{csg_nef/csg_nef}
+\include{csg/csg}
 \include{curves/curves}
 \include{mat/mat}
 \include{gmaps/gmaps}

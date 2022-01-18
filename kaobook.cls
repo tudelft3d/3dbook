@@ -145,7 +145,7 @@
 % The Kao style
 \DeclareDocumentCommand{\chapterstylekao}{}{%
 	\renewcommand*{\chapterformat}{%
-		\mbox{\chapappifchapterprefix{\nobreakspace}\scalebox{1.5}{Lesson \thelesson\autodot}}%
+		\mbox{\chapappifchapterprefix{\nobreakspace}\scalebox{2.85}{\thechapter\autodot}}%
 	}
 	\renewcommand\chapterlinesformat[3]{%
 		\vspace*{-4.5cm}%
