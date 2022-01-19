@@ -162,7 +162,7 @@ shows the ones for the buildings, and they are as follows:
   LoD1 models are easy to reconstruct: the footprint of a building, readily available in many countries, can be extruded to its height. The height can be the average (or median) of all the lidar points inside the footprint.
   \item[LoD2] the generalised roof shape and larger roof superstructures are present.
   As such, LoD2 models are useful for rooftop solar potential estimations.
-  They are usually obtained with photogrammetric techniques, and, in some cases, may be derived automatically (see Lesson~2.1). 
+  They are usually obtained with photogrammetric techniques, and, in some cases, may be derived automatically (see Chapter~\ref{chap:LoD2recon}). 
   \item[LoD3] is a detailed architectural model containing openings (windows and doors), chimneys, and other façade details.
   Models at LoD3 are usually obtained with a conversion from BIM models or from terrestrial laser scanning.
   The presence of windows and other details makes them useful in applications such as energy simulations.
@@ -217,8 +217,7 @@ CityGML uses the ISO19107 geometric primitives for representing the geometry of 
 \marginnote{ISO19107 is used, with a few restrictions}\index{ISO19107}
 While the ISO19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed, CityGML uses a subset of ISO19107, with the following two restrictions: (1) \texttt{GM\_Curves} can only be \emph{linear} (thus only \texttt{LineStrings} and \texttt{LinearRings} are used); (2) \texttt{GM\_Surfaces} can only be \emph{planar} (thus \texttt{Polygons} are used).
 
-% TODO : which lesson?
-See Lesson~3.2 for the details of ISO19107.
+See Chapter~\ref{chap:iso19107} for ISO19107.
 
 
 %%%
@@ -615,7 +614,7 @@ It used for instance in CesiumJS\marginnote{CesiumJS: \url{https://cesium.com/ce
 %%%
 \subsection{LandInfra \& InfraGML}
 
-LandInfra is a relatively new OGC open standard for land and infrastructure features, integrating concepts from IFC/BIM (see Lesson~6.2) and CityGML\@.
+LandInfra is a relatively new OGC open standard for land and infrastructure features, integrating concepts from IFC/BIM (see Chapter~\ref{chap:bim}) and CityGML\@.
 
 It actually partially overlaps with CityGML: it contains the thematic classes `Building', `Road' and `Railway' (\texttt{Transportation} in CityGML), and `LandSurface' (\texttt{ReliefFeature} in CityGML). 
 However, it has a more detailed representation for land and infrastructure features, \eg\ administrative units, ownership rights, spatial units for land use (land parcels and the legal spaces of buildings), surveying and representation, alignment for roads and railways, subsurface models for terrain, etc
