@@ -9,11 +9,11 @@
 \chapter{Three-dimensional geometries in geoinformation}%
 \label{chap:iso19107}
 
-To facilitate and encourage the exchange and interoperability of geographical information, the ISO (International Organization for Standardization: \url{www.iso.org}) and the OGC (Open Geospatial Consortium: \url{www.opengeospatial.org}) have developed in recent years standards that define what the basic geographical primitives are (the abstract specifications of ISO 19107), and also how they can be represented in a computer (the implementation specifications of GML and \emph{Simple Features}). 
+To facilitate and encourage the exchange and interoperability of geographical information, the ISO (International Organization for Standardization: \url{www.iso.org}) and the OGC (Open Geospatial Consortium: \url{www.opengeospatial.org}) have developed in recent years standards that define what the basic geographical primitives are (the abstract specifications of ISO19107), and also how they can be represented in a computer (the implementation specifications of GML and \emph{Simple Features}). 
 While the abstract definitions for the primitives are not restricted to two dimensions (2D), most of the efforts for the representation and storage of the geographical primitives have been done only in 2D; the \emph{Simple Features} specifications are well-defined, used, and implemented across the GIS community.
 \marginnote{Simple Features specifications}\index{Simple Features specifications}
 
-This document gives an overview of the primitives in 3D, both from the ISO 19107 and the GML point-of-views.
+This document gives an overview of the primitives in 3D, both from the ISO19107 and the GML point-of-views.
 Although the topic might appear trivial---``a polyhedron is simply a polyhedron, no?''---it is in practice a problem because several definitions exist and different software packages use different ones.
 \marginnote{polyhedron}\index{polyhedron}
 
@@ -51,9 +51,9 @@ The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, ca
 
 %%%
 %
-\section{The standard ISO 19107}
+\section{The standard ISO19107}
 
-The geometric primitives as used in 3D GIS are based on the ISO 19107 definitions, and the definition of a polyhedra there is broader than that of a 2-manifold, to allow us to represent all the real-world features.
+The geometric primitives as used in 3D GIS are based on the ISO19107 definitions, and the definition of a polyhedra there is broader than that of a 2-manifold, to allow us to represent all the real-world features.
 
 As shown in Figure~\ref{fig:isoprimitives}, 
 \begin{marginfigure}
@@ -62,7 +62,7 @@ As shown in Figure~\ref{fig:isoprimitives},
   \caption{ISO 19017 primitives relevant for the modelling of the built environment.}%
 \label{fig:isoprimitives}
 \end{marginfigure}
-the ISO 19107 geometric primitives for representing an object are: a 0D primitive is a \texttt{GM\_Point}, a 1D a \texttt{GM\_Curve}, a 2D a \texttt{GM\_Surface}, and a 3D a \texttt{GM\_Solid}.
+the ISO19107 geometric primitives for representing an object are: a 0D primitive is a \texttt{GM\_Point}, a 1D a \texttt{GM\_Curve}, a 2D a \texttt{GM\_Surface}, and a 3D a \texttt{GM\_Solid}.
 A $d$-dimensional primitive is built with a set of $(d-1)$-dimensional primitives, \eg\ a \texttt{GM\_Solid} is formed by several \texttt{GM\_Surfaces}, which are formed of several \texttt{GM\_Curves}, which are themselves formed of \texttt{GM\_Point}.
 Observe that the ISO19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed
 
@@ -100,7 +100,7 @@ Figure~\ref{fig:onesolid} shows a solid that respects that definition.
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.95\textwidth]{figs/isosolid.pdf}
-  \caption{One solid which respects the ISO 19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
+  \caption{One solid which respects the ISO19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
 \label{fig:onesolid}
 \end{marginfigure}
 First observe that the solid is composed of two shells (both forming its boundaries), one being the exterior and one being the interior shell.
@@ -130,8 +130,7 @@ Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one
 
 %
 
-% TODO : chapter/lesson number
-CityGML, the international standard for 3D modelling of cities (see Lesson~4.1), uses a subset of ISO 19107, with the following two restrictions: 
+CityGML, the international standard for 3D modelling of cities (see Chapter~\ref{chap:3dcm}), uses a subset of ISO19107, with the following two restrictions: 
 \begin{enumerate}
   \item \texttt{GM\_Curves} can only be \emph{linear} (thus only \texttt{LineStrings} and \texttt{LinearRings} are used); 
   \item \texttt{GM\_Surfaces} can only be \emph{planar} (thus \texttt{Polygons} are used).
@@ -139,7 +138,7 @@ CityGML, the international standard for 3D modelling of cities (see Lesson~4.1),
 
 %
 
-Following ISO 19107, in GML and CityGML geometric primitives can be combined into either \emph{aggregates} or \emph{composites}.
+Following ISO19107, in GML and CityGML geometric primitives can be combined into either \emph{aggregates} or \emph{composites}.
 
 An aggregate (class \texttt{gml:\_AbstractGeometricAggregate}) is an arbitrary collection of primitives of same dimensionality that is simply used to bundle together geometries.
 GML (and CityGML) has classes for each dimensionality (\texttt{Multi*}), the most relevant one in our context is \texttt{MultiSurface} that is often used in practice to represent the geometry of a building.
@@ -210,7 +209,7 @@ Furthermore, if we store a \texttt{Com\-po\-site\-Surface} in a data structure, 
 %%%
 \subsection{\texttt{Solid}}
 
-According to ISO 19107, the different boundaries of a solid are allowed to interact with each other, but only under certain circumstances.
+According to ISO19107, the different boundaries of a solid are allowed to interact with each other, but only under certain circumstances.
 To understand these, we have to generalise to 3D the implementation specifications defined in 2D by the OGC (Figure~\ref{fig:ogcsf_definitions}).
 Observe that all of them, except the third one, generalise directly to 3D since a point-set topology nomenclature is used.
 The only modifications needed are that, in 3D, polygons become solids, rings become shells, and holes become cavities.
@@ -269,7 +268,7 @@ If the polygon has interior rings, then these have to be ordered clockwise.
 
 
 \begin{kaobox}[frametitle=\faCog\ How does it work in practice?]
-  The software `val3dity', developed at TU Delft, allows us to validate directly all the ISO 19107 primitives, it accepts as input CityJSON and OBJ, among others.
+  The software `val3dity', developed at TU Delft, allows us to validate directly all the ISO19107 primitives, it accepts as input CityJSON and OBJ, among others.
   It is freely available at \url{https://github.com/tudelft3d/val3dity}, and a web-application can be used at \url{http://geovalidation.bk.tudelft.nl/val3dity/}
 \end{kaobox}
 
@@ -300,10 +299,10 @@ For details how the validation of a the 3D primitives can be implemented, see \c
 
 The official specifications documents are the following:
 \begin{itemize}
-  \item ISO 19107 document: \citet{ISO19107}
+  \item ISO19107 document: \citet{ISO19107}
   \item Simple Features document: \citet{OGC-SF}
   \item GML specifications: \citet{OGC-GML}
-  \item CityGML specifications: \citet{CityGML2.0}
+  \item CityGML specifications: \citet{CityGML3.0CM}
 \end{itemize}
 
 
