@@ -10,12 +10,12 @@
 \chapter{Conversions between 3D representations and formats}%
 \label{chap:conversion}
 
-This lesson describes different conversions between 3D representations and formats that a geomatics engineer might have to perform.
+This chapter describes different conversions between 3D representations and formats that a geomatics engineer might have to perform.
 It does not claim to be an overview of all potential conversions, but it rather offers insights about the algorithms and methods most commonly used, and points out pitfalls to be aware of.
 
 %
 
-The lesson is divided into two distinct parts:
+The chapter is divided into two distinct parts:
 \begin{description}
   \item[Fields:] conversions that are performed when we are dealing with a \emph{field}, let it be the temperature or the concentration of a certain chemical in the air (modelled as a 3D volume).
   We name such field a trivariate field: each location ($x,y,z$) in space has one attribute.%
@@ -78,8 +78,9 @@ Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
 \label{fig:r-interpolation}
 \end{figure}
 
-All the interpolation methods discussed during GEO1015 (Chapters~4 and~5) generalise to three dimensions.
+All the two-dimensional interpolation methods (weighted-average and kriging) generalise in theory to three dimensions.
 However, it is not obvious that they preserve their properties or are appropriate for geoscientific datasets.
+We describe in the following how they can be, and their properties.
 
 %%%
 \paragraph{Nearest neighbour.} 
@@ -279,27 +280,27 @@ Notice that the case when three vertices have exactly the same value, then the c
 %%%
 \subsection{Points to b-rep}
 
-In the context of the built environment, this would most likely mean that from a point cloud, a LoD2 model of the buildings, and eventually of other objects such as trees and bridges, are reconstructed. See Lesson~2.2.
+In the context of the built environment, this would most likely mean that from a point cloud, a LoD2 model of the buildings, and eventually of other objects such as trees and bridges, are reconstructed. See Chapter~\ref{chap:LoD2recon}.
 
 It should be noticed that the b-rep can be formed solely of triangles, or of polygons.
-The polygons can have interior boundaries, as defined in ISO 19107 (see Lesson~3.2).
+The polygons can have interior boundaries, as defined in ISO19107 (see Chapter~\ref{chap:iso19107}).
 
 %%%
 \subsection{Points/surfaces/volumes to voxels}
 
-The conversions of points, curves, surfaces and volumes to voxels are covered in Lesson~2.1.
+The conversions of points, curves, surfaces and volumes to voxels are covered in Chapter~\ref{chap:voxels}.
 
 
 %%%
 \subsection{b-rep to mesh}
 
-For the purposes of this lesson, a \emph{mesh} is a collection of simplices that define the (3D) shape of an object (\eg\ a building, a tree, or a bridge).
+For the purposes of this chapter, a \emph{mesh} is a collection of simplices that define the (3D) shape of an object (\eg\ a building, a tree, or a bridge).
 
 If we take the 3D model of a building (say BK-City, see Figure~\ref{fig:bk-mesh}), 
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figs/bk-mesh}
-  \caption{b-rep model of BK-City, from Lesson~2.2}%
+  \caption{b-rep model of BK-City, from Chapter~\ref{chap:LoD2recon}}%
 \label{fig:bk-mesh}
 \end{figure}
 this model is formed of several planar faces (hopefully) forming a closed 2-manifold.
@@ -307,7 +308,7 @@ this model is formed of several planar faces (hopefully) forming a closed 2-mani
 In practice, if someone wants the mesh of this b-rep, it could mean two different structures:
 \begin{description}
   \item[2D triangulation of each surface:] the constrained Delaunay triangulation, or simply an arbitrary constrained triangulation, for each of the polygon can be created. These are independently performed for each surface, and involve transforming the 3D coordinate of the vertices of the surface to a 2D system; this coordinate system is on the plane defined by the surface. Notice that this assumes that all input surfaces of the b-rep are planar, if it is not the case then finding a projection that preserves the topology of the polygon might not be possible.
-  \item[Tetrahedralisation of the volume defined by the surfaces:] the constrained tetrahedralisation of the volume defined by the b-rep; see Lesson~3.1.
+  \item[Tetrahedralisation of the volume defined by the surfaces:] the constrained tetrahedralisation of the volume defined by the b-rep; see Chapter~\ref{chap:dtvd3d}.
 \end{description}
 
 Figure~\ref{fig:meshing} shows one example,
@@ -324,7 +325,7 @@ The surfaces of the b-rep also get meshed in the same process (each surface is t
 %%%
 \subsection{IFC to/from CityGML}
 
-The conversion between IFC (see Lesson 7.2) and the CityGML data model (in either direction) is a very actual topic (many organisation would like to be able to realise it) but it is also riddled with problems caused by the differences in semantics, in data formats, and in the way geometries are modelled.
+The conversion between IFC (see Chapter~\ref{chap:bim}) and the CityGML data model (in either direction) is a very actual topic (many organisation would like to be able to realise it) but it is also riddled with problems caused by the differences in semantics, in data formats, and in the way geometries are modelled.
 Automatic conversion with commercial software, \eg\ FME or ArcGIS, will often ``work'', but because of the complexity of some formats, information will often be lost in the conversion. 
 Be aware.
 
@@ -359,6 +360,6 @@ Although \citet{Wilhems90} describe various methods to fix the ambiguities, as i
   \item Converting samples points to voxels require totally different algorithm if the samples point represent a field or an object. Discuss why.
   \item If the b-rep model of BK-city contains intersecting surfaces and has gaps/holes, will it be possible to mesh the model?
   \item For terrains, linear interpolation in a TIN is very popular and used. Why is it less popular for trivariate fields?
-  \item It is stated in the lesson that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron''. Explain one method.
+  \item It is stated in the chapter that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron''. Explain one method.
   \item In the methodology of \citet{Donkers16}, why are the dilation and erosion operators used? Are they always necessary? Can you think of a simple dataset where they could be skipped?
 \end{enumerate}
