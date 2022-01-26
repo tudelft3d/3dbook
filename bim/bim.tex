@@ -8,21 +8,19 @@
 \chapter{Building information models}%
 \label{chap:bim}
 
+Building information model (BIM) involves the creation and use of detailed digital 3D models of buildings or infrastructure in a way that supports their design and construction, but increasingly also extending to their planning, operation, maintenance, refurbishing and/or demolition.
 
-Building information model (BIM) is a different kind of 3D model with respect to the 3D city model concept.
+Originally, the scope of BIM was limited to support a building's design and construction in the Architecture Engineering and Construction (AEC) field.
+However, BIM models are now considered to be useful for much more than this narrow purpose, representing a central platform that can be used throughout a building's entire lifecycle, supporting collaboration by different users and different disciplines.
+For example, the most typical current use of BIM comprises the design phase of a building, where different domain experts (\eg\ architectural design, structural design and installations design) can work together to create one comprehensive 3D model that contains all elements of a building.
+Later on, the same model could be maintained to support the building's asset and facility management.
 
-%Broadly speaking, it involves the creation and use of detailed digital 3D models of buildings or infrastructure in a way that supports their design and construction, but hopefully also extending to their planning, operation, maintenance, refurbishing and/or demolition.
-
-
-The original scope of such 3D information systems is to support a building's design and construction in the Architecture Engineering and Construction (AEC) field.
-However, BIM models are supposed to be useful for much more than this narrow purpose, representing a central platform for collaboration during the design phase of a building (architectural design, structural design, installations design, etc.), supporting coordination between disciplines and analysis of the designed building within the same modelling tool or within compatible ones, and once built, being a base data set that can be reused and maintained to support the asset and facility management of the modelled object.
-
-In industry, BIM is commonly intended at improving existing processes (\eg\ minimising errors during design and construction, optimize resources, improve coordination and control). %, and so the 3D models are only important insofar as they support these processes.
-However, the automation of a number of further use cases is enabled by the re-use of the BIM within different applications (\eg\ structural analysis, energy simulations, urban planning and building permitting, documentation for circular city purposes).
-It often implies the conversion and integration with other formats, such as the 3D city models.
+In industry, the potential of BIM is commonly focussed on improving existing processes (\eg\ minimising errors during design and construction, optimising resources, improving coordination and control).
+However, there is a lot of ongoing work to reuse BIM models for new applications (\eg\ structural analysis, energy simulations, urban planning and building permitting).
+These applications often imply the conversion and integration of BIM models with other sources, such as 3D city models.
 %By contrast, a common academic/government view is that BIM is mainly about the 3D models themselves, and thus it is important that they reflect the real situation as much as possible.
-In this latter view, the improved processes and new applications are simply the result of using these models in a smart way.
-This is why it is relevant to know and manage such a different kind of 3D model.
+% In this latter view, the improved processes and new applications are simply the result of using these models in a smart way.
+% This is why it is relevant to know and manage such a different kind of 3D model.
 
 
 
@@ -39,12 +37,13 @@ This is mainly because it models a building or infrastructure project as a singl
 The kind of technical drawings that were made before are still common, but they can be semi-automatically generated from the BIM model using software.
 
 The objects represented in a BIM model include the 3D elements that a building is composed of (\eg\ beams, columns, stairs and windows).
-They can range from higher level representations (less detailed) until the millimetric representation of single screws, with their accompanying relevant attributes (\eg\ the materials they are made of and their properties).
-Moreover, the more abstract elements are included that describe the project itself (\eg\ construction timelines and costs).
+They can range from higher level representations (less detailed) up to the representation of detailed single screws, with their accompanying relevant attributes (\eg\ the materials they are made of and their properties).
+Moreover, more abstract elements are included that describe the project itself (\eg\ construction timelines and costs).
 There is also a large number of relations between the objects, which are often used by software to support smart editing features, such as keeping sets of related objects together when one of them is moved.
 
 Note that a key aspect of BIM is that it focusses on volume-filling physical objects (Figure~\ref{fig:volumetric}), such as walls, whereas GIS representations instead tend to model the objects' outer surfaces (\eg\ wall surfaces) and the voids between them (\eg\ rooms).
-This means that BIMs are usually more detailed and have semantics that are more meaningful for some purposes (\eg\ construction or refurbishing), but 3D GIS models have higher-level semantics that are easier for many applications (\eg\  navigation and spatial analyses) (Table~\ref{tab:vs}).
+This means that BIM models are usually more detailed and have semantics that are more meaningful for some purposes (\eg\ construction or refurbishing), but 3D GIS models have higher-level semantics that are easier for many applications (\eg\  navigation and spatial analyses).
+Table~\ref{tab:vs} compares the ways in which in 3D city models and BIM models differ.
 
 \begin{figure}
 \centering
@@ -53,27 +52,24 @@ This means that BIMs are usually more detailed and have semantics that are more 
 \label{fig:volumetric}
 \end{figure}
 
-
 \begin{table}
 	\centering
 	\small
-	\begin{tabular}{|m{2.3cm}|m{3.5cm}|m{3.5cm}|}
-		\hline
-		& \textbf{3D city models} & \textbf{BIM}  \\ \hline
-		\texttt{Geometry} & mainly boundary representation (explicit) & mainly parametrically modelled solids (implicit) \\ \hline
-		\texttt{Main data source }& survey of real world objects & design \\ \hline
-		\texttt{Approximate range of detail (d)} & $1000>d>0.1 m$ & $50>d>0.001 m$ \\ \hline
-		\texttt{Semantics} & aimed at the description of city/landscape representation & aimed at the description of small building elements representation  \\ \hline
-		\texttt{Georeferencing} & compulsory & optional  \\ \hline
-		\texttt{Supported analysis and decisions} & city-level & building-level \\ \hline
-		\texttt{Evolution of} & Geographical Information Systems (GIS) & Computer-Aided Design (CAD) \\ \hline
-		\texttt{Dominated by} & government & industry \\ \hline
+	\begin{tabular}{m{2.3cm}m{3.5cm}m{3.5cm}}
+		\toprule
+		& \textbf{3D city models} & \textbf{BIM}  \\ \midrule
+		geometry & boundary representation (explicit) & parametrically modelled solids (implicit) \\ \addlinespace 
+		data source & surveys & designs \\ \addlinespace 
+		range of detail ($d$) & $1000>d>0.1$ m & $50>d>0.001$ m \\ \addlinespace 
+		semantics & city/terrain & building elements  \\ \addlinespace 
+		georeferencing & compulsory & optional  \\ \addlinespace 
+		analysis & city-level & building-level \\ \addlinespace 
+		evolution of & GIS & CAD \\ \addlinespace 
+		dominated by & government & industry \\ \bottomrule
 	\end{tabular}
 	\caption{Comparison between 3D city models features and BIM aspects.}%
 	\label{tab:vs}
 \end{table}
-
-
 
 \subsection{Use of BIM and common terminology}
 
@@ -82,32 +78,23 @@ Firstly, it is attempting to cover all sorts of non-building infrastructure proj
 Secondly, it also aims to support all the stages of the lifecycle of an asset using the same base data, including its planning (with the help of GIS data), design, construction, operation, maintenance, refurbishing and demolition.
 These stages will likely involve different software, \eg\ specialised building design and asset management software; and it will also likely involve different people, \eg\ architects, surveyors, civil engineers, etc.
 
-
-
-
-
 Relevant to this, some software vendors and organisations (\eg\ the American Institute of Architects and the UK BIM Task Group) have come up with the concept of the level of development (LOD) of a BIM model, which is equivalent to the concept of level of detail (also LOD or LoD) in GIS\@.
 While both terms are directly related to how abstract a model is, and indirectly to how complex the geometries in it are, the two terms are somewhat different.
 Different LoDs in GIS usually model the same features at the same time, but they are captured at or generalised to different levels of detail.
 Different LODs in a BIM model instead show the same asset at the different stages that it goes through, from its conception (as a rough sketch or even with no geometry), and gaining more detail as it passes through its design and to its construction.
+Ideally, this extends to modification of the model to reflect its as-built state, which can be then used for asset management and other applications.
+The exact terms used for different BIM LODs differ, but a common scheme is from LOD 100 (concept), LOD 200 (design during development), LOD 300 (detailed design to calculate materials and costs), LOD 400 (construction) and LOD 500 (asset management).
+Other schemes use smaller numbers, such as 1 to 7 in the United Kingdom, or use the same hundreds-series numbers but with different definitions.
 
-In the recent ISO 19560 (Organization and digitization of information about buildings and civil engineering works, including building information modelling (BIM) — Information management using building information modelling), the Level of Information Need (LOIN) is defined as a `framework which defines the extent and granularity of information' and is intended to substitute the many and inconsistent previous classifications of LODs.
+In the recent ISO 19560 standard (Organization and digitization of information about buildings and civil engineering works, including building information modelling (BIM) --- Information management using building information modelling), the Level of Information Need (LOIN) is defined as a `framework which defines the extent and granularity of information' and is intended to substitute the many and inconsistent previous classifications of LODs in BIM\@.
 The LOIN is intended for clients who define their information needs for project management: various metrics can be used to measure the information to be delivered.
-For example, geometry, alphanumeric data and documents, as well as unstructured information such as plans, reports, photographs and so on, with the alphanumeric information considered at least as important as geometry, helping in the process of passing from documents (reports, manuals, product specification sheets) to the BIM itself for the description, storage and management of the information related to the building.
+For example, geometry, alphanumeric data and documents, as well as unstructured information such as plans, reports, photographs and so on, with the alphanumeric information considered at least as important as geometry, helping in the process of passing from documents (reports, manuals, product specification sheets) to the BIM model itself for the description, storage and management of the information related to the building.
 
-%Ideally, this extends to modification of the model to reflect its as-built state, which can be then used for asset management and other applications.
-%The exact terms used for different BIM LODs differ, but a common scheme is from LOD 100 (concept), LOD 200 (design during development), LOD 300 (detailed design to calculate materials and costs), LOD 400 (construction) and LOD 500 (asset management).
-%Other schemes use smaller numbers, such as 1 to 7 in the United Kingdom, or use the same hundreds-series numbers but with different definitions.
-
-
-Another important set of terms is related to the dimensions in BIM: in a similar but already stronger concept than for GIS, BIM is often presented as `multidimensional', being (usually, as example) 4D with the time, 5D with cost information, 6D and higher referring to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
-
-%Another important set of terms is related to the dimensions in BIM, which are commonly used but they are used inconsistently\@.
-%In this, practitioners and software vendors very often refer to 4D BIM, which means that a model includes time information, generally in the context of construction scheduling.
-%Note however that this information might not be in a convenient format, \eg\ a linked Word file with a textual description.
-%Other dimension definitions sometimes refer to 5D BIM, which usually means a model with cost information.
-%Finally, different people use 6D or 7D BIM to refer to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
-
+Another important set of terms is related to the dimensions in BIM, which are commonly used but they are used inconsistently\@.
+In this, practitioners and software vendors very often refer to 4D BIM, which means that a model includes time information, generally in the context of construction scheduling.
+Note however that this information might not be in a convenient format, \eg\ a linked Word file with a textual description.
+Other dimension definitions sometimes refer to 5D BIM, which usually means a model with cost information.
+Finally, different people use 6D or 7D BIM to refer to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
 
 Apart from the core applications of BIM in managing a building's lifecycle mentioned above, it is worth noting that there are also many new possibilities that are currently being studied, such as the automatic conversion of BIM models into GIS-ready models that can be integrated into 3D city models, applying environmental analyses directly on BIM models (\eg\ shadow analyses), improving the sustainability of buildings (green BIM), using BIM models to automate building permit issuing, and as will be further discussed in this course, the integration of BIM models with GIS data (GeoBIM).
 
@@ -120,7 +107,6 @@ As a way to solve this problem, the buildingSMART consortium, which notably incl
 IFC has been further standardised as ISO 16739~\citep{ISO16739:2013} with its geometry definitions in ISO 10303~\citep{ISO10303:2014}.
 
 IFC files are often large (hundreds of MBs), and their structure is rather complex.
-
 They can contain many types of classes (130 defined types, 217 enumeration types, 60 select types, 816 entities, 47 functions, 2 rules, 415 property sets, 93 quantity sets and 1697 individual properties in IFC 4.2\marginnote{\url{https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/}}), which are defined using the EXPRESS data modelling language.
 Among others, there are several classes to model actors (\eg\ people and organisations), controls (\eg\ specifications, regulations, schedules and other requirements), processes (\eg\ actions during construction), products (\eg\ physical building elements and other spatially defined objects), the project itself (\eg\ where it is placed), and resources (\eg\ cost, materials and equipment), as well as groups of other classes (\eg\ those having a common purpose).
 In the rest of this handout, we will mostly focus on products.
@@ -165,7 +151,7 @@ In addition to STEP files, there is also an XML encoding of the standard (IFC-XM
 These two are less convenient due to the large file of XML files and the need to uncompress its zipped version.
 They are thus rarely used in practice.
 In addition, recent proposals add new options to store the IFC files, in order to enable the use of further technologies for their management.
-For example, the Ontology Web Language (OWL) format is considered in ifcOWL, and the ifcJSON is being developed.
+For example, the Ontology Web Language (OWL) format is considered in ifcOWL, and ifcJSON is also being developed.
 An overview of available formats is given at \url{https://technical.buildingsmart.org/standards/ifc/ifc-formats/}
 
 \subsection{How objects are modelled}
@@ -190,7 +176,6 @@ The geometry of a physical element can be created using a variety of representat
   \item[B-rep:] an object is represented by its bounding surfaces, either triangulated meshes, polygonal meshes or topological arrangements of free-form surfaces (Figure~\ref{fig:brep}).
 \end{description}
 These paradigms can be used independently or combined with each other in a hierarchy.
-
 
 \begin{figure}
 \begin{lstlisting}[frame=single]
@@ -260,19 +245,15 @@ Every point is defined as an \texttt{IfcCartesianPoint}, then the polygon is def
 \label{fig:brep}
 \end{figure}
 
-
-Two constructs (and related IFC classes) are particularly important: \texttt{IfcOpenings} and \texttt{IfcSpaces}.
-
+Related to how geometries are stored in IFC, two constructs (and related IFC classes) are particularly important: \texttt{IfcOpenings} and \texttt{IfcSpaces}.
 Subtraction relationships are part of the IFC model, representing openings by means of the voiding mechanism:
-\texttt{IfcOpening} defines the objects used to be subtracted from another geometry (\eg\ an \texttt{IfcWall} or an \texttt{IfcSlab}) in order to generate an opening in a consistent way, according to the data model.
+\texttt{IfcOpening} defines the 3D objects that are subtracted from another geometry (\eg\ a hole for a window in an \texttt{IfcWall} or for a staircase in an \texttt{IfcSlab}).
 The \texttt{IfcOpening} can be in turn filled by an element, like an \texttt{IfcWindow} or \texttt{IfcDoor}.
-
-A second important element is the explicit modelling of \texttt{IfcSpaces}, which are filling the empty spaces (for example, rooms) and defining them.
-It is possible to associate attributes to them, and their geometry is generally very relevant to conversion procedures.
+Meanwhile, \texttt{IfcSpaces} are used to explicitly model meaningful spaces (\eg\ rooms, apartments or storeys), and it is possible to associate attributes to them.
 
 \subsection{Semantics}
 
-The semantics in an IFC file are stored within a structure of entities, attributes and relationships similar to any information system data model.
+The semantics in an IFC file are stored as a mix of entities, attributes and relationships.
 
 An example of entities (classes) is given by all the subentities of \texttt{Ifc\-Buil\-ding\-E\-le\-ment}, including: \texttt{Ifc\-Beam}, \texttt{Ifc\-Buil\-ding\-E\-le\-ment\-Com\-po\-nent}, \texttt{Ifc\-Buil\-ding\-E\-le\-ment\-Pro\-xy}, \texttt{Ifc\-Chim\-ney}, \texttt{Ifc\-Co\-lumn}, \texttt{Ifc\-Co\-ve\-ring}, \texttt{Ifc\-Cur\-tain\-Wall}, \texttt{Ifc\-Door}, \texttt{Ifc\-Foo\-ting}, \texttt{Ifc\-Mem\-ber}, \texttt{Ifc\-Pile}, \texttt{Ifc\-Plate}, \texttt{Ifc\-Rai\-ling}, \texttt{Ifc\-Ramp}, \texttt{Ifc\-Ramp\-Flight}, \texttt{Ifc\-Roof}, \texttt{Ifc\-Sha\-ding\-De\-vice}, \texttt{Ifc\-Slab}, \texttt{Ifc\-Stair}, \texttt{Ifc\-Stair\-Flight}, \texttt{Ifc\-Wall}, and \texttt{Ifc\-Win\-dow}.
 %
