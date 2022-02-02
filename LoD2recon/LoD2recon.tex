@@ -9,9 +9,9 @@
 \label{chap:LoD2recon}
 
 %\newpage
-In the previous lesson we discussed how to model 3D objects using the boundary representation.
+In the previous chapter we discussed how to model 3D objects using the boundary representation.
 You learned about data structures to represent the geometry and topology of a 3D object's surface in a very structured and organised way.
-In this lesson we will look at how you could create such a structured representation from a much less structured form of 3D geoinformation, namely a point cloud.
+In this chapter we will look at how you could create such a structured representation from a much less structured form of 3D geoinformation, namely a point cloud.
 
 In automatic building reconstruction we aim to construct 3D mesh models for individual buildings from some form of elevation measurements, \ie\ a raster-based DSM or a point cloud, without any manual interventions (see Figure~\ref{fig:bk-building-recon}).
 \begin{marginfigure}
@@ -40,7 +40,7 @@ For example some of the finer details that may be present in a point cloud could
 Furthermore, there is always the risk of introducing new errors and deviations from the original measurement in the building reconstruction process. 
 But ultimately, the many benefits of representing a building as a mesh outweigh these disadvantages for many applications.
 
-In this lesson we will first list common challenges and requirements for the building models that are to be constructed. Second, we will look at the important engineering choices in designing a building reconstruction algorithm. And finally, we will discuss one particular approach that was designed to work on Dutch open data in more detail.
+In this chapter we will first list common challenges and requirements for the building models that are to be constructed. Second, we will look at the important engineering choices in designing a building reconstruction algorithm. And finally, we will discuss one particular approach that was designed to work on Dutch open data in more detail.
 
 %%%
 %
@@ -60,8 +60,8 @@ Following are commonly encountered building model requirements. Notice that the 
 \begin{description}
 	\item[Low complexity] Means that the building model ought to have as few vertices, edges, and faces as possible. Building models with a low complexity are faster to process and take up less storage space.
 	\item[High accuracy] The surfaces of the building model should have the lowest possible error with respect to the input point cloud. This error can be measured as the root mean square of all the distances from each input point to the model surface. 
-	\item[Geometrically valid] This means among other things that the mesh is 2-manifold, has consistent faces orientation, no duplicated vertices, and no self intersecting geometries. This makes the model generally easier to process since many assumptions can be made about the structure of the mesh. Lesson 3.2 discusses this (and the relevant ISO19107 standard) in more detail.
-	\item[Level of Detail (LoD)] Specifies the degree of generalisation in the roof structure of the reconstructed building model when compared to how the actual building is built. An LoD1 model for example only allows horizontal flat roof surfaces (even if the actual building roof looks different), whereas an LoD2 model also allows for more detailed multi-pitched roof shapes. For the remainder of this lesson we will focus on the more detailed LoD2 models. Lesson 4.1 discusses the possible LoDs for building models in more detail.
+	\item[Geometrically valid] This means among other things that the mesh is 2-manifold, has consistent faces orientation, no duplicated vertices, and no self intersecting geometries. This makes the model generally easier to process since many assumptions can be made about the structure of the mesh. Section~\ref{sec:isovalidity} discusses this (and the relevant ISO19107 standard) in more detail.
+	\item[Level of Detail (LoD)] Specifies the degree of generalisation in the roof structure of the reconstructed building model when compared to how the actual building is built. An LoD1 model for example only allows horizontal flat roof surfaces (even if the actual building roof looks different), whereas an LoD2 model also allows for more detailed multi-pitched roof shapes. For the remainder of this chapter we will focus on the more detailed LoD2 models. Section~\ref{sec:lods} discusses the possible LoDs for building models in more detail.
 \end{description}
 
 \subsection{Reconstruction challenges}
@@ -159,7 +159,7 @@ Clearly both approaches have limitations. The most advanced building reconstruct
 
 \section{Automatic LoD2 reconstruction for the Netherlands}
 % design context
-In this section we will discuss an automatic LoD2 reconstruction method that I developed to work with Dutch open data\footnote{the AHN3 point cloud and the BAG building footprints}. 
+In this section we will discuss an automatic LoD2 reconstruction method that I developed to work with Dutch open data\marginnote{the AHN3 point cloud and the BAG building footprints}. 
 The output of this method should have both a good data fit and a low model complexity and is aimed to have completely valid geometry output. 
 This means the resulting models are suitable for various kinds of environmental simulation applications.
 
@@ -262,7 +262,7 @@ The use of a DCEL allows for easy traversal and manipulation of the roof-partiti
 
 
 Depending on the number of lines that remain after regularisation, the initial roof-partition may still have a high complexity; it may contain many small faces.
-To further reduce the complexity of the roof-partition and to simultaniously assign an optimal roofplane to each face, an optimisation step is performed\footnote{Graph-cut optimisation is used. The details on how graph-cut optimisation works are outside the scope of this course.}.
+To further reduce the complexity of the roof-partition and to simultaniously assign an optimal roofplane to each face, an optimisation step is performed\marginnote{Graph-cut optimisation is used. The details on how graph-cut optimisation works are outside the scope of this course.}.
 In this step a roof plane is assigned to each face in the roof-partition (see Figure~\ref{fig:method-overview} step 5).
 This is done in such a way that 1) the total error with the input point cloud is minimised and 2) the total length of the edges between faces of a different roof plane is minimised.
 This  optimisation thus seeks an optimal balance between respectively a good data fit and a low complexity of the roof-partition.

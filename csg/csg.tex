@@ -10,7 +10,7 @@
 
 % So far explicit, define
 
-Until this lesson, we have only discussed data models that represent 3D geometries very \emph{explicitly}.
+Until this chapter, we have only discussed data models that represent 3D geometries very \emph{explicitly}.
 In other words, we have been specifying objects' shape through simple elements that have a direct geometric interpretation.
 For instance, a tetrahedron's shape can be known by looking only at the coordinates of its four vertices, and a polyhedron's shape by looking at the set of its bounding polygons (which have a shape that is easily obtained from a list of vertices).
 Even in a compact representation of a voxel grid, the geometry of a single voxel can be easily known based on a few simple parameters, such as: the absolute location and orientation of the voxel grid, the cell spacing along each axis, the order of the voxels in a linear encoding of the grid, and an index to identify the voxel in this encoding.
@@ -56,7 +56,7 @@ In theory, arbitrary point sets can be used, although implementations usually li
 \label{fig:halfspaces}
 \end{figure}
 
-The next section of the handout is a short summary of the mathematical background for this lesson, which consists of set theory, Boolean set operations and their mathematical notation.
+The next section is a short summary of the mathematical background for this chapter, which consists of set theory, Boolean set operations and their mathematical notation.
 Feel free to skip it if you are familiar with them.
 In the next two sections, we look at how the two main elements of CSG work in theory: (i) the definition of simple objects as point sets, and (ii) how these elements can be combined using Boolean point set operations.
 The final section covers Nef polyhedra, which are arguably the best known basis to implement CSG in practice.
@@ -350,7 +350,7 @@ These corresponding elements are linked to each other, which makes it possible t
 %
 \section{Notes and comments}
 
-If you need more help with the mathematical background, check the Wikipedia pages on sets\footnote{\url{https://en.wikipedia.org/wiki/Set_(mathematics)}}, set algebra\footnote{\url{https://en.wikipedia.org/wiki/Algebra_of_sets}}.
+If you need more help with the mathematical background, check the Wikipedia pages on sets\marginnote{\faExternalLink\ \url{https://en.wikipedia.org/wiki/Set_(mathematics)}}, set algebra\marginnote{\faExternalLink\ \url{https://en.wikipedia.org/wiki/Algebra_of_sets}}.
 
 The earliest description of CSG is likely \citet[\S{}12.3]{Requicha77} and its properties is \citet{Requicha78}.
 However, it is more of a culmination of efforts of many people.
@@ -360,11 +360,11 @@ A nice example of how half-spaces can be stored in practice is \citet{Naylor90}.
 
 Nef polyhedra were originally described in \citet{Nef78}, although a much better description including the way they work with Boolean set operations is available in \citet{Bieri88}.
 
-For more background on the line arrangement problem, see the relevant Wikipedia page\footnote{\url{https://en.wikipedia.org/wiki/Arrangement_of_lines}}.
-For a clear description of how to compute one, see \citet[\S{}2]{deBerg08} or the user manual of the \texttt{Arrangements\_2} package of CGAL\footnote{\url{https://doc.cgal.org/latest/Arrangement_on_surface_2/index.html}}.
+For more background on the line arrangement problem, see the relevant Wikipedia page\marginnote{\faExternalLink\ \url{https://en.wikipedia.org/wiki/Arrangement_of_lines}}.
+For a clear description of how to compute one, see \citet[\S{}2]{deBerg08} or the user manual of the \texttt{Arrangements\_2} package of CGAL\marginnote{\faExternalLink\ \url{https://doc.cgal.org/latest/Arrangement_on_surface_2/index.html}}.
 
 Nef polyhedra as a CSG engine in practice is only possible thanks to \citet{Seel01} in 2D and \citet{Hachenberger06} in 3D.
 They discuss how to compute local pyramids in 2D and 3D, as well as Boolean point set operations on polygons and polyhedra.
-They are implemented in the CGAL packages 2D Boolean Operations on Nef Polygons\footnote{\url{https://doc.cgal.org/latest/Nef_2/index.html}} and 3D Boolean Operations on Nef Polyhedra\footnote{\url{https://doc.cgal.org/latest/Nef_3/index.html}}.
+They are implemented in the CGAL packages 2D Boolean Operations on Nef Polygons\marginnote{\faExternalLink\ \url{https://doc.cgal.org/latest/Nef_2/index.html}} and 3D Boolean Operations on Nef Polyhedra\marginnote{\faExternalLink\ \url{https://doc.cgal.org/latest/Nef_3/index.html}}.
 
 The general scheme to perform geometric operations in three steps (subdivision, selection and simplification) is discussed by \citet{Rossignac89}.
