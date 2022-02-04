@@ -8,7 +8,7 @@
 \chapter{Building information models}%
 \label{chap:bim}
 
-Building information model (BIM) involves the creation and use of detailed digital 3D models of buildings or infrastructure in a way that supports their design and construction, but increasingly also extending to their planning, operation, maintenance, refurbishing and/or demolition.
+Building information modelling (BIM) involves the creation and use of detailed digital 3D models of buildings or infrastructure in a way that supports their design and construction, but increasingly also extending to their planning, operation, maintenance, refurbishing and/or demolition\marginnote{building information modelling}\index{building information modelling}\marginnote{BIM}\index{BIM}.
 
 Originally, the scope of BIM was limited to support a building's design and construction in the Architecture Engineering and Construction (AEC) field.
 However, BIM models are now considered to be useful for much more than this narrow purpose, representing a central platform that can be used throughout a building's entire lifecycle, supporting collaboration by different users and different disciplines.
@@ -78,23 +78,23 @@ Firstly, it is attempting to cover all sorts of non-building infrastructure proj
 Secondly, it also aims to support all the stages of the lifecycle of an asset using the same base data, including its planning (with the help of GIS data), design, construction, operation, maintenance, refurbishing and demolition.
 These stages will likely involve different software, \eg\ specialised building design and asset management software; and it will also likely involve different people, \eg\ architects, surveyors, civil engineers, etc.
 
-Relevant to this, some software vendors and organisations (\eg\ the American Institute of Architects and the UK BIM Task Group) have come up with the concept of the level of development (LOD) of a BIM model, which is equivalent to the concept of level of detail (also LOD or LoD) in GIS\@.
+Relevant to this, some software vendors and organisations (\eg\ the American Institute of Architects and the UK BIM Task Group) have come up with the concept of the level of development (LOD)\marginnote{level of development}\index{level of development}\marginnote{LoD}\index{LoD} of a BIM model, which is equivalent to the concept of level of detail (also LOD or LoD) in GIS\@.
 While both terms are directly related to how abstract a model is, and indirectly to how complex the geometries in it are, the two terms are somewhat different.
 Different LoDs in GIS usually model the same features at the same time, but they are captured at or generalised to different levels of detail.
 Different LODs in a BIM model instead show the same asset at the different stages that it goes through, from its conception (as a rough sketch or even with no geometry), and gaining more detail as it passes through its design and to its construction.
 Ideally, this extends to modification of the model to reflect its as-built state, which can be then used for asset management and other applications.
-The exact terms used for different BIM LODs differ, but a common scheme is from LOD 100 (concept), LOD 200 (design during development), LOD 300 (detailed design to calculate materials and costs), LOD 400 (construction) and LOD 500 (asset management).
+The exact terms used for different BIM LODs differ, but a common scheme goes from LOD 100 (concept), LOD 200 (design during development), LOD 300 (detailed design to calculate materials and costs), LOD 400 (construction) and LOD 500 (asset management).
 Other schemes use smaller numbers, such as 1 to 7 in the United Kingdom, or use the same hundreds-series numbers but with different definitions.
 
-In the recent ISO 19560 standard (Organization and digitization of information about buildings and civil engineering works, including building information modelling (BIM) --- Information management using building information modelling), the Level of Information Need (LOIN) is defined as a `framework which defines the extent and granularity of information' and is intended to substitute the many and inconsistent previous classifications of LODs in BIM\@.
+In the recent ISO 19560 standard (Organization and digitization of information about buildings and civil engineering works, including building information modelling (BIM) --- Information management using building information modelling), the Level of Information Need (LOIN)\marginnote{level of information need}\index{level of information need}\marginnote{LOIN}\index{LOIN} is defined as a `framework which defines the extent and granularity of information' and is intended to substitute the many and inconsistent previous classifications of LODs in BIM\@.
 The LOIN is intended for clients who define their information needs for project management: various metrics can be used to measure the information to be delivered.
 For example, geometry, alphanumeric data and documents, as well as unstructured information such as plans, reports, photographs and so on, with the alphanumeric information considered at least as important as geometry, helping in the process of passing from documents (reports, manuals, product specification sheets) to the BIM model itself for the description, storage and management of the information related to the building.
 
 Another important set of terms is related to the dimensions in BIM, which are commonly used but they are used inconsistently\@.
-In this, practitioners and software vendors very often refer to 4D BIM, which means that a model includes time information, generally in the context of construction scheduling.
+In this, practitioners and software vendors very often refer to 4D BIM\marginnote{4D BIM}\index{4D BIM}, which means that a model includes time information, generally in the context of construction scheduling.
 Note however that this information might not be in a convenient format, \eg\ a linked Word file with a textual description.
-Other dimension definitions sometimes refer to 5D BIM, which usually means a model with cost information.
-Finally, different people use 6D or 7D BIM to refer to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
+Other dimension definitions sometimes refer to 5D BIM\marginnote{5D BIM}\index{5D BIM}, which usually means a model with cost information.
+Finally, different people use 6D\marginnote{6D BIM}\index{6D BIM} or 7D BIM\marginnote{7D BIM}\index{7D BIM} to refer to various other aspects (sustainability, facility management, and delivery of as-built models among others), but the definitions for these are very inconsistent.
 
 Apart from the core applications of BIM in managing a building's lifecycle mentioned above, it is worth noting that there are also many new possibilities that are currently being studied, such as the automatic conversion of BIM models into GIS-ready models that can be integrated into 3D city models, applying environmental analyses directly on BIM models (\eg\ shadow analyses), improving the sustainability of buildings (green BIM), using BIM models to automate building permit issuing, and as will be further discussed in this course, the integration of BIM models with GIS data (GeoBIM).
 
@@ -103,17 +103,17 @@ Apart from the core applications of BIM in managing a building's lifecycle menti
 BIM is an industry-dominated field, and software-specific file formats are still the main way in which files are exchanged, such as using the native formats of Autodesk's Revit\marginnote{\faExternalLink\ \url{https://www.autodesk.com/products/revit/overview}} and Graphisoft's ArchiCAD\marginnote{\faExternalLink\ \url{https://www.graphisoft.com/archicad/}} (BIMx).
 However, such formats are only well supported by their corresponding software programs, which leads to interoperability problems when exchanging files.
 
-As a way to solve this problem, the buildingSMART consortium, which notably includes a number of software companies (including Autodesk and the Graphisoft-owning Nemetschek Group)\marginnote{\faExternalLink\ \url{https://www.buildingsmart.org/members/member-directory/}}, created the industry foundation classes (IFC)\marginnote{\faExternalLink\ \url{http://www.buildingsmart-tech.org/specifications/ifc-releases}} as an open data model for the exchange of BIM models.
+As a way to solve this problem, the buildingSMART consortium, which notably includes a number of software companies (including Autodesk and the Graphisoft-owning Nemetschek Group)\marginnote{\faExternalLink\ \url{https://www.buildingsmart.org/members/member-directory/}}, created the industry foundation classes\marginnote{industry foundation classes}\index{industry foundation classes} (IFC)\marginnote{IFC}\index{IFC}\marginnote{\faExternalLink\ \url{http://www.buildingsmart-tech.org/specifications/ifc-releases}} as an open data model for the exchange of BIM models.
 IFC has been further standardised as ISO 16739~\citep{ISO16739:2013} with its geometry definitions in ISO 10303~\citep{ISO10303:2014}.
 
 IFC files are often large (hundreds of MBs), and their structure is rather complex.
-They can contain many types of classes (130 defined types, 217 enumeration types, 60 select types, 816 entities, 47 functions, 2 rules, 415 property sets, 93 quantity sets and 1697 individual properties in IFC 4.2\marginnote{\faExternalLink\ \url{https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/}}), which are defined using the EXPRESS data modelling language.
-Among others, there are several classes to model actors (\eg\ people and organisations), controls (\eg\ specifications, regulations, schedules and other requirements), processes (\eg\ actions during construction), products (\eg\ physical building elements and other spatially defined objects), the project itself (\eg\ where it is placed), and resources (\eg\ cost, materials and equipment), as well as groups of other classes (\eg\ those having a common purpose).
+They can contain many types of classes (130 defined types, 217 enumeration types, 60 select types, 816 entities, 47 functions, 2 rules, 415 property sets, 93 quantity sets and 1697 individual properties in IFC 4.2\marginnote{\faExternalLink\ \url{https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/}}), which are defined using the EXPRESS\marginnote{EXPRESS}\index{EXPRESS} data modelling language.
+Among others, there are several classes to model actors\marginnote{actor}\index{actor} (\eg\ people and organisations), controls\marginnote{control}\index{control} (\eg\ specifications, regulations, schedules and other requirements), processes\marginnote{process}\index{process} (\eg\ actions during construction), products\marginnote{product}\index{product} (\eg\ physical building elements and other spatially defined objects), the project itself (\eg\ where it is placed), and resources (\eg\ cost, materials and equipment), as well as groups of other classes (\eg\ those having a common purpose).
 In the rest of this handout, we will mostly focus on products.
 
 \subsection{General organisation of the standard}
 
-The concepts represented in IFC are organized in four conceptual layers, as represented in Figure~\ref{fig:ifclayers}.
+The concepts represented in IFC are organized in four conceptual layers\marginnote{IFC layers}\index{IFC layers}, as represented in Figure~\ref{fig:ifclayers}.
 
 \begin{figure}
 	\begin{center}
@@ -123,19 +123,19 @@ The concepts represented in IFC are organized in four conceptual layers, as repr
 	\end{center}
 \end{figure}
 
-The core layer contains the classes which are central and most general in the data model.
-In particular, the Kernel contains the root classes for the definition of objects, relationships and properties and their relationships (\eg\ \texttt{IfcRoot}, superclass of all the other entities; \texttt{IfcRelationship}, superclass of all relationships; \texttt{IfcObject}, which is the parent entity of \texttt{IfcGroup}, \texttt{IfcActor}, \texttt{IfcResource}, \texttt{Ifc\-Con\-trol}, \texttt{IfcProcess}, \texttt{IfcProject} and \texttt{IfcProduct}, being specified in the further extensions of the model).
+The core layer\marginnote{IFC core layer}\index{IFC core layer} contains the classes which are central and most general in the data model.
+In particular, the Kernel\marginnote{IFC kernel}\index{IFC kernel} contains the root classes for the definition of objects, relationships and properties and their relationships (\eg\ \texttt{IfcRoot}, superclass of all the other entities; \texttt{IfcRelationship}, superclass of all relationships; \texttt{IfcObject}, which is the parent entity of \texttt{IfcGroup}, \texttt{IfcActor}, \texttt{IfcResource}, \texttt{Ifc\-Con\-trol}, \texttt{IfcProcess}, \texttt{IfcProject} and \texttt{IfcProduct}, being specified in the further extensions of the model).
 In the core layer there are also the three main extensions representing the foreseen possible representations by IFC:\@ product, control and process.
 
 The interoperability layer includes classes specialising those defined in the \texttt{IfcProductExtension} schema, increasing the level of detail of the represented information. The included entities can be of interest to multiple domains.
 
-Some even more specific information can be represented through the domain specific part of the schema, which can specify either classes represented in the interoperability layer or in the product extension directly (\texttt{IfcArchitectureDomain}, \texttt{IfcBuildingControlsDomain}, \texttt{Ifc\-Cons\-truc\-tion\-Mgmt\-Do\-main}, \texttt{IfcElectricalDomain}, \texttt{IfcHvacDomain}, \texttt{Ifc\-Plum\-bing\-Fire\-Pro\-tec\-tion\-Do\-main}, \texttt{Ifc\-Struc\-tu\-ral\-A\-na\-ly\-sis\-Do\-main}, \texttt{Ifc\-Struc\-tu\-ral\-E\-le\-ments\-Do\-main}).
+Some even more specific information can be represented through the domain specific part of the schema, which can specify either classes represented in the interoperability layer\marginnote{IFC interoperability layer}\index{IFC interoperability layer} or in the product extension directly (\texttt{IfcArchitectureDomain}, \texttt{IfcBuildingControlsDomain}, \texttt{Ifc\-Cons\-truc\-tion\-Mgmt\-Do\-main}, \texttt{IfcElectricalDomain}, \texttt{IfcHvacDomain}, \texttt{Ifc\-Plum\-bing\-Fire\-Pro\-tec\-tion\-Do\-main}, \texttt{Ifc\-Struc\-tu\-ral\-A\-na\-ly\-sis\-Do\-main}, \texttt{Ifc\-Struc\-tu\-ral\-E\-le\-ments\-Do\-main}).
 
-The resource layer defines entities to further describe the objects defined in the other levels.
+The resource layer\marginnote{IFC resource layer}\index{IFC resource layer} defines entities to further describe the objects defined in the other levels.
 
 \subsection{Formats, encodings and federated models}
 
-The most common encoding of IFC files is the STEP Physical File (SPF), which is a plain text format that is reasonably compact, easy to parse by a computer and human readable (Figure~\ref{fig:step}).
+The most common encoding of IFC files is the STEP Physical File (SPF)\marginnote{STEP physical file}\index{STEP physical file}\marginnote{SPF}\index{SPF}, which is a plain text format that is reasonably compact, easy to parse by a computer and human readable (Figure~\ref{fig:step}).
 It is also defined in the ISO 10303 standard.
 Files with this encoding have the extension \texttt{.ifc}.
 
@@ -169,7 +169,7 @@ These parameters can be empty (\texttt{\$}), a number, a list (a comma separated
 \label{fig:step}
 \end{figure}
 
-In addition to STEP files, there is also an XML encoding of the standard (IFC-XML) with file extension \texttt{.ifcXML}, as well as a zipped version of the other encodings with extension \texttt{.ifcZIP}.
+In addition to STEP files, there is also an XML encoding of the standard (IFC-XML)\marginnote{IFC-XML}\index{IFC-XML} with file extension \texttt{.ifcXML}, as well as a zipped version of the other encodings with extension \texttt{.ifcZIP}\marginnote{IFC zip}\index{IFC zip}.
 These two are less convenient due to the large file of XML files and the need to uncompress its zipped version.
 They are thus rarely used in practice.
 In addition, recent proposals add new options to store the IFC files, in order to enable the use of further technologies for their management.
@@ -177,27 +177,27 @@ For example, the Ontology Web Language (OWL) format is considered in ifcOWL, and
 An overview of available formats is given at \url{https://technical.buildingsmart.org/standards/ifc/ifc-formats/}
 
 BIM models are usually split into several models, each of which describe the information related to a design discipline working on a project: architectural, structural, installations, etc.
-They are combined together in a federated model.
+They are combined together in a federated model\marginnote{federated model}\index{federated model}.
 
 \subsection{How objects are modelled}
 
-Physical elements in IFC (\ie\ \texttt{IfcElement}) are usually modelled separately using a local coordinate system that is defined per object (as opposed to the national or regional coordinate systems used in GIS).
+Physical elements in IFC\marginnote{IFC element}\index{IFC element} (\ie\ \texttt{IfcElement}) are usually modelled separately using a local coordinate system that is defined per object (as opposed to the national or regional coordinate systems used in GIS).
 This reflects the fact that in BIM and CAD, objects are generally modelled independently before later being fitted together.
 In practice, this means that the location of an independently-modelled element is defined by a hierarchy of transformations.
 For example, these levels can correspond to the levels in a decomposition structure (typically a site, project, building and individual floors), or link an element to another element (a dependent element linked to one it is attached to).
 
-In concrete terms, a product in IFC (\ie\ \texttt{IfcProduct}, which is a superclass of \texttt{IfcElement}), is linked to a geometry (\ie\ \texttt{IfcProductRepresentation}) and to the local coordinate system that defines its location (\ie\ \texttt{Ifc\-Ob\-ject\-Place\-ment}).
+In concrete terms, a product in IFC\marginnote{IFC product}\index{IFC product} (\ie\ \texttt{IfcProduct}, which is a superclass of \texttt{IfcElement}), is linked to a geometry (\ie\ \texttt{IfcProductRepresentation}\marginnote{IFC product representation}\index{IFC product representation}) and to the local coordinate system that defines its location (\ie\ \texttt{Ifc\-Ob\-ject\-Place\-ment})\marginnote{IFC object placement}\index{IFC object placement}.
 The latter can be absolute (\ie\ defined with respect to the whole project's coordinate system) or relative (\ie\ defined with respect to another product).
 
 \subsection{Geometry}
 
-The geometry of a physical element can be created using a variety of representation paradigms:
+The geometry of a physical element\marginnote{IFC geometry}\index{IFC geometry} can be created using a variety of representation paradigms:
 \begin{description}
   \item[Primitive instancing:] an object is represented based on a set number of predefined parameters (Figure~\ref{fig:parametric}).
-  IFC uses this paradigm to define various forms of 2D profiles (Figure~\ref{fig:profiles}), as well as volumetric objects, such as spheres, cones and pyramids.
+  IFC uses this paradigm to define various forms of 2D profiles\marginnote{IFC profile}\index{IFC profile} (Figure~\ref{fig:profiles}), as well as volumetric objects, such as spheres, cones and pyramids.
   \item[CSG and Boolean operations:] an object is represented as a tree of Boolean set operations (union, intersection and difference) of volumetric objects (Figure~\ref{fig:csg}).
   Half-spaces are often used to cut out the undesired parts of surfaces or volumes.
-  \item[Sweep volumes:] a solid can also be defined by a 2D profile (a circle, a rectangle or an arbitrary polygon with or without holes) and a curve along which the surface is extruded (Figure~\ref{fig:sweeps}).
+  \item[Sweep volumes:] a solid can also be defined by a 2D profile (a circle, a rectangle or an arbitrary polygon with or without holes) and a curve along which the surface is extruded\marginnote{IFC sweep volume}\index{IFC sweep volume} (Figure~\ref{fig:sweeps}).
   \item[B-rep:] an object is represented by its bounding surfaces, either triangulated meshes, polygonal meshes or topological arrangements of free-form surfaces (Figure~\ref{fig:brep}).
 \end{description}
 These paradigms can be used independently or combined with each other in a hierarchy.
@@ -272,9 +272,9 @@ Every point is defined as an \texttt{IfcCartesianPoint}, then the polygon is def
 
 Related to how geometries are stored in IFC, two constructs (and related IFC classes) are particularly important: \texttt{IfcOpenings} and \texttt{IfcSpaces}.
 Subtraction relationships are part of the IFC model, representing openings by means of the voiding mechanism:
-\texttt{IfcOpening} defines the 3D objects that are subtracted from another geometry (\eg\ a hole for a window in an \texttt{IfcWall} or for a staircase in an \texttt{IfcSlab}).
+\texttt{IfcOpening}\marginnote{IFC opening}\index{IFC opening} defines the 3D objects that are subtracted from another geometry (\eg\ a hole for a window in an \texttt{IfcWall} or for a staircase in an \texttt{IfcSlab}).
 The \texttt{IfcOpening} can be in turn filled by an element, like an \texttt{IfcWindow} or \texttt{IfcDoor}.
-Meanwhile, \texttt{IfcSpaces} are used to explicitly model meaningful spaces (\eg\ rooms, apartments or storeys), and it is possible to associate attributes to them.
+Meanwhile, \texttt{IfcSpaces}\marginnote{IFC space}\index{IFC space} are used to explicitly model meaningful spaces (\eg\ rooms, apartments or storeys), and it is possible to associate attributes to them.
 
 \subsection{Semantics}
 
@@ -285,7 +285,7 @@ These can be used to represent many different functions that a building element 
 % Its use should therefore be discouraged for elements that correspond to one of the entities listed above.
 Similar subentities exist in other parts of the standard, such as for distribution elements (\eg\ for heating, cooling, ventilation and plumbing).
 
-In order to represent objects which are not included in the IFC model, an \texttt{IfcProxy} element is foreseen, which is a subclass of \texttt{IfcProduct}.
+In order to represent objects which are not included in the IFC model, an \texttt{IfcProxy}\marginnote{IFC proxy}\index{IFC proxy} element is foreseen, which is a subclass of \texttt{IfcProduct}.
 For example, the entity \texttt{IfcBuildingElementProxy} described above is a subentity of \texttt{IfcProxy} for building elements.
 Such generic entities are useful in order to support the addition of customised entities to models.
 However, many times this is misused to represent objects which have suitable entities in the IFC model.
@@ -294,14 +294,14 @@ This is a problem, since a correct interpretation of such entities from the sema
 Moreover, it is often possible to store the same kind of object by means of several entities.
 For example, the layers within a compound wall object can be represented by means of an associated \texttt{IfcMaterialLayerSet}, but also as a more generic decomposition where every wall layer is modelled as a distinct \texttt{IfcBuildingElementPart}.
 
-Regarding relationships between entities, IFC classes are generally structured in a deep hierarchies (is-a relationships), but some are organized in meronymic (part-of) trees, and there is support for spatial composition (fits-within) by means of \texttt{IfcSpatialStructureElements}\marginnote{\faExternalLink\ \url{https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD1/HTML/schema/ifcproductextension/lexical/ifcspatialstructureelement.htm}}.
+Regarding relationships between entities, IFC classes are generally structured in a deep hierarchies (is-a relationships), but some are organized in meronymic (part-of) trees, and there is support for spatial composition (fits-within) by means of \texttt{IfcSpatialStructureElements}\marginnote{IFC spatial structure element}\index{IFC spatial structure element}\marginnote{\faExternalLink\ \url{https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD1/HTML/schema/ifcproductextension/lexical/ifcspatialstructureelement.htm}}.
 This is used for the hierarchy of site, building, storey, space and zone.
 Finally, elements are also related to one another directly, for example for wall connectivity and space boundaries.
 
 Regarding attributes, various forms of semantic information can be associated to IFC elements, such as materials, properties (key-value pairs) and even scheduling.
 The specific attributes that can be attached to each entity can be checked by looking at its documentation, taking into account that an entity can have all the attributes (recursively) inherited from its parents.
 
-In addition, property sets can be used for attributes.
+In addition, property sets\marginnote{IFC property set}\index{IFC property set} can be used for attributes.
 For instance, a building's use can be defined using the property set \texttt{Pset\_BuildingUse}, which includes things like its market category (\eg\ residential or commercial).
 Another example is given in Figure~\ref{fig:pset}, where custom properties are defined in order to store specific semantics of a model.
 
@@ -362,7 +362,7 @@ Another example is given in Figure~\ref{fig:pset}, where custom properties are d
 
 \subsection{Georeferencing}
 
-Properly georeferencing an IFC file makes it possible to link the (local) coordinates inside an IFC model with their corresponding real-world coordinates, and thus to place the model of a single building or construction within the virtual environment.
+Properly georeferencing\marginnote{IFC georeferencing}\index{IFC georeferencing} an IFC file makes it possible to link the (local) coordinates inside an IFC model with their corresponding real-world coordinates, and thus to place the model of a single building or construction within the virtual environment.
 However, it is important to say that since georeferencing has historically not been necessary for designers, many IFC models are not georeferenced properly (or at all), which is a major issue in practice.
 
 There are several options to store georeferencing information in IFC, as originally described by \citet{clemen2019level} and summarised in Table~\ref{tab:LoGeoRefs}.

@@ -10,38 +10,34 @@
 
 The Medial Axis Transform (MAT) is yet another way to represent a 3D model.
 It can be considered a \emph{dual} representation to the b-rep, similar to how the Voronoi diagram is dual to the Delaunay triangulation. 
-Contrary to the b-rep, that represents a model by describing explicitly its boundary surface, the MAT describes a model by its \emph{skeleton} (compare Figures~\ref{fig:gbm:brep} and \ref{fig:gbm:maxis}).
-\begin{marginfigure}
+Contrary to the b-rep, that represents a model by describing explicitly its boundary surface, the MAT describes a model by its \emph{skeleton} (compare Figures~\ref{fig:gbm:brep} and~\ref{fig:gbm:maxis}).
+\begin{figure}
 	\centering
-	\begin{subfigure}[b]{0.47\linewidth}
+	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_whole.pdf}
 		\caption{}
 		\label{fig:gbm:whole}
 	\end{subfigure}
-	% \qquad%
-	\begin{subfigure}[b]{0.47\linewidth}
+	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_brep.pdf}
 		\caption{}
 		\label{fig:gbm:brep}
 	\end{subfigure}
-	% \qquad%
-	\begin{subfigure}[b]{0.50\linewidth}
+	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_skeleton.pdf}
 		\caption{}
 		\label{fig:gbm:maxis}
-	\end{subfigure}
-	
-	\begin{subfigure}[b]{0.47\linewidth}
+	\end{subfigure}\\
+	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_mat.pdf}
 		\caption{}
 		\label{fig:gbm:mballs}
 	\end{subfigure}
-	% \qquad
-	\begin{subfigure}[b]{0.47\linewidth}
+	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_grassfire.pdf}
 		\caption{}
@@ -50,7 +46,7 @@ Contrary to the b-rep, that represents a model by describing explicitly its boun
 	
 	\caption{Different ways to represent the shape of gingerbread man (a). b) b-rep; c) Interior MAT; d) b-rep + MAT with medial balls; e) b-rep + contours of equal distance to it + MAT}
 	\label{fig:gingerman}
-\end{marginfigure}
+\end{figure}
 Both the MAT and the b-rep contain exactly the same information and it is possible to convert one to the other without loss of information.
 
 Compared to other shape representations, this skeleton structure makes different properties of the model explicit.
