@@ -279,9 +279,9 @@ Observe that both the data model and the XML encoding are officially called `Cit
 \marginnote{CityGML vs CityGML-XML}
 
 \begin{kaobox-warning}[frametitle=\faExclamationTriangle\ There is no XML encoding yet for CityGML v3.0.0]
-  At the moment of writing this book (January 2022), the CityGML-XML encoding has not been standardised yet.
+  At the moment of writing this book (January 2023), the CityGML-XML encoding has not been finalised yet.
   \\ \\
-  There is however a draft available: \faExternalLink\ \url{https://github.com/opengeospatial/CityGML-3.0Encodings/}.
+  There is however a draft available: \faExternalLink\ \url{https://github.com/opengeospatial/CityGML-3.0Encodings/}, which should be adapted soon.
 \end{kaobox-warning}
 
 
@@ -365,8 +365,7 @@ This has to do with the fact that XML itself requires special libraries to handl
 \section{CityJSON}%
 \index{CityJSON}
 
-CityJSON is a JSON-based encoding 
-for a subset of the  CityGML data model (version 3.0). 
+CityJSON is a JSON-based encoding for a subset of the  CityGML data model (version 3.0). 
 \marginnote{\textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation}
 \marginnote{\faExternalLink\ \url{http://json.org}}
 It defines how to store digital 3D models of cities and landscapes. 
@@ -376,8 +375,7 @@ It was designed with programmers in mind, so that tools and APIs supporting it c
 
 %
 
-The current version of CityJSON is 1.1, 
-and it is a standard of the Open Geospatial Consortium (OGC).
+The current version of CityJSON is 1.1, and it is a standard of the Open Geospatial Consortium (OGC).
 \marginnote{\faExternalLink\ \url{https://cityjson.org}}
 
 %
@@ -515,7 +513,7 @@ The geometry is based on an enumeration of the vertices forming each ring of a s
 A \texttt{"MultiSurface"} has an array containing surfaces, where each surface is modelled by an array of arrays, the first array being the exterior boundary of the surface, and the others the interior boundaries.
 A \texttt{"Solid"} has an array of shells, the first array being the exterior shell of the solid, and the others being the interior shells; each shell has an array of surfaces, modelled in the exact same way as a \texttt{"MultiSurface"}.
 Notice that unlike with GML and CityGML-XML, there is only one variation per geometry type, which (greatly) simplifies the life of developers.
-\marginnote{Concrete examples of each geometric type are given at \faExternalLink\ \url{https://www.cityjson.org/help/geom-arrays/}.}
+\marginnote{Concrete examples of each geometric type are given at \faExternalLink\ \url{https://www.cityjson.org/dev/geom-arrays/}.}
 \begin{lstlisting}
   {
     "type": "Solid",
