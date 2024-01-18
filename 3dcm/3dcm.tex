@@ -258,12 +258,13 @@ CityJSON has a similar mechanism, see below.
 %%%
 \subsection{Encodings}
 
-Based on the CityGML data model, there exist three encodings:
+Based on the CityGML data model, there exist four encodings:
 \begin{enumerate}
-  \item XML-based encoding, also called ``CityGML''
-  \item CityJSON
+  \item XML-based encoding, also called ``CityGML'';
+  \item CityJSON;
   \item a database schema called 3DCityDB, which can be implemented both for PostgreSQL and Oracle Spatial. This is not an official standard, but is nonetheless used by several municipalities around the world.
   \marginnote{\faExternalLink\ \url{https://www.3dcitydb.org}}
+  \item a database schema based on the CityJSON, it is called `cjdb'. This is also not an official standard.
 \end{enumerate}
 We discuss in the following the first two.
 % TODO: why not add a section about 3dcitydb? to be complete
@@ -278,12 +279,6 @@ The XML encoding of the CityGML data model is an application schema of GML, the 
 Observe that both the data model and the XML encoding are officially called `CityGML', but that since this is too confusing in practice, in this book we refer to the data model by using simply `CityGML', and to the encoding by using `CityGML-XML'.
 \marginnote{CityGML vs CityGML-XML}
 
-\begin{kaobox-warning}[frametitle=\faExclamationTriangle\ There is no XML encoding yet for CityGML v3.0.0]
-  At the moment of writing this book (January 2023), the CityGML-XML encoding has not been finalised yet.
-  \\ \\
-  There is however a draft available: \faExternalLink\ \url{https://github.com/opengeospatial/CityGML-3.0Encodings/}, which should be adapted soon.
-\end{kaobox-warning}
-
 
 %
 
@@ -293,10 +288,10 @@ Each text file can represent a part of the dataset, such as a specific region, o
 \begin{lstlisting}
 <?xml version="1.0" encoding="UTF-8"?>
 <CityModel xmlns:xlink="http://www.w3.org/1999/xlink" 
-  xmlns:gml="http://www.opengis.net/gml" 
-  xmlns="http://www.opengis.net/citygml/2.0" 
-  xmlns:bldg="http://www.opengis.net/citygml/building/2.0"  
-  xsi:schemaLocation="http://www.opengis.net/citygml/2.0">
+  xmlns:gml="http://www.opengis.net/gml/3.2" 
+  xmlns="http://www.opengis.net/citygml/3.0" 
+  xmlns:bldg="http://www.opengis.net/citygml/building/3.0"  
+  xsi:schemaLocation="http://www.opengis.net/citygml/3.0">
   <cityObjectMember>
   <bldg:Building gml:id="9a06451677c7">
     <bldg:function>1070</bldg:function>
@@ -375,7 +370,7 @@ It was designed with programmers in mind, so that tools and APIs supporting it c
 
 %
 
-The current version of CityJSON is 1.1, and it is a standard of the Open Geospatial Consortium (OGC).
+The current version of CityJSON is 2.0, and it is a standard of the Open Geospatial Consortium (OGC).
 \marginnote{\faExternalLink\ \url{https://cityjson.org}}
 
 %
@@ -393,7 +388,7 @@ A CityJSON file represents a given geographical area; the file contains one JSON
 \begin{lstlisting}
   {
     "type": "CityJSON",
-    "version": "1.1",
+    "version": "2.0",
     "transform": {},
     "metadata": {},
     "CityObjects": {},
@@ -556,7 +551,7 @@ CityJSON thus conforms to a subset of CityGML, although technically only XML-enc
 %
 
 The main features that are \underline{not} supported are:
-\marginnote{full list at: \url{https://www.cityjson.org/conformance/v30/}}
+\marginnote{full list at: \url{https://www.cityjson.org/citygml/v30/}}
 \begin{itemize}
   \item Several CRSs in the same datasets. In CityJSON, all geometries in a given CityJSON object must use the same CRS\@. In CityGML, 3 adjacent buildings can all have different CRSs, and some of the geometries to represent the walls can be in yet another CRS (although admittedly it is seldom used!).
   \item Identifiers for low-level geometries. In CityGML most objects can have an ID (usually a \texttt{gml:id}). That is, not only can one building have an ID, but also each of the 3D primitives forming its geometry can have an ID\@. In CityJSON, only city objects and semantic surfaces can have IDs.
@@ -595,7 +590,7 @@ Attributes for specific polygons or groups of polygons is only possible by using
 \textbf{OFF} is a simpler format: only polygons can be represented, optionally with their colours.
 \marginnote{OFF specifications: \url{https://en.wikipedia.org/wiki/OFF_(file_format)}}
 
-\textbf{PLY} is based on the same ideas for the geometries, and attributes can also be attached to vertices and polygons. (See the \emph{Computational modelling of terrains} book Section~12.1).
+\textbf{PLY} is based on the same ideas for the geometries, and attributes can also be attached to vertices and polygons. (See the \emph{Computational modelling of terrains} book Appendix~A).
 
 Notice that neither of these formats allow us to store an ISO19107 solid having inner shells and attributes/semantics for different parts/elements.
 
@@ -630,11 +625,14 @@ LandInfra is a relatively young standard and at present it is difficult to ident
 
 The official specifications of CityGML are available at \url{https://www.opengeospatial.org/standards/citygml}.
 
+
 \citep{Stadler07} first proposed and described the semantic and spatial decompositions of a city, and how keeping the two decomposition aligned has several advantages in practice.
 
 \citet{Biljecki15a} describe and list 30 use-cases and 100 applications that make use of semantic 3D city models.
 
 See \citet{Biljecki18} for an overview of the existing ADEs (for CityGML v2.0.0).
+
+The official specifications of CityJSON are available at \url{https://www.cityjson.org/specs/}.
 
 CityJSON specifications, examples datasets, tutorials, and software are available at \url{https://cityjson.org}.
 \citet{Ledoux19} discuss in details the encoding and give concrete examples why they believe it is a superior encoding to XML for the CityGML data model; parts of this chapter was taken and adapted from that paper.
