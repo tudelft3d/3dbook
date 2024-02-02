@@ -116,11 +116,10 @@ In the rest of this handout, we will mostly focus on products.
 The concepts represented in IFC are organized in four conceptual layers\marginnote{IFC layers}\index{IFC layers}, as represented in Figure~\ref{fig:ifclayers}.
 
 \begin{figure}
-	\begin{center}
-		\includegraphics[width=\linewidth]{figs/IFC4LayeredArchitecture.png}
-		\caption{{The four layers in which the Industry Foundation Classes are organised. Source: IFC4.1 specification}}%
-		\label{fig:ifclayers}
-	\end{center}
+\centering
+\includegraphics[width=\linewidth]{figs/IFC4LayeredArchitecture.png}
+\caption{{The four layers in which the Industry Foundation Classes are organised. Source: IFC4.1 specification}}%
+\label{fig:ifclayers}
 \end{figure}
 
 The core layer\marginnote{IFC core layer}\index{IFC core layer} contains the classes which are central and most general in the data model.
@@ -140,7 +139,7 @@ It is also defined in the ISO 10303 standard.
 Files with this encoding have the extension \texttt{.ifc}.
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
-\begin{figure}
+\begin{figure}[htbp]
 \begin{lstlisting}[frame=single]
 #365= IFCDIRECTION((1.,0.,0.));
 #367= IFCDIRECTION((0.,0.,1.));
@@ -202,7 +201,7 @@ The geometry of a physical element\marginnote{IFC geometry}\index{IFC geometry} 
 \end{description}
 These paradigms can be used independently or combined with each other in a hierarchy.
 
-\begin{figure}
+\begin{figure}[htbp]
 \begin{lstlisting}[frame=single]
 #17079= IFCDIRECTION((1.,0.));
 #17081= IFCCARTESIANPOINT((0.,0.));
@@ -214,22 +213,22 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 \label{fig:parametric}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{0.45\linewidth}
-	\includegraphics[width=\linewidth]{figs/profiles}%
-	\label{subfig:profiles}
+\includegraphics[width=\linewidth]{figs/profiles}%
+\label{subfig:profiles}
 \end{subfigure}
 \quad
 \begin{subfigure}[b]{0.45\linewidth}
-	\includegraphics[width=\linewidth]{figs/letter_profiles}%
-	\label{subfig:letter-profiles}
+\includegraphics[width=\linewidth]{figs/letter_profiles}%
+\label{subfig:letter-profiles}
 \end{subfigure}
 \caption{The IFC standard supports parametric instantiated objects, such as these extrusions of (a) shape profiles and (b) letter profiles.}%
 \label{fig:profiles}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 \begin{lstlisting}[frame=single]
 #237=IFCEXTRUDEDAREASOLID(#236,#234,#230,6000.);
 #238=IFCDIRECTION((1.,0.,0.));
@@ -244,7 +243,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 \label{fig:csg}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{0.45\linewidth}
 	\includegraphics[width=\linewidth]{figs/ifc-1}%
@@ -258,7 +257,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 \label{fig:sweeps}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
 \begin{lstlisting}[frame=single]
 #120= IFCCARTESIANPOINT((-3.,13.,0.));
 #122= IFCCARTESIANPOINT((12.,10.,0.));
@@ -305,20 +304,20 @@ In addition, property sets\marginnote{IFC property set}\index{IFC property set} 
 For instance, a building's use can be defined using the property set \texttt{Pset\_BuildingUse}, which includes things like its market category (\eg\ residential or commercial).
 Another example is given in Figure~\ref{fig:pset}, where custom properties are defined in order to store specific semantics of a model.
 
-\begin{figure}
-	\begin{lstlisting}[frame=single]
-	#991622=IFCPROPERTYSINGLEVALUE('End Extension Calculation',$,IFCLENGTHMEASURE(3000.),$);
-	#991623=IFCPROPERTYSINGLEVALUE('Material',$,IFCLABEL('NL_01_hout_plaat'),$);
-	#991624=IFCPROPERTYSINGLEVALUE('Length',$,IFCLENGTHMEASURE(2594.),$);
-	#991625=IFCPROPERTYSINGLEVALUE('Start Release',$,IFCINTEGER(3),$);
-	#991626=IFCPROPERTYSINGLEVALUE('End Release',$,IFCINTEGER(1),$);
-	#991627=IFCPROPERTYSINGLEVALUE('Cut Length',$,IFCLENGTHMEASURE(2594.000000000001),$);
-	#991628=IFCPROPERTYSINGLEVALUE('Structural Usage',$,IFCINTEGER(10),$);
-	#991629=IFCPROPERTYSINGLEVALUE('Analyze As',$,IFCINTEGER(1),$);
-	#991630=IFCPROPERTYSINGLEVALUE('Volume',$,IFCVOLUMEMEASURE(13602936.00000029),$);
+\begin{figure}[htbp]
+\begin{lstlisting}[frame=single]
+#991622=IFCPROPERTYSINGLEVALUE('End Extension Calculation',$,IFCLENGTHMEASURE(3000.),$);
+#991623=IFCPROPERTYSINGLEVALUE('Material',$,IFCLABEL('NL_01_hout_plaat'),$);
+#991624=IFCPROPERTYSINGLEVALUE('Length',$,IFCLENGTHMEASURE(2594.),$);
+#991625=IFCPROPERTYSINGLEVALUE('Start Release',$,IFCINTEGER(3),$);
+#991626=IFCPROPERTYSINGLEVALUE('End Release',$,IFCINTEGER(1),$);
+#991627=IFCPROPERTYSINGLEVALUE('Cut Length',$,IFCLENGTHMEASURE(2594.000000000001),$);
+#991628=IFCPROPERTYSINGLEVALUE('Structural Usage',$,IFCINTEGER(10),$);
+#991629=IFCPROPERTYSINGLEVALUE('Analyze As',$,IFCINTEGER(1),$);
+#991630=IFCPROPERTYSINGLEVALUE('Volume',$,IFCVOLUMEMEASURE(13602936.00000029),$);
 \end{lstlisting}
-	\caption{Defining properties to store the semantics in an IFC model.}%
-	\label{fig:pset}
+\caption{Defining properties to store the semantics in an IFC model.}%
+\label{fig:pset}
 \end{figure}
 
 
@@ -370,7 +369,7 @@ These options range from basic address information to the definition of a more d
 In this last case, an offset can be stored between the project coordinate system and the global origin of a CRS (\(X\), \(Y\) and height).
 The rotation of the \(XY\)-plane is also included.
 
-\begin{table}
+\begin{table}[htbp]
 	\centering
 	\small
 	\begin{tabular}{m{1.6cm}m{2.2cm}m{5.5cm}}
