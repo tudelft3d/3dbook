@@ -197,7 +197,7 @@ The geometry of a physical element\marginnote{IFC geometry}\index{IFC geometry} 
   \item[CSG and Boolean operations:] an object is represented as a tree of Boolean set operations (union, intersection and difference) of volumetric objects (Figure~\ref{fig:csg}).
   Half-spaces are often used to cut out the undesired parts of surfaces or volumes.
   \item[Sweep volumes:] a solid can also be defined by a 2D profile (a circle, a rectangle or an arbitrary polygon with or without holes) and a curve along which the surface is extruded\marginnote{IFC sweep volume}\index{IFC sweep volume} (Figure~\ref{fig:sweeps}).
-  \item[B-rep:] an object is represented by its bounding surfaces, either triangulated meshes, polygonal meshes or topological arrangements of free-form surfaces (Figure~\ref{fig:brep}).
+  \item[B-rep:] an object is represented by its bounding surfaces, either triangulated meshes, polygonal meshes or topological arrangements of free-form surfaces (Figure~\ref{fig:brepbim}).
 \end{description}
 These paradigms can be used independently or combined with each other in a hierarchy.
 
@@ -266,7 +266,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 \end{lstlisting}
 \caption{Defining a simple polygon (\ie\ \texttt{IfcPolyLoop}) using B-rep.
 Every point is defined as an \texttt{IfcCartesianPoint}, then the polygon is defined by a list of points.}%
-\label{fig:brep}
+\label{fig:brepbim}
 \end{figure}
 
 Related to how geometries are stored in IFC, two constructs (and related IFC classes) are particularly important: \texttt{IfcOpenings} and \texttt{IfcSpaces}.

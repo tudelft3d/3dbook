@@ -1,14 +1,8 @@
 
 \documentclass[
-  fontsize=10pt, % Base font size
-  twoside=true, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
-  % open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
   secnumdepth=1, % How deep to number headings. Defaults to 1 (sections)
   %chapterprefix=true, % Uncomment to use the word "Chapter" before chapter numbers everywhere they appear
   %chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
-  numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
-  % draft=true, % If uncommented, rulers will be added in the header and footer
-  % overfullrule=true, % If uncommented, overly long lines will be marked by a black box; useful for correcting spacing problems
 ]{kaobook}
 
 % Choose the language
@@ -29,9 +23,8 @@
 % Load the package for hyperreferences
 \usepackage{kaorefs}
 
-% Load mathematical packages for theorems and related environments. NOTE: choose only one between 'mdftheorems' and 'plaintheorems'.
+% Load mathematical packages for theorems and related environments.
 \usepackage{kaotheorems}
-%\usepackage{styles/plaintheorems}
 
 % \graphicspath{{images/}{./}} % Paths in which to look for images
 
@@ -227,7 +220,7 @@
 \mainmatter 
 \setchapterstyle{kao} % Choose the default chapter heading style
 
-\include{dmds/dmds}  %- 1
+\include{intro/intro}  %- 1
 \include{brep/brep} %- 2
 \include{dtvd3d/dtvd3d} %- 3
 \include{voxels/voxels} %- 4

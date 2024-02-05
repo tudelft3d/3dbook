@@ -38,12 +38,12 @@ An obvious example is the surface of the Earth, for which near to every point th
 % An example of a 3-manifold is the entire Earth (its interior) because the neighbourhood of every point is equivalent to a sphere. 
 \marginnote{3-manifold}\index{3-manifold}
 The concept of neighbourhood, or locality, is such that a manifold can actually be constructed by `gluing' separate Euclidean spaces together.
-Representing and storing a 2-manifold, even in $\mathbb{R}^3$, can be done with data structures that are intrinsically 2D since: (1) each edge is guaranteed to have a maximum of two incident faces; (2) around each vertex the incident faces form one `umbrella' (Figure~\ref{fig:nonmanifold}).
+Representing and storing a 2-manifold, even in $\mathbb{R}^3$, can be done with data structures that are intrinsically 2D since: (1) each edge is guaranteed to have a maximum of two incident faces; (2) around each vertex the incident faces form one `umbrella' (Figure~\ref{fig:nonmanifoldiso}).
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.9\linewidth]{figs/nonmanifold}
   \caption{An example of an invalid 2-manifold: one edge and one vertex are non-manifold (the red ones).}%
-\label{fig:nonmanifold}
+\label{fig:nonmanifoldiso}
 \end{marginfigure}
 The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, can thus be used.
 
@@ -205,7 +205,7 @@ Validating a \texttt{MultiSurface} simply means that each \texttt{Polygon} is va
 %%%
 \subsection{\texttt{CompositeSurface}}
 Besides that each \texttt{Polygon} must be individually valid, the \texttt{Polygon}s forming a \texttt{Composite\-Surface} are not allowed to overlap and/or to be disjoint.
-Furthermore, if we store a \texttt{Com\-po\-site\-Surface} in a data structure, each edge is guaranteed to have a maximum of two incident surfaces (except those on the boundary), and around each vertex the incident faces form one ``umbrella'' (see Figure~\ref{fig:nonmanifold}).
+Furthermore, if we store a \texttt{Com\-po\-site\-Surface} in a data structure, each edge is guaranteed to have a maximum of two incident surfaces (except those on the boundary), and around each vertex the incident faces form one ``umbrella'' (see Figure~\ref{fig:nonmanifoldiso}).
 
 
 %%%
@@ -315,7 +315,7 @@ The official specifications documents are the following:
 \begin{enumerate}
   \item List all 10 surfaces (and describe their geometry) for the solid in Figure~\ref{fig:torus}.
   \item Draw a 2-manifold that has a genus of 2.
-  \item The object in Figure~\ref{fig:nonmanifold} contains 8 surfaces but is not a 2-manifold. If you were to store it in a 3D primitive in GML, which one would you choose? 
+  \item The object in Figure~\ref{fig:nonmanifoldiso} contains 8 surfaces but is not a 2-manifold. If you were to store it in a 3D primitive in GML, which one would you choose? 
   \item How many interior shells does the solid in Figure~\ref{fig:orientation} have?
   \item In which direction points the normal of the interior shell of the solid in Figure~\ref{fig:geomprimitives}?
 \end{enumerate}

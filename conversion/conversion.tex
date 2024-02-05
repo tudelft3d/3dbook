@@ -13,7 +13,7 @@
 This chapter describes different conversions between 3D representations and formats that a geomatics engineer might have to perform.
 It does not claim to be an overview of all potential conversions, but it rather offers insights about the algorithms and methods most commonly used, and points out pitfalls to be aware of.
 
-%
+%% to dmds
 
 The chapter is divided into two distinct parts:
 \begin{description}
@@ -33,38 +33,12 @@ The chapter is divided into two distinct parts:
 
 
 
-%%%
+%%% to dmds
 %
 \section{Conversions for fields}
 
 
-A field is a model of the spatial variation of an attribute $a$ over a spatial domain, we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
-It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
-\[
-  a = f(p)
-\]
-The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate ($x,y$) (\eg\ for the elevation of terrain) or trivariate ($x,y,z$) (\eg\ for the temperature of a body of air).
-
-%
-
-The representation of a field in a computer faces many problems. 
-First, fields are continuous functions, and, by contrast, computers are discrete machines. 
-Fields must therefore be \emph{discretised}, \ie\ broken into finite parts.
-Second, in practice it is usually impossible to measure continuous phenomena everywhere, and we have to resort to collecting samples at some finite locations and reconstructing fields from these samples.
-The discretisation task therefore begins at the acquisition phase, and is affected by the acquisition tools and techniques.
-This fact is aggravated for fields as found in GIS-related disciplines because, unlike disciplines like medicine or engineering, we seldom have direct access to the whole object of interest.
-Indeed, to collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere are collected by devices attached to balloons or airplanes. 
-Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution: as shown in Figure~\ref{fig:watercolumns}, 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.85\textwidth]{figs/watercolumns}
-  \caption{An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m.}% 
-\label{fig:watercolumns}
-\end{figure}
-the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
-
-
-%%%
+%%% to voxels
 \subsection{Points to voxels}
 
 The conversion from scattered points to grid is trivial: simply interpolate at regular locations in three dimensions% 
@@ -154,7 +128,7 @@ A better (but still simple) solution involves computing multiple experimental va
 
 
 
-%%%
+%%% to voxels
 \subsection{Voxels to points}
 
 The conversion of a voxel to a set of scattered points is not a simple operation.
@@ -193,30 +167,30 @@ As an alternative, one could use for instance the natural neighbour interpolatio
 Given a trivariate field $f(x,y,z) = a$, an isosurface is the set of points in space where $f(x,y,z) = a_0$, where $a_0$ is a constant. 
 Isosurfaces, also called \emph{level sets}, 
 \marginnote{isosurfaces, or level sets}
-are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps. 
-Figure~\ref{fig:isosurface} shows one concrete example.
-\begin{figure*}
-  \centering
-  \begin{subfigure}[b]{0.3\linewidth}
-    \centering
-    \includegraphics[width=\textwidth]{figs/isosurface2}
-    \caption{}
-  \end{subfigure}%
-  \quad
-  \begin{subfigure}[b]{0.3\linewidth}
-    \centering
-    \includegraphics[width=\textwidth]{figs/isosurface25}
-    \caption{}
-  \end{subfigure}
-  \quad
-  \begin{subfigure}[b]{0.3\linewidth}
-    \centering
-    \includegraphics[width=\textwidth]{figs/isosurface3}
-    \caption{}
-  \end{subfigure}
-\caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
-\label{fig:isosurface}
-\end{figure*}
+are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps.
+% Figure~\ref{fig:isosurface} shows one concrete example.
+% \begin{figure*}
+%   \centering
+%   \begin{subfigure}[b]{0.3\linewidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{figs/isosurface2}
+%     \caption{}
+%   \end{subfigure}%
+%   \quad
+%   \begin{subfigure}[b]{0.3\linewidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{figs/isosurface25}
+%     \caption{}
+%   \end{subfigure}
+%   \quad
+%   \begin{subfigure}[b]{0.3\linewidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{figs/isosurface3}
+%     \caption{}
+%   \end{subfigure}
+% \caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
+% \label{fig:isosurface}
+% \end{figure*}
 
 %
 

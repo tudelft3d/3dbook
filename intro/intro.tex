@@ -2,38 +2,46 @@
 
 \setchapterpreamble[u]{\margintoc}
 
-\graphicspath{{dmds/}}
+\graphicspath{{intro/}}
 % \renewcommand*{\thelesson}{1.1}
 
-\chapter{Introduction to 3D modelling of the built environment: reality, data models and data structures}%
-\label{chap:dmds}
+\chapter{Introduction to 3D modelling of the built environment}%
+\label{chap:intro}
 
 % 3D modelling and representations
 
-The 3D modelling of the built environment involves the creation, manipulation and use of 3D digital representations of real-world objects, including buildings, terrains and infrastructure.
-Over the years, a variety of such representations have been created, each of them modelling objects in a different way and targetting different applications.
+The 3D modelling of the built environment involves the creation, manipulation and use of 3D digital representations of the real-world, including buildings, terrains and infrastructure.
+There are many approaches that can be taken with these representations, resulting in a huge variety of methods, each of them modelling things in a different way with different applications in mind.
 
-% What can be stored and what should be stored
+% Breaking things down
 
-These representations usually include a mix of \emph{geometric} (\ie\ description of shape)\marginnote{geometry}\index{geometry}, \emph{topological}\marginnote{topology}\index{topology} (\ie\ adjacencies and connectivity) and \emph{semantic}\marginnote{semantics}\index{semantics} (\ie\ attributes and other properties) information.
-While these can all be combined in arbitrary ways, in practice it is desirable to limit the complexity modelling only the aspects that are needed for an application, and to do so in a manner that is both flexible (to be applicable to all the different objects that can be modelled) and consistently structured (to allow for automated processing using simple rules).
+When implemented in practice into a complete solution to a problem, these representations are not completely dissimilar from one another.
+Instead, they usually involve a mix of established techniques devised to represent shapes, connectivity and attributes.
+The end result differs greatly, but good solutions tend to strike a balance between their capabilities (\eg\ enough flexibility to model many types of objects), their simplicity (\eg\ using a consistent structure to allow for automated processing using simple rules) and how well they target the application they're used in.
+In addition, the solutions that become widespread in practice also rely on many practical aspects, such as having good software support and widely available data.
 
-% Compromises
+% About the book
 
-All of these desirable characteristics oppose each other, and so solutions involve finding the compromises that suit a particular application best.
-However, since different applications tend to have some elements in common, it is not necessary to build a completely new representation for each application.
-Instead, we can reuse representational aspects as a sort of building blocks, from which we can then come up with a good solution for a use case we are working on.
+Despite the interconnected nature of the representations used for 3D modelling, within this book, we have tried to split them into mostly independent chapters---each covering a different representation in detail.
+The book starts from simple, generic and fundamental representations and moves towards more complex ones that use others as building blocks and have more clearly defined applications.
+We focus mostly on the technical characteristics of each but also try to cover the most important practical aspects.
+The book ends with chapters that tie the content to the creation of complex data sets through building reconstruction and to the application of the topics seen in the chapters.
 
 % Contents
 
-In this introductory chapter, we start by explaining how this process is split into a hierarchy working at different levels (from high to low).
-While the exact definition of these levels is a bit arbitrary, we follow a common model for geographic information, splitting them into spatial concepts, data models and data structures.
-We introduce each of these levels in its own section, including some basic examples for each.
-Throughout most of the course, we will look at different data models and data structures in detail.
+% how this process is split into a hierarchy working at different levels (from high to low).
+% While the exact definition of these levels is a bit arbitrary, we follow a common model for geographic information, splitting them into spatial concepts, data models and data structures.
+% We introduce each of these levels in its own section, including some basic examples for each.
 
-\section{Hierarchical abstractions in the 3D modelling process}
+% About the chapter
 
-3D modelling is done through a series of abstractions of the real world, each working at a different abstraction level.
+In this introductory chapter, we discuss the most important concepts that underlie the rest of the book and that should help the reader to tie the different chapters together.
+
+\section{Common conceptualisations of the 3D modelling process}
+
+\subsection{Hierarchical abstractions}
+
+One of the most useful concepts behind the 3D modelling of the built environment is that it is done through a series of abstractions of the real world, each working at a different abstraction level.
 For instance, a typical high-level abstraction could divide the world into discrete objects (\eg\ individual buildings or plots of land), whereas a lower-level abstraction could divide each surface of a wall into triangles (\ie\ meshing) while satisfying certain characteristics (\eg\ minimum angles).
 Each abstraction is thus an engineered partial solution to a complex modelling problem, which comes with its own technical choices, advantages and disadvantages, and applications for which it is suitable (or not).
 
@@ -49,18 +57,8 @@ On the other hand, the 3D city model could be used for complex spatial analysis 
 \label{fig:applications}
 \end{figure}
 
-In the next sections, we look at three different levels at which abstractions are made: (i) spatial concepts, which work entirely on the basis of human-level congnition; (ii) data models, which are higher-level abstractions closer to the way we structure the world; (iii) and data structures, which are lower-level abstractions close to how they are implemented in a computer.
+\subsection{Geoinformation processing (\ie\ the geoinformation chain)}
 
-Even if it is not entirely clear at this point, this means that there can be many possible data models that use a certain spatial concept, and that there can be many different data structures that encode the same data model, each of which is best suited for a given application.
-
-\section{Spatial concepts}
-
-In order to conceptualise and structure the real world, 3D models of the built environment rely on some common spatial concepts.
-Some of the most common ones are:
-
-\begin{description}
-
-\item[Geoinformation processing (\ie\ the geoinformation chain)]
 From\marginnote{geoinformation chain}\index{geoinformation chain} a practical perspective, a common way to consider how space is structured is based on the usual steps in the geoinformation chain (or pipeline).
 This considers that one starts from the acquisition of data, either through traditional measurements (using anything from a tape measure to a total station) or using a variety of sensing technologies, including active methods using the reflections of electromagnetic waves (\eg\ all forms of lidar and radar) and vibrations (\eg\ underwater echo sounding and seismic methods), as well as passive methods (\eg\ digital images using any spectrum).
 
@@ -69,18 +67,13 @@ These `raw' measurements are then used to create simple primitives (\eg\ the poi
 For instance, a typical process can go from a set of lidar full waveforms to a point cloud by deciding on appropriate return power thresholds, then to a series of meshes by reconstructing surfaces and fitting planes, and finally to a 3D city model with semantic surfaces by classifying and assembling the surfaces into 3D objects.
 In every step of such a process, there is certain amount of information loss, but (ideally) the information that remains is more structured and meaningful.
 
-\item[Objects and fields]
-From a theoretical GIS standpoint, the typical way to conceptualise space recognises two ways of looking at the world: \emph{objects} and \emph{fields}.
-The objects\marginnote{object}\index{object} view considers that space is empty and is populated by discrete objects.
-In many cases, this results in an approach where objects are modelled individually (\eg\ a building modelled as a set of surfaces), although they can also be aggregated or generalised into (\eg\ a set of adjacent buildings with the same height modelled as a single block).
+\section{Applied mathematical concepts used in 3D modelling}
 
-By contrast, the fields\marginnote{field}\index{field} view considers that there are certain attributes that fill space and have a value everywhere in it.
-The typical examples are physical characteristics, such as the elevation of a terrain, the temperature or the wind speed.
-Since we generally cannot know or store the values of fields in every possible location, of which there might be infinitely many, the standard approach is to mathematically model an approximation (\eg\ elevation modelled as an interpolated set of points).
+\subsection{Geometry, topology and semantics}
 
-% \item[Geometry, topology and semantics]
 
-\item[Euclidean, Cartesian and point set geometry]
+\subsection{Euclidean, Cartesian and point set geometry}
+
 When we model objects mathematically, we often rely on abstract geometric shapes, such as point, lines and planes.
 The simplest mathematical descriptions for these are based on \emph{Euclidean geometry}\marginnote{Euclidean geometry}\index{Euclidean geometry}.
 Euclidean geometry starts from a small set of geometric axioms considered to be intuitively obvious (Figure~\ref{fig:line}).
@@ -106,25 +99,26 @@ This analytic description also makes it possible using algebra to compute the ex
 
 Pure analytical solutions can be however tricky (\eg\ points placed at irrational values), so some other definitions used for modelling objects rely on \emph{point set geometry}\marginnote{point set geometry}\index{point set geometry}.
 This method uses the mathematical definitions of sets and of operations between sets to define objects as sets of (often infinitely many) points.
-For instance, we can say that a sphere is a point set where the distance to a given point (\ie\ the centre) is equal to a value, or to define an object as the intersection between two other objects (Figure~\ref{fig:boolean}).
+For instance, we can say that a sphere is a point set where the distance to a given point (\ie\ the centre) is equal to a value, or to define an object as the intersection between two other objects.
 
-\begin{figure}[htbp]
-\centering
-\begin{subfigure}[b]{0.45\linewidth}
-\includegraphics[width=\linewidth]{figs/boolean}
-\caption{$\mathbb{A}$ (purple) and $\mathbb{B}$ (blue)}%
-\label{subfig:boolean}
-\end{subfigure}
-\begin{subfigure}[b]{0.45\linewidth}
-\includegraphics[width=\linewidth]{figs/boolean-intersection}
-\caption{Intersection: $\mathbb{A} \cap \mathbb{B}$}%
-\label{subfig:boolean-intersection}
-\end{subfigure}
-\caption{Based on two balls $\mathbb{A}$ and $\mathbb{B}$, other objects that can be defined using Boolean set operations using point set geometry.}%
-\label{fig:boolean}
-\end{figure}
+% \begin{figure}[htbp]
+% \centering
+% \begin{subfigure}[b]{0.45\linewidth}
+% \includegraphics[width=\linewidth]{figs/boolean}
+% \caption{$\mathbb{A}$ (purple) and $\mathbb{B}$ (blue)}%
+% \label{subfig:boolean}
+% \end{subfigure}
+% \begin{subfigure}[b]{0.45\linewidth}
+% \includegraphics[width=\linewidth]{figs/boolean-intersection}
+% \caption{Intersection: $\mathbb{A} \cap \mathbb{B}$}%
+% \label{subfig:boolean-intersection}
+% \end{subfigure}
+% \caption{Based on two balls $\mathbb{A}$ and $\mathbb{B}$, other objects that can be defined using Boolean set operations using point set geometry.}%
+% \label{fig:boolean}
+% \end{figure}
 
-\item[Graphs and algebraic topology]
+\subsection{Graphs and algebraic topology}
+
 The concepts from different branches of geometry are useful to describe the overall shape of objects, but in practice we often need to add concepts of topology as well.
 For instance, this is often used to describe relationships between objects, such as adjacency or connectivity.
 In the geometric modelling of the built environment, topology is especially important because the standard approach to model complex objects is to divide them into small elements, and thus we also need to describe how these elements are connected.
@@ -136,11 +130,44 @@ For instance, in a \emph{dual}\marginnote{duality}\index{duality} representation
 \emph{Algebraic topology}\marginnote{algebraic topology}\index{algebraic topology} takes the concept of a graph further by allowing us to use higher-dimensional objects (\eg\ faces and volumes), which will be used to describe simplices and cells in some of the data models that we will discuss later in the course.
 It also makes it possible to describe objects based on sets, as well as to create operations that modify these sets.
 
-% \item[Explicit and implicit geometry]
+\subsection{Explicit and implicit geometry}
 
-\end{description}
+\section{Objects and fields}
 
-\section{Data models}
+From a theoretical GIS standpoint, the typical way to conceptualise space recognises two ways of looking at the world: \emph{objects} and \emph{fields}.
+The objects\marginnote{object}\index{object} view considers that space is empty and is populated by discrete objects.
+In many cases, this results in an approach where objects are modelled individually (\eg\ a building modelled as a set of surfaces), although they can also be aggregated or generalised into (\eg\ a set of adjacent buildings with the same height modelled as a single block).
+
+By contrast, the fields\marginnote{field}\index{field} view considers that there are certain attributes that fill space and have a value everywhere in it.
+The typical examples are physical characteristics, such as the elevation of a terrain, the temperature or the wind speed.
+Since we generally cannot know or store the values of fields in every possible location, of which there might be infinitely many, the standard approach is to mathematically model an approximation (\eg\ elevation modelled as an interpolated set of points).
+
+A field is a model of the spatial variation of an attribute $a$ over a spatial domain, we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
+It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
+\[
+  a = f(p)
+\]
+The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate ($x,y$) (\eg\ for the elevation of terrain) or trivariate ($x,y,z$) (\eg\ for the temperature of a body of air).
+
+%
+
+The representation of a field in a computer faces many problems. 
+First, fields are continuous functions, and, by contrast, computers are discrete machines. 
+Fields must therefore be \emph{discretised}, \ie\ broken into finite parts.
+Second, in practice it is usually impossible to measure continuous phenomena everywhere, and we have to resort to collecting samples at some finite locations and reconstructing fields from these samples.
+The discretisation task therefore begins at the acquisition phase, and is affected by the acquisition tools and techniques.
+This fact is aggravated for fields as found in GIS-related disciplines because, unlike disciplines like medicine or engineering, we seldom have direct access to the whole object of interest.
+Indeed, to collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere are collected by devices attached to balloons or airplanes. 
+Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution, 
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.85\textwidth]{figs/watercolumns}
+%   \caption{An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m.}% 
+% \label{fig:watercolumns}
+% \end{figure}
+the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
+
+\section{Data models and data structures}
 
 A data model\marginnote{data model}\index{data model} is a high-level formalised way to structure information, generally using a set of abstract classes, relationships between them, and attributes to store information about them.
 In the context of geomatics, these classes are often spatial representations of real-world objects.
@@ -165,8 +192,6 @@ Schemas are often described using UML models (\eg\ CityGML; Figure~\ref{fig:city
 \caption{The geometry classes used in the CityGML 2.0 standard~\citep{CityGML2.0}.}%
 \label{fig:citygml}
 \end{figure*}
-
-\section{Data structures}
 
 A data structure\marginnote{data structure}\index{data structure} is a low-level description that specifies how to implement a data model, or occasionally a combination of multiple data models.
 Data structures are defined with little to no ambiguity, specifying features such as what sort of storage should be used for a given primitive (\eg\ an array or a linked list). 
