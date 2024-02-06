@@ -39,7 +39,7 @@ In theory, arbitrary point sets can be used, although implementations usually li
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{figs/csg}
-\caption{A CSG object represented as a tree of Boolean set operations on a sphere, a cube and three cylinders. From Wikimedia Commons.}%
+\caption[A CSG object represented as a tree of Boolean set operations]{A CSG object represented as a tree of Boolean set operations on a sphere, a cube and three cylinders. From Wikimedia Commons.}%
 \label{fig:csgtree}
 \end{figure}
 
@@ -52,7 +52,7 @@ In theory, arbitrary point sets can be used, although implementations usually li
 \begin{figure}
 \centering
 \includegraphics[width=0.3\linewidth]{figs/halfspaces}
-\caption{A plane separates 3D space into two parts on either side of it. A plane and a direction can thus be used to specify the geometry of one of these halves, which forms an unbounded space on all directions except one.}%
+\caption[A plane separates 3D space into two parts on either side of it]{A plane separates 3D space into two parts on either side of it. A plane and a direction can thus be used to specify the geometry of one of these halves, which forms an unbounded space on all directions except one.}%
 \label{fig:halfspaces3d}
 \end{figure}
 
@@ -198,7 +198,7 @@ These operations, which are located in the non-leaf nodes of the CSG tree, combi
 \caption{}%
 \label{subfig:boolean-difference}
 \end{subfigure}
-\caption{Based on (a) two balls \(\mathbb{A}\) and \(\mathbb{B}\), other objects can be defined using Boolean set operations, such as: (b) the intersection \(\mathbb{A} \cap \mathbb{B}\), (c) the union \(\mathbb{A} \cup \mathbb{B}\), and (d) the difference \(\mathbb{A} - \mathbb{B}\).}%
+\caption[Based on two balls, other objects can be defined using Boolean set operations]{Based on (a) two balls \(\mathbb{A}\) and \(\mathbb{B}\), other objects can be defined using Boolean set operations, such as: (b) the intersection \(\mathbb{A} \cap \mathbb{B}\), (c) the union \(\mathbb{A} \cup \mathbb{B}\), and (d) the difference \(\mathbb{A} - \mathbb{B}\).}%
 \label{fig:boolean}
 \end{figure}
 
@@ -232,7 +232,7 @@ Polygons and polyhedra can be stored as a set of local pyramids and their locati
 \includegraphics[width=\linewidth]{figs/nef-2}
 \caption{}%
 \end{subfigure}
-\caption{(a) A Nef polygon is represented indirectly as (b) a set of local pyramids (circles).
+\caption[A Nef polygon is represented indirectly as a set of local pyramids]{(a) A Nef polygon is represented indirectly as (b) a set of local pyramids (circles).
 At every local pyramid, the polygon (red) becomes an angular interval.
 Incident edges become points at the endpoints of these intervals.}%
 \label{fig:nef}
@@ -299,7 +299,7 @@ Finally, unnecessary local pyramids can be removed from the output: \(f\) in \(A
 \includegraphics[width=\linewidth]{figs/nef-boolean-2}
 \caption{}%
 \end{subfigure}
-\caption{Various Boolean point set operations on (a) the Nef polygons \(A\) (red) and \(B\) (blue) that can be performed on (b) their local pyramids.}%
+\caption[Various Boolean point set operations on two Nef polygons]{Various Boolean point set operations on (a) the Nef polygons \(A\) (red) and \(B\) (blue) that can be performed on (b) their local pyramids.}%
 \label{fig:nef-boolean}
 \end{figure}
 
@@ -309,7 +309,7 @@ Finally, unnecessary local pyramids can be removed from the output: \(f\) in \(A
 
 \begin{figure}
 \includegraphics[width=\linewidth]{figs/snc}
-\caption{A selective Nef complex.
+\caption[A selective Nef complex]{A selective Nef complex.
 The standard half-edge structure on 3D space uses faces (as an oriented facet for each incident polyhedron), edges (as an edge-use for each incident oriented facet) and vertices.
 The half-edge structure on the surfaces of the spheres representing local vertices, known as sphere maps, uses \emph{sfaces} (per incident polyhedron but not shown here), \emph{sedges} (per incident face) and \emph{svertices} (per incident edge).
 From \citet{Hachenberger06}.}%

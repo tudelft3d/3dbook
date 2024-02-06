@@ -48,7 +48,7 @@ Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figs/r-interpolation}
-  \caption{\textbf{(a)} input sample points. \textbf{(b)} size/location of output grid. \textbf{(c)} 9 interpolations must be performed (at locations marked with $\circ$): at the middle of each cell. \textbf{(d)} the convex hull of the sample points show that 2 estimations are outside, thus no interpolation. \textbf{(e)} the resulting raster.}%
+  \caption[Interpolations of sample points into a raster]{\textbf{(a)} input sample points. \textbf{(b)} size/location of output grid. \textbf{(c)} 9 interpolations must be performed (at locations marked with $\circ$): at the middle of each cell. \textbf{(d)} the convex hull of the sample points show that 2 estimations are outside, thus no interpolation. \textbf{(e)} the resulting raster.}%
 \label{fig:r-interpolation}
 \end{figure}
 
@@ -82,7 +82,7 @@ The barycentric coordinates can be used to linearly interpolate inside a tetrahe
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.9\textwidth]{figs/barycentric}
-  \caption{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge. In 3D, the tetrahedron is subdivided into 4 tetrahedra.}% 
+  \caption[Barycentric coordinates in two and three dimensions]{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge. In 3D, the tetrahedron is subdivided into 4 tetrahedra.}% 
 \label{fig:barycentric}
 \end{marginfigure}
 
@@ -148,7 +148,7 @@ The two algorithms described in the GEO1015 book (Section~8.3) can in theory be 
 \begin{figure}
   \centering
   \includegraphics[width=0.85\linewidth]{figs/mesh_simplification}
-  \caption{The importance measure of a point can be expressed by its error. When this error is greater than a given threshold $\epsilon_{\max}$, the point is kept ($p_1$), else it is discarded ($p_2$).}%
+  \caption[The importance measure of a point expressed by its error]{The importance measure of a point can be expressed by its error. When this error is greater than a given threshold $\epsilon_{\max}$, the point is kept ($p_1$), else it is discarded ($p_2$).}%
 \label{fig:meshsimplification}
 \end{figure}
 Both strategies (decimation and refinement) can be implemented.
@@ -214,7 +214,7 @@ The ambiguities are shown in Figure~\ref{fig:isosurface_ambiguity} for the two-d
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{figs/isosurface_ambiguity}
-  \caption{Ambiguous extraction of an isoline where the attribute is 8.}% 
+  \caption[Ambiguous extraction of an isoline]{Ambiguous extraction of an isoline where the attribute is 8.}% 
 \label{fig:isosurface_ambiguity}
 \end{figure}
 The three-dimensional case is similar, with many more cases possible. 
@@ -237,7 +237,7 @@ The nice thing about the algorithm is that only three cases for the intersection
 \begin{figure}
   \centering
   \includegraphics[width=1.0\textwidth]{figs/isosurface_3cases}
-  \caption{Potential isosurface (for an attribute value $v$) extracted for one tetrahedron. Black vertex means that the attribute of this vertex is below $v$; white vertex means it is above; and grey that it is equal.}% 
+  \caption[Potential isosurface extracted for one tetrahedron]{Potential isosurface (for an attribute value $v$) extracted for one tetrahedron. Black vertex means that the attribute of this vertex is below $v$; white vertex means it is above; and grey that it is equal.}% 
 \label{fig:isosurface_3cases}
 \end{figure}
 The only degenerate cases possible are when one or more vertices have exactly the same value as the isosurface. 

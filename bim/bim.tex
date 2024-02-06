@@ -48,7 +48,7 @@ Table~\ref{tab:vs} compares the ways in which in 3D city models and BIM models d
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figs/volumetric.pdf}
-\caption{BIM models focus on volumetric physical elements (centre), whereas 3D GIS models focus on semantic surfaces (left) and the voids between them (right).}%
+\caption[BIM models vs.\ 3D GIS models]{BIM models focus on volumetric physical elements (centre), whereas 3D GIS models focus on semantic surfaces (left) and the voids between them (right).}%
 \label{fig:volumetric}
 \end{figure}
 
@@ -118,7 +118,7 @@ The concepts represented in IFC are organized in four conceptual layers\marginno
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figs/IFC4LayeredArchitecture.png}
-\caption{{The four layers in which the Industry Foundation Classes are organised. Source: IFC4.1 specification}}%
+\caption[The four layers in the Industry Foundation Classes]{The four layers in which the Industry Foundation Classes are organised. Source: IFC4.1 specification}%
 \label{fig:ifclayers}
 \end{figure}
 
@@ -161,7 +161,7 @@ Files with this encoding have the extension \texttt{.ifc}.
 #416= IFCQUANTITYLENGTH('GrossPerimeter',$,$,0.,$);
 #419= IFCQUANTITYAREA('GrossArea',$,$,0.,$);
 \end{lstlisting}
-\caption{Excerpt of a typical IFC file encoded in STEP\@.
+\caption[Excerpt of a typical IFC file encoded in STEP]{Excerpt of a typical IFC file encoded in STEP\@.
 After a short metadata header, a file consists of a series of lines, where every line starts with a hash sign (\#), followed by the definition of an entity.
 An entity is assigned a numeric ID, followed by an equals sign (=), the name of the entity, and a tuple of its parameters.
 These parameters can be empty (\texttt{\$}), a number, a list (a comma separated list enclosed by parentheses), a text string (enclosed by single quotes), or the ID of another entity, among others.}%
@@ -208,7 +208,7 @@ These paradigms can be used independently or combined with each other in a hiera
 #17083= IFCAXIS2PLACEMENT2D(#17081,#17079);
 #17084= IFCRECTANGLEPROFILEDEF(.AREA.,'',#17083,0.885,2.01);
 \end{lstlisting}
-\caption{Defining a rectangular profile (\ie\ \texttt{IfcRectangleProfileDef}) parametrically.
+\caption[Defining a rectangular profile parametrically]{Defining a rectangular profile (\ie\ \texttt{IfcRectangleProfileDef}) parametrically.
 The rectangle extends 0.885 units along the x-axis, which is defined by the direction given in its \texttt{IfcAxis2Placement2D} \((1,0)\), and 2.01 units along the \(y\)-axis (perpendicular to the \(x\)-axis).}%
 \label{fig:parametric}
 \end{figure}
@@ -224,7 +224,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 \includegraphics[width=\linewidth]{figs/letter_profiles}%
 \label{subfig:letter-profiles}
 \end{subfigure}
-\caption{The IFC standard supports parametric instantiated objects, such as these extrusions of (a) shape profiles and (b) letter profiles.}%
+\caption[The IFC standard supports parametric instantiated objects]{The IFC standard supports parametric instantiated objects, such as these extrusions of (a) shape profiles and (b) letter profiles.}%
 \label{fig:profiles}
 \end{figure}
 
@@ -239,7 +239,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 #243=IFCHALFSPACESOLID(#242,.F.);
 #244=IFCBOOLEANCLIPPINGRESULT(.DIFFERENCE.,#237,#243);
 \end{lstlisting}
-\caption{Removing part of a volume by subtracting a half-space from it using a Boolean operation.}%
+\caption[Removing part of a volume using a Boolean set operation]{Removing part of a volume by subtracting a half-space from it using a Boolean set operation.}%
 \label{fig:csg}
 \end{figure}
 
@@ -253,7 +253,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 	\includegraphics[width=\linewidth]{figs/ifc-2}%
 	\label{subfig:ifc-2}
 \end{subfigure}
-\caption{The IFC standard supports objects defined through sweeps, which are defined by (a) an \texttt{IfcPCurve} (black spiral) and a \texttt{SweptArea} (blue disk), in this case resulting in (b) a screw shape.}%
+\caption[The IFC standard supports objects defined through sweeps]{The IFC standard supports objects defined through sweeps, which are defined by (a) an \texttt{IfcPCurve} (black spiral) and a \texttt{SweptArea} (blue disk), in this case resulting in (b) a screw shape.}%
 \label{fig:sweeps}
 \end{figure}
 
@@ -264,7 +264,7 @@ The rectangle extends 0.885 units along the x-axis, which is defined by the dire
 #124= IFCCARTESIANPOINT((15.,13.,0.));
 #126= IFCPOLYLOOP((#120,#122,#124));
 \end{lstlisting}
-\caption{Defining a simple polygon (\ie\ \texttt{IfcPolyLoop}) using B-rep.
+\caption[Defining a simple polygon using B-rep]{Defining a simple polygon (\ie\ \texttt{IfcPolyLoop}) using B-rep.
 Every point is defined as an \texttt{IfcCartesianPoint}, then the polygon is defined by a list of points.}%
 \label{fig:brepbim}
 \end{figure}

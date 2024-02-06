@@ -16,35 +16,35 @@ Contrary to the b-rep, that represents a model by describing explicitly its boun
 	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_whole.pdf}
-		\caption{}
+		\caption{}%
 		\label{fig:gbm:whole}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_brep.pdf}
-		\caption{}
+		\caption{}%
 		\label{fig:gbm:brep}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_skeleton.pdf}
-		\caption{}
+		\caption{}%
 		\label{fig:gbm:maxis}
 	\end{subfigure}\\
 	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_mat.pdf}
-		\caption{}
+		\caption{}%
 		\label{fig:gbm:mballs}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.3\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{figs/gingerbreadman_grassfire.pdf}
-		\caption{}
+		\caption{}%
 		\label{fig:gbm:dt}
 	\end{subfigure}
 	
-	\caption{Different ways to represent the shape of gingerbread man (a). b) b-rep; c) Interior MAT; d) b-rep + MAT with medial balls; e) b-rep + contours of equal distance to it + MAT}
+	\caption[Different ways to represent the shape of gingerbread man]{Different ways to represent the shape of (a) gingerbread man. (b) b-rep; (c) Interior MAT\@; (d) b-rep + MAT with medial balls; (e) b-rep + contours of equal distance to it + MAT}%
 	\label{fig:gingerman}
 \end{figure}
 Both the MAT and the b-rep contain exactly the same information and it is possible to convert one to the other without loss of information.
@@ -52,7 +52,7 @@ Both the MAT and the b-rep contain exactly the same information and it is possib
 Compared to other shape representations, this skeleton structure makes different properties of the model explicit.
 For example, the MAT allows us to split a shape into parts simply by looking at the branches of the skeleton. 
 The resulting shape parts often turn out to be meaningful in practice. 
-Observe for instance that for the gingerbread man in Figure~\ref{fig:gingerman}, its arms, legs, torso and head each have one corresponding branch in its medial axis (compare Figures~\ref{fig:gbm:whole} and \ref{fig:gbm:maxis}).
+Observe for instance that for the gingerbread man in Figure~\ref{fig:gingerman}, its arms, legs, torso and head each have one corresponding branch in its medial axis (compare Figures~\ref{fig:gbm:whole} and~\ref{fig:gbm:maxis}).
 For DTMs for example, equally meaningful decompositions into parts can be made, \eg\ the MAT allows us to decompose a DTM into separate hills, watercourses and other objects on top the DTM (see Figure~\ref{fig:matterrain}).
 
 \section{Defining the MAT}
@@ -61,30 +61,30 @@ The MAT can be computed both for 2D and 3D objects (compare Figures~\ref{fig:3dm
 	\centering
 	\begin{subfigure}{0.26\linewidth}
 		\includegraphics[width=\linewidth]{figs/Box2D3D/3dmat_2d.pdf}
-		\subcaption{The MAT for a 2D box consists of medial balls (blue) and the medial axis (red).}
+		\subcaption{The MAT for a 2D box consists of medial balls (blue) and the medial axis (red).}%
 		\label{fig:3dmat_2d}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}{0.33\linewidth}
 		\includegraphics[width=\linewidth]{figs/Box2D3D/3dmat_halfopen.png}
-		\subcaption{3D medial balls of a 3D box shape.}
+		\subcaption{3D medial balls of a 3D box shape.}%
 		\label{fig:3dmat_halfopen}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}{0.33\linewidth}
 		\includegraphics[width=\linewidth]{figs/Box2D3D/3dmat_sheets.png}
-		\subcaption{3D medial axis of a 3D box shape.}
+		\subcaption{3D medial axis of a 3D box shape.}%
 		\label{fig:3dmat_sheets}
 	\end{subfigure}
-	\caption{The MAT in 2D and in 3D for a box shape.}
+	\caption{The MAT in 2D and in 3D for a box shape.}%
 	\label{fig:3dmat}
 \end{figure}
 In both cases there are two equivalent definitions of the MAT\marginnote{Sometimes the MAT is referred to as medial axis function, stick figure, skeleton or surface skeleton.
-	Inventor Harry Blum finally settled on symmetry axis, as he considered symmetry to be the crucial role of the MAT \citep{Blum73}.} that apply. 
+Inventor Harry Blum finally settled on symmetry axis, as he considered symmetry to be the crucial role of the MAT \citep{Blum73}.} that apply. 
 One is based on the distance transform, and one is based on medial balls. 
 Both definitions describe how to obtain the MAT from the boundary, denoted $
 \mathcal{B}$, of an object (Figure~\ref{fig:gbm:brep}).
-And both can be applied to both 2D and 3D objects .
+And both can be applied to both 2D and 3D objects.
 
 \begin{description}
 	\item[Grassfire analogy]
@@ -144,14 +144,14 @@ The angle between the spoke vectors is called the \emph{separation angle}\margin
 			\bottomrule
 		\end{tabular}
 	\end{minipage}
-	\caption{The geometry of a medial atom.}
+	\caption{The geometry of a medial atom.}%
 	\label{fig:medialgeometry}
 \end{marginfigure}
 
 % maximal/medial ball, primary and secondary feature point, primary and secondary medial ball, separation angle, bisector, medial atom:point+ball+metrics, 
 % defining local coordinate system
 % \subsection{Properties of the MAT}
-Using the medial geometry we can describe a number of interesting properties of the MAT.
+Using the medial geometry we can describe a number of interesting properties of the MAT\@.
 \begin{enumerate}
 	\item Any atom $\mathbf{c}$ is always \emph{medial} to $\mathcal{B}$, \ie\ it is equidistant to the feature points of $\mathbf{c}$ (hence the name of the MAT).
 	\item The medial ball $B$ is always tangential to $\mathcal{B}$ at the feature points. 
@@ -172,7 +172,7 @@ An object can only have an exterior MAT if the shape of that object is non-conve
 The separation between inside and outside is very clear and unambiguous for a an object with a closed boundary such as the gingerbread man of Figure~\ref{fig:gingerman} or for any perfectly manifold boundary.
 However, for objects that are not completely closed this separation is less clear, as there could be MAT sheets that connect the interior and exterior parts though holes in the boundary surface.
 In some cases with an open boundary a reasonable distinction can still be made.
-For example for a DTM we can follow the convention that the `ground side` of the DTM is the interior, and the `sky side' is the exterior, as follows from Figure~\ref{fig:object_earth}.
+For example for a DTM we can follow the convention that the `ground side' of the DTM is the interior, and the `sky side' is the exterior, as follows from Figure~\ref{fig:object_earth}.
 \begin{figure*}
 	\centering
 	\begin{subfigure}{0.4\linewidth}
@@ -183,7 +183,7 @@ For example for a DTM we can follow the convention that the `ground side` of the
 	\quad
 	\begin{subfigure}{0.57\linewidth}
 		\includegraphics[width=\linewidth]{figs/MAT_hierarchy.pdf}
-		\subcaption{For a terrain the MAT is typically subdivided into open clusters that correspond to features such as hills, buildings and watercourses in the terrain. Shown here is a vertical cross section of a DTM. Exterior MAT in light blue, interior MAT in dark blue.}
+		\subcaption{For a terrain the MAT is typically subdivided into open clusters that correspond to features such as hills, buildings and watercourses in the terrain. Shown here is a vertical cross section of a DTM\@. Exterior MAT in light blue, interior MAT in dark blue.}%
 		\label{fig:matterrain}
 	\end{subfigure}
 	\caption{Defining interior and exterior for an open surface such as a terrain.}
@@ -200,45 +200,45 @@ Each medial cluster is in fact a set of adjacent sheets where each adjacency is 
 For objects with open boundaries like DTMs, there can also be multiple interior medial clusters.
 In this case one object on the terrain typically corresponds to one medial cluster (Figure~\ref{fig:matterrain}).
 Figure~\ref{fig:smat_r3d_int} also illustrates how the MAT can thus be used to meaningfully subdivide an object into parts.
-For an input that is simply a surface point cloud that happens to contain several object, we can detect easily these objects by looking at the medial clusters of its MAT.
+For an input that is simply a surface point cloud that happens to contain several object, we can detect easily these objects by looking at the medial clusters of its MAT\@.
 This effectively decomposes the object into meaningful sub-objects.
 \begin{figure*}
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_surface.png}
-		\subcaption{Surface points.}
+		\subcaption{Surface points.}%
 		\label{fig:smat_r3d_surface}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_mat.png}
-		\subcaption{Medial atoms coloured by medial radius using a repeating colourmap.}
+		\subcaption{Medial atoms coloured by medial radius using a repeating colourmap.}%
 		\label{fig:smat_r3d_mat}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_thetad_all.png}
-		\subcaption{Medial sheet segmentation.}
+		\subcaption{Medial sheet segmentation.}%
 		\label{fig:smat_r3d_sheets_all}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_ballo_all.png}
-		\subcaption{Medial cluster segmentation.}
+		\subcaption{Medial cluster segmentation.}%
 		\label{fig:smat_r3d_ballo_all}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_mat_int.png}
-		\subcaption{Interior medial clusters.}
+		\subcaption{Interior medial clusters.}%
 		\label{fig:smat_r3d_ballo_int}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}[t]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{figs/smat/smat_r3d_surface_int.png}
-		\subcaption{Surface points corresponding to interior medial clusters.}
+		\subcaption{Surface points corresponding to interior medial clusters.}%
 		\label{fig:smat_r3d_surface_int}
 	\end{subfigure}
-	\caption{Decomposing an object into parts using the MAT and its interior medial clusters.}
+	\caption[Decomposing an object into parts using the MAT]{Decomposing an object into parts using the MAT and its interior medial clusters.}
 	\label{fig:smat_r3d_int}
 \end{figure*}
 
@@ -264,11 +264,11 @@ Computing the MAT from the boundary $\mathcal{B}$ of an object is typically done
 During the first step, \ie\ \emph{MAT approximation}, a noisy approximation of the MAT is obtained, and during the second step, \ie\ \emph{pruning}, the noise is removed.
 
 \subsection{MAT approximation}
-The MAT can be approximated in various ways, \eg~by using voxels and distance transforms or as a subset of the Voronoi diagram.
+The MAT can be approximated in various ways, \eg\ by using voxels and distance transforms or as a subset of the Voronoi diagram.
 However, here we will focus on the so-called shrinking-ball algorithm.
 
 \subsubsection{The shrinking-ball algorithm}
-The shrinking-ball algorithm works well for robustly approximating the MAT of 3D objects that are represented using boundary points, \ie point clouds.
+The shrinking-ball algorithm works well for robustly approximating the MAT of 3D objects that are represented using boundary points, \ie\ point clouds.
 It is a simple and fast algorithm that can be made robust to noise in the boundary points.
 %This means that pruning the MAT after approximation is not necessary with the shrinking-ball algorithm.
 The shrinking-ball algorithm takes an \emph{oriented point cloud} as input, \ie\ a point cloud that includes a normal vector for each point. 
@@ -280,25 +280,25 @@ As illustrated by Figure~\ref{fig:shrinkballAlgo}, the algorithm begins with a v
 \begin{figure*}[tbp]
 	\begin{subfigure}{0.245\linewidth}
 		\includegraphics[width=\textwidth]{figs/fullBallShrink_1.pdf}
-		\subcaption{Initial ball}
+		\subcaption{Initial ball}%
 		\label{fig:fullBallShrink_1}
 	\end{subfigure}
 	\begin{subfigure}{0.245\linewidth}
 		\includegraphics[width=\textwidth]{figs/fullBallShrink_2.pdf}
-		\subcaption{Second iteration.}
+		\subcaption{Second iteration.}%
 		\label{fig:fullBallShrink_2}
 	\end{subfigure}
 	\begin{subfigure}{0.245\linewidth}
 		\includegraphics[width=\textwidth]{figs/fullBallShrink_3.pdf}
-		\subcaption{Third iteration.}
+		\subcaption{Third iteration.}%
 		\label{fig:fullBallShrink_3}
 	\end{subfigure}
 	\begin{subfigure}{0.245\linewidth}
 		\includegraphics[width=\textwidth]{figs/fullBallShrink_4.pdf}
-		\subcaption{Fourth iteration.}
+		\subcaption{Fourth iteration.}%
 		\label{fig:fullBallShrink_4}
 	\end{subfigure}
-	\caption{Ball shrinking iterations with the shrinking-ball algorithm. The final iteration yields a \emph{medial} ball. A legend is given in (\subref{fig:fullBallShrink_2}).}
+	\caption[Ball shrinking iterations with the shrinking-ball algorithm]{Ball shrinking iterations with the shrinking-ball algorithm. The final iteration yields a \emph{medial} ball. A legend is given in (\subref{fig:fullBallShrink_2}).}%
 	\label{fig:shrinkballAlgo}
 \end{figure*}
 At each consecutive iteration, a new candidate ball is constructed that is smaller than the previous one and closer to the final \emph{medial} ball.
@@ -358,7 +358,7 @@ Observe how the MAT describes the valleys (exterior MAT) and ridges (interior MA
 		\caption{Exterior MAT}
 		\label{fig:ca_ridge:omat}
 	\end{subfigure}
-	\caption{MAT approximation (a,c) of a lidar terrain point cloud (b) obtained with the shrinking-ball algorithm. Top view.}
+	\caption[The MAT approximation of a lidar terrain point cloud]{The MAT approximation (a,c) of a lidar terrain point cloud (b) obtained with the shrinking-ball algorithm. Top view.}
 	\label{fig:ca_ridge}
 \end{figure}
 
@@ -448,7 +448,7 @@ Figure~\ref{fig:imaimp} gives an example of pruning with the separation distance
 		\caption{Reconstructed object for $\lambda=10$. Notice how the tree is separated from the the ground and that edges have become rounder.}
 		\label{fig:imaimp:f}
 	\end{subfigure}
-	\caption{The effect of different levels of pruning based on the separation distance $\lambda$ on the MAT.}
+	\caption[The effect of different levels of pruning]{The effect of different levels of pruning based on the separation distance $\lambda$ on the MAT.}
 	\label{fig:imaimp}
 \end{figure}
 

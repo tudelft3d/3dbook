@@ -67,7 +67,7 @@ Observe also, as shown in Figure~\ref{fig:ssc} for one building,
 \begin{figure*}
   \centering
   \includegraphics[width=\linewidth]{figs/ssc}
-  \caption{A building is semantically decomposed into different objects, and each objects is defined with geometry. This building has good spatio-semantic coherence}%
+  \caption[A building is semantically decomposed into different objects]{A building is semantically decomposed into different objects, and each objects is defined with geometry. This building has good spatio-semantic coherence}%
 \label{fig:ssc}
 \end{figure*}
 that the objects can be further decomposed into semantically homogeneous parts, in 3D city modelling these are often the parts of a buildings (\eg\ an extension to a house) and the type of surfaces (roof, façade, window, door).
@@ -87,7 +87,7 @@ Figure~\ref{fig:denhaag} shows one semantic model being visualised in a viewer, 
 \begin{figure*}
   \centering
   \includegraphics[width=\linewidth]{figs/denhaag.jpg}
-  \caption{Part of the semantic 3D city model of The Hague, in the Netherlands. Notice that each building is decomposed into its semantic surfaces (wall, roof, and ground) and there are attributes for each. The model is not textured, but semantic models can have textures too.}%
+  \caption[Part of the semantic 3D city model of The Hague]{Part of the semantic 3D city model of The Hague, in the Netherlands. Notice that each building is decomposed into its semantic surfaces (wall, roof, and ground) and there are attributes for each. The model is not textured, but semantic models can have textures too.}%
 \label{fig:denhaag}
 \end{figure*}
 
@@ -128,13 +128,13 @@ It can be seen that both the exterior and the interior of a building can be desc
 \begin{figure*}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/citygml_uml_core}
-  \caption{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2021 Open Geospatial Consortium, Inc.)}%
+  \caption[Overview of the UML model for the core of CityGML]{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2021 Open Geospatial Consortium, Inc.)}%
 \label{fig:citygml_uml_core}
 \end{figure*}
 \begin{figure*}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/citygml_uml_building}
-  \caption{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2021 Open Geospatial Consortium, Inc.)}%
+  \caption[Overview of the UML model for the core of CityGML]{Overview of the UML model for the core of CityGML\@. (Figure \textcopyright\ 2021 Open Geospatial Consortium, Inc.)}%
 \label{fig:citygml_uml_building}
 \end{figure*}
 
@@ -176,7 +176,7 @@ For each of these, it is possible to use one of the LoD (from LoD0 to LoD3), alt
   \begin{marginfigure}
     \centering
     \includegraphics[width=\linewidth]{figs/lod4}
-    \caption{The subdivision of the interior of a building can be modelled. [Figure from \citet{Lowner16}]}%
+    \caption[The subdivision of the interior of a building can be modelled]{The subdivision of the interior of a building can be modelled. Figure from \citet{Lowner16}}%
   \label{fig:lod4}
   \end{marginfigure}
 We usually assume that lower LoDs have less geometrical and semantical details than higher ones.
@@ -188,7 +188,7 @@ For instance, as Figure~\ref{fig:lod_ambiguity} shows,
 \begin{marginfigure}
   \centering
   \includegraphics[width=\linewidth]{figs/lod_ambiguity_b}
-  \caption{Two buildings represented in CityGML as LoD2 models. Both are valid LoD2 models.}%
+  \caption[Two buildings represented in CityGML as LoD2 models]{Two buildings represented in CityGML as LoD2 models. Both are valid LoD2 models.}%
 \label{fig:lod_ambiguity}
 \end{marginfigure}
 a building with roof overhangs can be modelled as LoD2 with them, or without (and therefore the size of its footprint would be larger).
@@ -198,7 +198,7 @@ To remedy to this situation, improved LoDs for buildings have been proposed at T
 \begin{figure}
   \centering
   \includegraphics[width=0.9\linewidth]{figs/refinedLODs}
-  \caption{The improved LoDs for buildings; they are generally referred to as the \emph{TUDelft LoDs}.}%
+  \caption[The TUDelft LoDs]{The improved LoDs for buildings; they are generally referred to as the \emph{TUDelft LoDs}.}%
 \label{fig:refinedLODs}
 \end{figure}
 
@@ -407,7 +407,7 @@ Figure~\ref{fig:cityjson_co} shows the city objects that are supported in CityJS
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{figs/cityjson_co}
-  \caption{The implemented CityJSON classes (same name as CityGML classes) are divided into 1st and 2nd levels.}%
+  \caption[The CityJSON classes]{The CityJSON classes (same name as CityGML classes) are divided into 1st and 2nd levels.}%
 \label{fig:cityjson_co}
 \end{figure}
 

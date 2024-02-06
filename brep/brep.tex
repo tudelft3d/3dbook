@@ -18,7 +18,7 @@ In this way, it is possible to use one of the many data structures that are used
 \begin{marginfigure}
 \centering
 \includegraphics[width=\linewidth]{figs/cube.pdf}
-\caption{A cube can be represented implicitly based on the six square faces that bound it.}%
+\caption[A cube represented implicitly based on the six square faces that bound it]{A cube can be represented implicitly based on the six square faces that bound it.}%
 \label{fig:cube}
 \end{marginfigure}
 
@@ -46,7 +46,7 @@ Boundary representation can thus be used several times when representing a singl
 \caption{}%
 \label{subfig:loop}
 \end{subfigure}
-\caption{Boundary representation as applied to: (a) 1D line segments represented implicitly through their two bounding points, and (b) a polygon represented by implying that it is bounded by a set of line segments, which are themselves bounded by consecutive pairs of points in a sequence of points (plus the last and the first).}%
+\caption[Boundary representation]{Boundary representation as applied to: (a) 1D line segments represented implicitly through their two bounding points, and (b) a polygon represented by implying that it is bounded by a set of line segments, which are themselves bounded by consecutive pairs of points in a sequence of points (plus the last and the first).}%
 \label{fig:brep}
 \end{figure}
 
@@ -81,7 +81,7 @@ Less obviously, objects with 2D faces with holes can have exactly the same probl
 \caption{}%
 \label{subfig:hole-bridge}
 \end{subfigure}
-\caption{Two different techniques to handle holes in (a) a volume with 2D faces with holes: (b) splitting the volume into two parts and (c) using a bridge edge.}%
+\caption[Two different techniques to handle holes]{Two different techniques to handle holes in (a) a volume with 2D faces with holes: (b) splitting the volume into two parts and (c) using a bridge edge.}%
 \label{fig:hole}
 \end{figure}
 
@@ -129,7 +129,7 @@ This means that they can be used to relate an arbitrary object to a simpler well
 \caption{}%
 \label{subfig:donut}
 \end{subfigure}
-\caption{A typical joke about topology says that (a) a coffee mug and (b) a donut are homeomorphic.}%
+\caption[A typical joke about topology]{A typical joke about topology says that (a) a coffee mug and (b) a donut are homeomorphic.}%
 \label{fig:homeomorphism}
 \end{figure}
 
@@ -158,7 +158,7 @@ In geomatics, when people refer to a non-manifold, they are usually referring to
 \caption{}%
 \label{subfig:nonmanifold-2}
 \end{subfigure}
-\caption{(a) The 1D boundary around a polygon is a non-1-manifold because the space around a vertex (highlighted in a red circle) is not homeomorphic to a line. (b) \& (c) However, the polygon can still be represented using a loop of oriented edges by creating a duplicate vertex at that location (shown as two half disks), but there are two ways in which this can be done.
+\caption[A 1D boundary around a polygon that is non-1-manifold]{(a) The 1D boundary around a polygon is a non-1-manifold because the space around a vertex (highlighted in a red circle) is not homeomorphic to a line. (b) \& (c) However, the polygon can still be represented using a loop of oriented edges by creating a duplicate vertex at that location (shown as two half disks), but there are two ways in which this can be done.
 Note that these are not equally desirable as (c) results in a disconnected structure (just like a hole).}%
 \label{fig:nonmanifold}
 \end{figure}
@@ -170,7 +170,7 @@ Another intuitive way to think about this is to consider a counterexample in ter
 \begin{marginfigure}
 \centering
 \includegraphics[width=\linewidth]{figs/non2manifold.jpg}
-\caption{The 2D surface around this volume is a non-2-manifold because it is not homeomorphic to a plane.}%
+\caption[A 2D surface around a volume that is non-2-manifold]{The 2D surface around this volume is a non-2-manifold because it is not homeomorphic to a plane.}%
 \label{fig:non2manifold}
 \end{marginfigure}
 
@@ -212,7 +212,7 @@ A sphere thus has genus 0, whereas a torus (\eg\ the donut and coffee mug) have 
 \caption{}%
 \label{subfig:genus3}
 \end{subfigure}
-\caption{Surfaces with: (a) genus 1, (b) genus 2, (c) genus 3. From Wikimedia Commons.}%
+\caption[Surfaces with different genus]{Surfaces with: (a) genus 1, (b) genus 2, (c) genus 3. From Wikimedia Commons.}%
 \label{fig:genus}
 \end{figure}
 
@@ -223,7 +223,7 @@ However, real-world objects are always volumetric---no matter how thin they are-
 \begin{figure}
 \centering
 \includegraphics[width=0.6\linewidth]{figs/mobius}
-\caption{A M\"obius strip is a one-sided surface, equivalent to glueing a paper strip with a single 180\(^\circ\) twist, and it is the most typical example of a non-orientable surface. Note however that this is only true when it is modelled without thickness. From Wikimedia Commons.}%
+\caption[A M\"obius strip]{A M\"obius strip is a one-sided surface, equivalent to glueing a paper strip with a single 180\(^\circ\) twist, and it is the most typical example of a non-orientable surface. Note however that this is only true when it is modelled without thickness. From Wikimedia Commons.}%
 \label{fig:mobius}
 \end{figure}
 
@@ -258,7 +258,7 @@ Because of this, a triangle-based data structures (Figure~\ref{fig:2-simplex}) c
 \caption{}%
 \label{subfig:0-simplex}
 \end{subfigure}
-\caption{A triangle-based data structure consists of a set of triangles as base elements, each of which has links to (a) its three adjacent triangles (as pointers or ids).
+\caption[A triangle-based data structure consists of a set of triangles as base elements]{A triangle-based data structure consists of a set of triangles as base elements, each of which has links to (a) its three adjacent triangles (as pointers or ids).
 Then, the usual approach is to also have links to (b) its three incident vertices (as pointers or ids), which can stored as separate elements with (c) their coordinates.
 Alternatively, it is also possible to store the vertex coordinates directly in the triangles, but this means that the coordinates are stored many times---once in every triangle that is incident to it.}%
 \label{fig:2-simplex}
@@ -280,7 +280,7 @@ Examples of these are triangle strips (Figure~\ref{fig:trianglestrip}) and trian
 \begin{marginfigure}
 \centering
 \includegraphics[width=\linewidth]{figs/trianglestrip}
-\caption{A triangle strip is easily defined as a list of vertices \((a,b,c,d,e,f,g,h)\). Every triangle is formed by three consecutive vertices in the list.}%
+\caption[A triangle strip is easily defined as a list of vertices]{A triangle strip is easily defined as a list of vertices \((a,b,c,d,e,f,g,h)\). Every triangle is formed by three consecutive vertices in the list.}%
 \label{fig:trianglestrip}
 \end{marginfigure}
 
@@ -299,7 +299,7 @@ In this manner, there are vertices at the \emph{start} and \emph{end} of the edg
 \begin{figure}[b]
 \centering
 \includegraphics[width=0.7\linewidth]{figs/quad}
-\caption{In the quad-edge data structure, an edge stores a \emph{quad}, which contains four records pointing to other quads corresponding to the previous and next oriented edges for the polygons on both of its sides.}%
+\caption[In the quad-edge data structure, an edge stores a \emph{quad}]{In the quad-edge data structure, an edge stores a \emph{quad}, which contains four records pointing to other quads corresponding to the previous and next oriented edges for the polygons on both of its sides.}%
 \label{fig:quad}
 \end{figure}
 
@@ -330,7 +330,7 @@ Storing attributes for edges will thus result in duplicate information (or addit
 \caption{}%
 \label{subfig:halfedge-2}
 \end{subfigure}
-\caption{(a) Three adjacent polygons are represented using (b) the DCEL\@.
+\caption[Three adjacent polygons are represented using the DCEL]{(a) Three adjacent polygons are represented using (b) the DCEL\@.
 In the DCEL, a half-edge \(e\) is linked to two vertices (called the \emph{origin} and the \emph{destination}) and to the face that it is incident to, and is linked to its \emph{next} half-edge (on the same face) and its \emph{twin} half-edge (on the adjacent face).}%
 \label{fig:halfedge}
 \end{figure}
@@ -366,7 +366,7 @@ Because of this, it is commonly used where this limitation is not a problem (\eg
 \caption{}%
 \label{subfig:0-cell-embedding}
 \end{subfigure}
-\caption{In the incidence graph, (a) faces have a list with links to the edges that bound them, (b) edges have links to the two vertices that bound them, and (c) vertices contain their coordinates.}%
+\caption[The incidence graph]{In the incidence graph, (a) faces have a list with links to the edges that bound them, (b) edges have links to the two vertices that bound them, and (c) vertices contain their coordinates.}%
 \label{fig:incidencegraph}
 \end{figure}
 

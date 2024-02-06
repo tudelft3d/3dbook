@@ -8,9 +8,11 @@
 \chapter{Introduction to 3D modelling of the built environment}%
 \label{chap:intro}
 
+% \fbox[0.8\linewidth][r]{\margintoc{}}
+
 % 3D modelling and representations
 
-The 3D modelling of the built environment involves the creation, manipulation and use of 3D digital representations of the real-world, including buildings, terrains and infrastructure.
+The 3D modelling of the built environment involves the creation, manipulation and use of 3D digital representations of the real world, including buildings, terrains and infrastructure.
 There are many approaches that can be taken with these representations, resulting in a huge variety of methods, each of them modelling things in a different way with different applications in mind.
 
 % Breaking things down
@@ -40,6 +42,7 @@ In this introductory chapter, we discuss the most important concepts that underl
 \section{Common conceptualisations of the 3D modelling process}
 
 \subsection{Hierarchical abstractions}
+\marginnote{hierarchical abstractions}\index{hierarchical abstractions}
 
 One of the most useful concepts behind the 3D modelling of the built environment is that it is done through a series of abstractions of the real world, each working at a different abstraction level.
 For instance, a typical high-level abstraction could divide the world into discrete objects (\eg\ individual buildings or plots of land), whereas a lower-level abstraction could divide each surface of a wall into triangles (\ie\ meshing) while satisfying certain characteristics (\eg\ minimum angles).
@@ -53,7 +56,7 @@ On the other hand, the 3D city model could be used for complex spatial analysis 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figs/applications.pdf}
-\caption{Some typical applications of 3D city models~\citep{Biljecki15a}.}%
+\caption[Some typical applications of 3D city models]{Some typical applications of 3D city models~\citep{Biljecki15a}.}%
 \label{fig:applications}
 \end{figure}
 
@@ -83,7 +86,7 @@ However, objects in Euclidean geometry do not have an absolute position in space
 \begin{marginfigure}
 \centering
 \includegraphics[width=\linewidth]{figs/line.pdf}
-\caption{Since there is exactly one line that passes through any pair of points, two points can be used to describe a line in Euclidean geometry.}%
+\caption[Two points can be used to describe a line in Euclidean geometry]{Since there is exactly one line that passes through any pair of points, two points can be used to describe a line in Euclidean geometry.}%
 \label{fig:line}
 \end{marginfigure}
 
@@ -93,7 +96,7 @@ This analytic description also makes it possible using algebra to compute the ex
 \begin{marginfigure}
 \centering
 \includegraphics[width=\linewidth]{figs/point.pdf}
-\caption{A point in 3D described by an ordered list of three coordinates $(p_x,p_y,p_z)$.}%
+\caption[A point in 3D described by an ordered list of three coordinates]{A point in 3D described by an ordered list of three coordinates $(p_x,p_y,p_z)$.}%
 \label{fig:point}
 \end{marginfigure}
 
@@ -189,7 +192,7 @@ Schemas are often described using UML models (\eg\ CityGML; Figure~\ref{fig:city
 \begin{figure*}
 \centering
 \includegraphics[width=\linewidth]{figs/citygml.pdf}
-\caption{The geometry classes used in the CityGML 2.0 standard~\citep{CityGML2.0}.}%
+\caption[The geometry classes used in the CityGML 2.0 standard]{The geometry classes used in the CityGML 2.0 standard~\citep{CityGML2.0}.}%
 \label{fig:citygml}
 \end{figure*}
 
@@ -206,7 +209,7 @@ Note that the low-level definition of a half-edge pretty much defines the struct
 \begin{marginfigure}
 \centering
 \includegraphics[width=\linewidth]{figs/halfedge-2.pdf}
-\caption{The half-edge data structure can store sets of polygons based on elements known as half-edges, which represent an edge within a face.
+\caption[The half-edge data structure]{The half-edge data structure can store sets of polygons based on elements known as half-edges, which represent an edge within a face.
 A half-edge $e$ is related to two vertices (the origin and the destination) and one face, and is linked to its next half-edge (on the same face) and its twin half-edge (on the adjacent face).}%
 \label{fig:halfedge-2}
 \end{marginfigure}

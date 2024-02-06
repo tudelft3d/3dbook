@@ -47,7 +47,7 @@ As shown in Figure~\ref{fig:halfspaces},
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.8\textwidth]{figs/halfspaces}
-  \caption{The Voronoi cell $\mathcal{V}_p$ is formed by the intersection of all the half-planes between $p$ and the other points.}%
+  \caption[A Voronoi cell]{The Voronoi cell $\mathcal{V}_p$ is formed by the intersection of all the half-planes between $p$ and the other points.}%
 \label{fig:halfspaces}
 \end{marginfigure}
 when $S$ contains more than two points (let us say it contains $n$ points), the Voronoi cell of a given point $p \in S$ is obtained by the intersection of $n-1$ half-spaces defined by $p$ and the other points $q \in S$. 
@@ -59,7 +59,7 @@ As shown in Figures~\ref{fig:vd2d},
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.8\textwidth]{figs/vd2d}
-  \caption{The VD for a set $S$ of points in the plane (the black points).}%
+  \caption[The VD for a set of points in the plane]{The VD for a set $S$ of points in the plane (the black points).}%
 \label{fig:vd2d}
 \end{marginfigure}
 the VD of a set $S$ of points in $\mathbb{R}^2$ is a planar graph, but it can also be seen as a two-dimensional cell complex where each 2-cell is a (convex) polygon. 
@@ -73,13 +73,13 @@ Drawing a picture of the three-dimensional case is not easy, thus Figure~\ref{fi
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.8\textwidth]{figs/vd3d}
-  \caption{Two Voronoi cells adjacent to each other in $\mathbb{R}^3$, they share the grey face.}%
+  \caption[Two Voronoi cells adjacent to each other]{Two Voronoi cells adjacent to each other in $\mathbb{R}^3$, they share the grey face.}%
 \label{fig:vd3d}
 \end{marginfigure}
 \begin{marginfigure}
   \centering
   \includegraphics[width=\textwidth]{figs/vd3d_onecell}
-  \caption{The Voronoi cell for the red vertex, the red edges are the Delaunay edges that are dual to the Voronoi facets.}%
+  \caption[The Voronoi cell for a vertex]{The Voronoi cell for the red vertex, the red edges are the Delaunay edges that are dual to the Voronoi facets.}%
 \label{fig:vd3d_onecell}
 \end{marginfigure}
 
@@ -165,7 +165,7 @@ Figure~\ref{fig:dt2}b shows an example.
     \includegraphics[width=\textwidth]{figs/t3}
     \caption{}
   \end{subfigure}%
-  \caption{\textbf{(a)} A set of 1000 points randomly distributed in a cube. \textbf{(b)} Its convex hull. \textbf{(c)} The Delaunay tetrahedralisation of the points, `sliced' in the middle and the upper tetrahedra removed (to be able to visualise the interior).}%
+  \caption[A set of points, its convex hull and its Delaunay tetrahedralisation]{\textbf{(a)} A set of 1000 points randomly distributed in a cube. \textbf{(b)} Its convex hull. \textbf{(c)} The Delaunay tetrahedralisation of the points, `sliced' in the middle and the upper tetrahedra removed (to be able to visualise the interior).}%
 \label{fig:dt2}
 \end{figure*}
 
@@ -184,7 +184,7 @@ The second case is illustrated in two dimensions in Figure~\ref{fig:slivers}a.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\textwidth]{figs/slivers}
-  \caption{\textbf{(a)} A four-sided convex polygon $abcd$ can be triangulated in two different ways, but the empty circumcircle criterion guarantees that the triangles are as equilateral as possible. Notice that the edge $ac$ is not locally Delaunay, but $bd$ is. \textbf{(b)} In three dimensions, five vertices can be triangulated with either two or three tetrahedra. Although the tetrahedralisation at the bottom has two nicely shaped tetrahedra, they are not Delaunay (the point $d$ is inside the sphere $abce$, which also implies that $b$ is inside the sphere $acde$). The tetrahedralisation at the top respects the Delaunay criterion, but contains one very thin tetrahedron spanned by the points $a$, $b$, $d$ and $e$.}%
+  \caption[A four-sided convex polygon can be triangulated in two different ways]{\textbf{(a)} A four-sided convex polygon $abcd$ can be triangulated in two different ways, but the empty circumcircle criterion guarantees that the triangles are as equilateral as possible. Notice that the edge $ac$ is not locally Delaunay, but $bd$ is. \textbf{(b)} In three dimensions, five vertices can be triangulated with either two or three tetrahedra. Although the tetrahedralisation at the bottom has two nicely shaped tetrahedra, they are not Delaunay (the point $d$ is inside the sphere $abce$, which also implies that $b$ is inside the sphere $acde$). The tetrahedralisation at the top respects the Delaunay criterion, but contains one very thin tetrahedron spanned by the points $a$, $b$, $d$ and $e$.}%
 \label{fig:slivers}
 \end{figure}
 In an arbitrary triangulation, not every facet that is locally Delaunay is necessarily a facet of DT($S$), but local optimality implies globally optimality in the case of the DT:
@@ -386,7 +386,7 @@ When dealing with a single tetrahedron $\tau$ formed by the four vertices $a$, $
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.9\textwidth]{figs/orient}
-  \caption{The tetrahedron $abcd$ is correctly oriented since \Orient($a,b,c,d$) returns a positive result. The arrow indicates the correct orientation for the face $\sigma_a$, so that \Orient($\sigma_a,a$) returns a positive result.}%
+  \caption[Orientation of a tetrahedron]{The tetrahedron $abcd$ is correctly oriented since \Orient($a,b,c,d$) returns a positive result. The arrow indicates the correct orientation for the face $\sigma_a$, so that \Orient($\sigma_a,a$) returns a positive result.}%
 \label{fig:orient}
 \end{marginfigure}
 we say that $\tau$ is correctly oriented if \Orient($a,b,c,d$) returns a positive value. 
@@ -495,7 +495,7 @@ As shown in Figure\ref{fig:watercolumns}, samples are often abundant vertically 
     \includegraphics[width=\textwidth]{figs/watercolumns2.pdf}
     \caption{}
   \end{subfigure}
-\caption{\textbf{(a)} Example of a dataset in geology, where samples were collected by drilling a hole in the ground. Each sample has a location in 3D space ($x-y-z$ coordinates) and one or more attributes attached to it. \textbf{(b)} An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m, but water columns are about 35km from each other.}%
+\caption[A dataset in geology]{\textbf{(a)} A dataset in geology where samples were collected by drilling a hole in the ground. Each sample has a location in 3D space ($x-y-z$ coordinates) and one or more attributes attached to it. \textbf{(b)} An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m, but water columns are about 35km from each other.}%
 \label{fig:watercolumns}%
 \end{figure*}
 
@@ -545,7 +545,7 @@ Figure~\ref{fig:isosurface} shows one concrete example.
     \includegraphics[width=\textwidth]{figs/isosurface3}
     \caption{}
   \end{subfigure}
-\caption{An example of an oceanographic dataset where each point has the temperature of the water, and three isosurface extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
+\caption[An oceanographic dataset with three isosurfaces]{An oceanographic dataset where each point has the temperature of the water, and three isosurfaces extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
 \label{fig:isosurface}
 \end{figure*}
 
@@ -578,14 +578,14 @@ Figure~\ref{fig:plc} shows one example.
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/plc}
-  \caption{A PLC representing a solid (with a genus of 1) and having one dangling left; notice also that one extra edge is on a polygon. \textbf{Right:} These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
+  \caption[A PLC representing a solid]{A PLC representing a solid (with a genus of 1) and having one dangling left; notice also that one extra edge is on a polygon. \textbf{Right:} These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
 \label{fig:plc}
 \end{marginfigure}
 As shown in Figure~\ref{fig:plc_not}, 
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.7\linewidth]{figs/plc_not}
-  \caption{These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
+  \caption[Two polygons that do not form a valid PLC]{These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
 \label{fig:plc_not}
 \end{marginfigure}
 in practice this means that polygons cannot intersect other polygons (there needs to be a vertex and/or edges), but there are otherwise no restriction on the shapes that can be represented.
@@ -601,10 +601,10 @@ Figure~\ref{fig:schonhardt}
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.95\textwidth]{figs/schonhardt}
-  \caption{The Schönhardt polyhedron is impossible to tetrahedralise without adding extra vertices inside.}%
+  \caption[The Sch\"onhardt polyhedron]{The Sch\"onhardt polyhedron is impossible to tetrahedralise without adding extra vertices inside.}%
 \label{fig:schonhardt}
 \end{marginfigure}
-shows a simple example, called the Schönhardt polyhedron after the mathematician who first described the case.
+shows a simple example, called the Sch\"onhardt polyhedron after the mathematician who first described the case.
 This polyhedron is formed by twisting the top face of a triangular prism to form a 6-vertex polyhedron having eight triangular faces (each one of the three quadrilateral faces adjacent to the top face will fold into two triangles). 
 It is impossible to select four vertices of the polyhedron such that a tetrahedron is totally contained inside the polyhedron, as none of the vertices of the bottom face can directly `see' the three vertices of the top triangular face.
 
@@ -654,7 +654,7 @@ Thus, the ConsDT aims at keeping the Delaunay properties, but relaxes them to be
 \begin{figure*}
   \centering
   \includegraphics[width=0.95\linewidth]{figs/cdt_tudelft}
-  \caption{The LoD1 3D model of the TU Delft where each building is represented with the ConsDT of its PLC.}%
+  \caption[A ConsDT of each building of the TU Delft]{The LoD1 3D model of the TU Delft where each building is represented with the ConsDT of its PLC.}%
 \label{fig:cdt_tudelft}
 \end{figure*}
 

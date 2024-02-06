@@ -27,10 +27,10 @@ In automatic building reconstruction we aim to construct 3D mesh models for indi
 		\caption{}%
 		\label{subfig:bk-mesh}
 	\end{subfigure}
-	\caption{Building reconstruction transforms a point cloud (a) into a mesh model (b).}%
+	\caption[Building reconstruction transforms a point cloud into a mesh model]{Building reconstruction transforms (a) a point cloud into (b) a mesh model.}%
 	\label{fig:bk-building-recon}
 \end{marginfigure}
-It can be considered as one step in the geoinformation chain, since we essentially transform 'raw' and unorganised point measurements into more structured and semantically rich 3D models.
+It can be considered as one step in the geoinformation chain, since we essentially transform `raw' and unorganised point measurements into more structured and semantically rich 3D models.
 Compared to a point cloud, such models are much more useful for applications such as environmental simulations of wind, air pollution, and noise propagation, but also building energy demand estimation and urban planning in general.
 Many of these applications require knowledge about the volume or surface area of a building, or the distinction between the interior and exterior of a building, which is evidently much easier to derive from a mesh with a clearly defined boundary than from a point cloud.
 In addition, meshes are typically more compact which makes them more efficient to store and process.
@@ -75,7 +75,8 @@ Firstly, there are variations in architectural style. Urban environments can be 
 	\label{fig:debrug}
 \end{figure}
 	
-Secondly, we need to consider the quality and completeness of the input data. This mostly relates to how the input data, \ie\ the point cloud, was acquired (compare \eg\ Figure~\ref{fig:pc-quality:low} to \ref{fig:pc-quality:high}).
+Secondly, we need to consider the quality and completeness of the input data. This mostly relates to how the input data, \ie\ the point cloud, was acquired (compare \eg\ Figure~\ref{fig:pc-quality:low} to
+~ref{fig:pc-quality:high}).
 \begin{marginfigure}
 	\centering
 	\begin{subfigure}{\linewidth}
@@ -89,7 +90,7 @@ Secondly, we need to consider the quality and completeness of the input data. Th
 		\caption{}%
 		\label{fig:pc-quality:high}
 	\end{subfigure}
-	\caption{Varying point cloud qualities. a) low point density with missing facades, b) high point density and points on facades.}%
+	\caption[Varying point cloud qualities]{Varying point cloud qualities. (a) low point density with missing facades, (b) high point density and points on facades.}%
 	\label{fig:pc-quality}
 \end{marginfigure}
 Most building reconstruction methods work with point clouds that are captured from an airplane. 
@@ -109,7 +110,7 @@ One could classify these methods on a linear scale with on one extreme the purel
 
 \begin{marginfigure}
 	\includegraphics[width=\linewidth]{figs/data-driven.png}
-	\caption{Data driven reconstruction based on a triangulation of the input points \citep{Axelsson99}}%
+	\caption[Data driven reconstruction based on a triangulation of the input points]{Data driven reconstruction based on a triangulation of the input points \citep{Axelsson99}}%
 	\label{subfig:data-driven}
 \end{marginfigure}
 The data driven approach strongly relies on the quality and completeness of the input data.
@@ -119,7 +120,7 @@ Examples of the data driven approach are methods that triangulate directly the i
 
 \begin{marginfigure}
 	\includegraphics[width=\linewidth]{figs/model-driven.png}
-	\caption{Model driven reconstruction by fitting parametrised roof models \citep{Lafarge10}}%
+	\caption[Model driven reconstruction by fitting parametrised roof models]{Model driven reconstruction by fitting parametrised roof models \citep{Lafarge10}}%
 	\label{subfig:model-driven}
 \end{marginfigure}
 The model driven approach, on the other hand, relies on strong modelling assumptions about the building shape.
@@ -188,7 +189,7 @@ Figure~\ref{fig:method-overview} illustrates the six main steps of the algorithm
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{figs/reconstruction-overview.pdf}
-	\caption{The main steps in the reconstruction algorithm. 1) the classified (aerial) point cloud is cropped on the 2D footprint, 2) planes and their boundaries are detected in the point cloud, 3) from the roof planes the intersection lines and boundary lines are extracted, 4) the lines are regularised and projected onto the 2D footprint, 5) the roof-partitions is created. This is a DCEL where each face is labeled with the corresponding plane (from 2, compare colors). 6) the roof-partition is extruded into a 3D mesh. \\If a terrain plane is assigned to a face from the roof-partition, that face is removed (2 and 5).}%
+	\caption[The main steps in the reconstruction algorithm]{The main steps in the reconstruction algorithm. 1) the classified (aerial) point cloud is cropped on the 2D footprint, 2) planes and their boundaries are detected in the point cloud, 3) from the roof planes the intersection lines and boundary lines are extracted, 4) the lines are regularised and projected onto the 2D footprint, 5) the roof-partitions is created. This is a DCEL where each face is labeled with the corresponding plane (from 2, compare colors). 6) the roof-partition is extruded into a 3D mesh. \\If a terrain plane is assigned to a face from the roof-partition, that face is removed (2 and 5).}%
 	\label{fig:method-overview}
 \end{figure}
 
@@ -269,7 +270,7 @@ This  optimisation thus seeks an optimal balance between respectively a good dat
 After the optimisation is complete, the edges for which the two incident faces are assigned to the same roof plane are removed from the partition.
 The faces in the resulting \emph{final roof-partition} are referred to as \emph{roof-parts}.
 
-\subsubsection{Extrusion}
+\subsubsection{Extrusion}%
 \label{sec:extrusion}
 The final roof-partition is transformed into a 3D building mesh using extrusion.
 This is done by exploiting the topological information that is available in the the DCEL of the roof-partition, as illustrated in Figure~\ref{fig:extrusion}.
@@ -286,7 +287,7 @@ This is done by exploiting the topological information that is available in the 
 		\caption{}%
 		\label{subfig:3ddcel}
 	\end{subfigure}
-	\caption{The roof-partition is represented as a DCEL (a). When extruding to a 3D mesh (b), each edge in the roof-partition becomes a wall face in the 3D Mesh. Each vertex in the roof-partition (\eg\ $v_1$) needs to be replicated for each incident face: \eg\ $v_{1A}$, $v_{1B}$, $v_{1C}$ in the 3D Mesh.}%
+	\caption[The roof-partition represented as a DCEL]{The roof-partition is represented as a DCEL (a). When extruding to a 3D mesh (b), each edge in the roof-partition becomes a wall face in the 3D Mesh. Each vertex in the roof-partition (\eg\ $v_1$) needs to be replicated for each incident face: \eg\ $v_{1A}$, $v_{1B}$, $v_{1C}$ in the 3D Mesh.}%
 	\label{fig:extrusion}
 \end{figure}
 Notice that the building mesh consists of three types of faces, \ie\ the floor, the roof and the wall faces.
@@ -295,7 +296,7 @@ These are generated from the roof-partition in separate procedures.
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\linewidth]{figs/extrusion-edge.pdf}
-	\caption{The edge $e$ (comprising of two halfedges $e_A$ and $e_B$) is incident to two faces ($f_A$ and $f_B$) and two vertices ($v_1$ and $v_2$). In case of a roof-partition, the height at $v_1$ on face $f_A$ is denoted as $h_{1A}$.}%
+	\caption[An edge incident to two faces]{The edge $e$ (comprising of two halfedges $e_A$ and $e_B$) is incident to two faces ($f_A$ and $f_B$) and two vertices ($v_1$ and $v_2$). In case of a roof-partition, the height at $v_1$ on face $f_A$ is denoted as $h_{1A}$.}%
 	\label{fig:extrusion-notation}
 \end{marginfigure}
 
@@ -306,7 +307,7 @@ These are generated from the roof-partition in separate procedures.
 \begin{figure}
 	\includegraphics[width=\linewidth]{figs/extrusion-edge-cases.pdf}
 	% \caption{Various possible roof face configurations at edge $e$}%
-	\caption{Determining wall face geometry and vertex order. $h_{1A}$ denotes the elevation at vertex $v_1$ on face $f_A$ (see Figure~\ref{fig:extrusion-notation}).}%
+	\caption[Determining wall face geometry and vertex order]{Determining wall face geometry and vertex order. $h_{1A}$ denotes the elevation at vertex $v_1$ on face $f_A$ (see Figure~\ref{fig:extrusion-notation}).}%
 	\label{fig:extrusion-cases}
 \end{figure}
 Notice that an edge in the roof-partition can generate 0 (if the incident planes intersect exactly at the edge), 1 or 2 wall faces.

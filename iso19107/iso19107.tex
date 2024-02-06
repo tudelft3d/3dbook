@@ -42,7 +42,7 @@ Representing and storing a 2-manifold, even in $\mathbb{R}^3$, can be done with 
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.9\linewidth]{figs/nonmanifold}
-  \caption{An example of an invalid 2-manifold: one edge and one vertex are non-manifold (the red ones).}%
+  \caption[An invalid 2-manifold]{An invalid 2-manifold: one edge and one vertex are non-manifold (the red ones).}%
 \label{fig:nonmanifoldiso}
 \end{marginfigure}
 The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, can thus be used.
@@ -101,7 +101,7 @@ Figure~\ref{fig:onesolid} shows a solid that respects that definition.
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.95\textwidth]{figs/isosolid.pdf}
-  \caption{One solid which respects the ISO19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
+  \caption[One solid which respects the ISO19107 definition]{One solid which respects the ISO19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
 \label{fig:onesolid}
 \end{marginfigure}
 First observe that the solid is composed of two shells (both forming its boundaries), one being the exterior and one being the interior shell.
@@ -113,7 +113,7 @@ Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.8\linewidth]{figs/torus.pdf}
-  \caption{A `squared torus' is modelled with one exterior boundary formed of ten surfaces. Notice that there are no interior boundary.}%
+  \caption[A `squared torus']{A `squared torus' is modelled with one exterior boundary formed of ten surfaces. Notice that there are no interior boundary.}%
 \label{fig:torus}
 \end{marginfigure}
 
@@ -125,7 +125,7 @@ Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{figs/geomprimitives.pdf}
-  \caption{Some of the CityGML primitives, including aggregates and composites. Orange primitives are those representing inner boundaries. The \texttt{Shell} is not a class in GML, but it is implied when a \texttt{CompositeSurface} is used to define the boundary of a \texttt{Solid}.}%
+  \caption[Some of the CityGML primitives]{Some of the CityGML primitives, including aggregates and composites. Orange primitives are those representing inner boundaries. The \texttt{Shell} is not a class in GML, but it is implied when a \texttt{CompositeSurface} is used to define the boundary of a \texttt{Solid}.}%
 \label{fig:geomprimitives}
 \end{figure}
 
@@ -220,7 +220,7 @@ To further explain what the assertions are in 3D, Figure~\ref{fig:validornot}
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figs/validornot.pdf}
-  \caption{Twelve solids, some of them valid some invalid. The number of interior shell(s) is ``ishell'', and the numbers in parentheses next to invalid indicates which OGC assertions are broken. For solid $s_9$ the colour of the exterior shell is not shown to highlight the interior shell.}%
+  \caption[Twelve solids, some of them valid and some invalid]{Twelve solids, some of them valid and some invalid. The number of interior shell(s) is ``ishell'', and the numbers in parentheses next to invalid indicates which OGC assertions are broken. For solid $s_9$ the colour of the exterior shell is not shown to highlight the interior shell.}%
 \label{fig:validornot}
 \end{figure}
 shows 12 solids, some of them valid, some not (all the statements below refer to solids in this figure).
