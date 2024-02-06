@@ -19,13 +19,13 @@ There are many approaches that can be taken with these representations, resultin
 
 When implemented in practice into a complete solution to a problem, these representations are not completely dissimilar from one another.
 Instead, they usually involve a mix of established techniques devised to represent shapes, connectivity and attributes.
-The end result differs greatly, but good solutions tend to strike a balance between their capabilities (\eg\ enough flexibility to model many types of objects), their simplicity (\eg\ using a consistent structure to allow for automated processing using simple rules) and how well they target the application they're used in.
+The possible combinations of techniques means that the end result can differ greatly, but good solutions tend to strike a balance between their capabilities (\eg\ enough flexibility to model many types of objects), their simplicity (\eg\ using a consistent structure to allow for automated processing using simple rules) and how well they target the application they're used in.
 In addition, the solutions that become widespread in practice also rely on many practical aspects, such as having good software support and widely available data.
 
 % About the book
 
-Despite the interconnected nature of the representations used for 3D modelling, within this book, we have tried to split them into mostly independent chapters---each covering a different representation in detail.
-The book starts from simple, generic and fundamental representations and moves towards more complex ones that use others as building blocks and have more clearly defined applications.
+Despite the interconnected nature of the representations used for 3D modelling of the built environment, within this book, we have tried to split them into mostly independent chapters---each covering a different representation in detail.
+The book starts from simple, generic and fundamental 3D modelling representations and moves towards more complex ones that use others as building blocks and have more clearly defined applications within the built environment realm.
 We focus mostly on the technical characteristics of each but also try to cover the most important practical aspects.
 The book ends with chapters that tie the content to the creation of complex data sets through building reconstruction and to the application of the topics seen in the chapters.
 
@@ -38,8 +38,12 @@ The book ends with chapters that tie the content to the creation of complex data
 % About the chapter
 
 In this introductory chapter, we discuss the most important concepts that underlie the rest of the book and that should help the reader to tie the different chapters together.
+% These notions can be considered as ...
 
 \section{Common conceptualisations of the 3D modelling process}
+
+The 3D modelling process is quite complex, and is therefore usually described as more of a sequence of simpler processes that happen on multiple levels.
+There are two common different conceptualisations for this in practice: a system of hierarchical abstractions that starts from the concrete real world and increasingly abstracts it into elements for a computer representation; or a series of steps that mimics the typical geoinformation process from measurements or acquisition, through one or more processing steps and ending with applications.
 
 \subsection{Hierarchical abstractions}
 \marginnote{hierarchical abstractions}\index{hierarchical abstractions}
@@ -60,9 +64,9 @@ On the other hand, the 3D city model could be used for complex spatial analysis 
 \label{fig:applications}
 \end{figure}
 
-\subsection{Geoinformation processing (\ie\ the geoinformation chain)}
+\subsection{Geoinformation processing}
 
-From\marginnote{geoinformation chain}\index{geoinformation chain} a practical perspective, a common way to consider how space is structured is based on the usual steps in the geoinformation chain (or pipeline).
+From a practical perspective, a common way to consider how space is structured is based on the usual steps in the geoinformation chain\marginnote{geoinformation chain}\index{geoinformation chain} (or pipeline).
 This considers that one starts from the acquisition of data, either through traditional measurements (using anything from a tape measure to a total station) or using a variety of sensing technologies, including active methods using the reflections of electromagnetic waves (\eg\ all forms of lidar and radar) and vibrations (\eg\ underwater echo sounding and seismic methods), as well as passive methods (\eg\ digital images using any spectrum).
 
 These `raw' measurements are then used to create simple primitives (\eg\ the points in a point cloud or the plane equation of a wall), and these are then further processed and assembled to create more complex 3D objects.
@@ -70,10 +74,10 @@ These `raw' measurements are then used to create simple primitives (\eg\ the poi
 For instance, a typical process can go from a set of lidar full waveforms to a point cloud by deciding on appropriate return power thresholds, then to a series of meshes by reconstructing surfaces and fitting planes, and finally to a 3D city model with semantic surfaces by classifying and assembling the surfaces into 3D objects.
 In every step of such a process, there is certain amount of information loss, but (ideally) the information that remains is more structured and meaningful.
 
-\section{Applied mathematical concepts used in 3D modelling}
+\section{Geometry, topology and semantics}
 
-\subsection{Geometry, topology and semantics}
-
+Within the context of the built environment, 3D modelling is usually split into three different modelling components: geometry (modelling of shape), topology (modelling of connectivity) and semantics (modelling of qualitative or quantitative values).
+These terms, as well as others covered in this section, are mostly derived from different branches of mathematics, but it is worth noting that their application within the geoinformation domain can differ substantially from their original mathematical meaning.
 
 \subsection{Euclidean, Cartesian and point set geometry}
 
@@ -120,6 +124,8 @@ For instance, we can say that a sphere is a point set where the distance to a gi
 % \label{fig:boolean}
 % \end{figure}
 
+\subsection{Explicit and implicit geometry}
+
 \subsection{Graphs and algebraic topology}
 
 The concepts from different branches of geometry are useful to describe the overall shape of objects, but in practice we often need to add concepts of topology as well.
@@ -132,8 +138,6 @@ For instance, in a \emph{dual}\marginnote{duality}\index{duality} representation
 
 \emph{Algebraic topology}\marginnote{algebraic topology}\index{algebraic topology} takes the concept of a graph further by allowing us to use higher-dimensional objects (\eg\ faces and volumes), which will be used to describe simplices and cells in some of the data models that we will discuss later in the course.
 It also makes it possible to describe objects based on sets, as well as to create operations that modify these sets.
-
-\subsection{Explicit and implicit geometry}
 
 \section{Objects and fields}
 
