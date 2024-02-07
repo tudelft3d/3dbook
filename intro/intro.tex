@@ -166,19 +166,20 @@ In order to represent this view, objects are therefore modelled individually (\e
 For instance, a building information model can model every individual brick, fire suppression sprinkler or layer of insulation in a wall as separate objects with high detail; whereas national or city-wide models can aggregate or generalise multiple buildings into simple rectangular city blocks.
 
 % TODO: more about objects
-Mathematically, the representation of objects ...
+% Mathematically, the representation of objects takes a few different forms.
+%  specifying which object(s)
 
 By contrast, the fields\marginnote{field}\index{field} view considers that there are certain attributes that fill regions of space and have a changing value as one moves through it.
 The typical examples are physical characteristics, such as the elevation of a terrain, the temperature or the wind speed.
 Since we generally cannot know or store the values of fields in every possible location, of which there might be infinitely many, the standard approach is to mathematically model an approximation (\eg\ elevation modelled as an interpolated set of points).
 
-Mathematically, a field is a model of the spatial variation of an attribute over a spatial domain.
+% Mathematically, a field is usually defined as a model of the spatial variation of an attribute over a spatial domain.
 % , we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
 % It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
 % \[
 %   a = f(p)
 % \]
-The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate \((x,y)\) (\eg\ for the elevation of terrain) or trivariate \((x,y,z)\) (\eg\ for the temperature of a body of air).
+% The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate \((x,y)\) (\eg\ for the elevation of terrain) or trivariate \((x,y,z)\) (\eg\ for the temperature of a body of air).
 
 %
 
@@ -233,7 +234,7 @@ Note that the low-level definition of a half-edge pretty much defines the struct
 \centering
 \includegraphics[width=\linewidth]{figs/halfedge-2.pdf}
 \caption[The half-edge data structure]{The half-edge data structure can store sets of polygons based on elements known as half-edges, which represent an edge within a face.
-A half-edge $e$ is related to two vertices (the origin and the destination) and one face, and is linked to its next half-edge (on the same face) and its twin half-edge (on the adjacent face).}%
+A half-edge \(e\) is related to two vertices (the origin and the destination) and one face, and is linked to its next half-edge (on the same face) and its twin half-edge (on the adjacent face).}%
 \label{fig:halfedge-2}
 \end{marginfigure}
 
@@ -242,10 +243,11 @@ A half-edge $e$ is related to two vertices (the origin and the destination) and 
 \section{Exercises}
 
 \begin{enumerate}
+  \item Do the levels of the hierarchy in the `hierarchical abstractions' model correspond to the steps in the `geoinformation chain'?
 	\item What is noisier: the `raw' measurements in the early steps of the geoinformation chain, or the more processed products of the last steps.
 	\item Give an example of a field that it not a natural physical characteristic.
 	\item Consider whether a point cloud is a data model or a data structure. If it is a data model, what sort of data structure could be used to represent it?
-	\item Describe an alternative data structure that can be used to represent the vector data model (\ie\ not the half-edge data structure). What are some advantages/disadvantages of each data structure?
+	% \item Describe an alternative data structure that can be used to represent the vector data model (\ie\ not the half-edge data structure). What are some advantages/disadvantages of each data structure?
 \end{enumerate}
 
 
@@ -254,8 +256,8 @@ A half-edge $e$ is related to two vertices (the origin and the destination) and 
 %
 \section{Notes and comments}
 
-\citet{Frank92} is the original source that divides representations into spatial concepts, data models and data structures.
-It is partly out of date since it long predates the semantic data models that are used nowadays, but it is still a good paper, and a precursor to the ones we described here.
+% \citet{Frank92} is the original source that divides representations into spatial concepts, data models and data structures.
+% It is partly out of date since it long predates the semantic data models that are used nowadays, but it is still a good paper, and a precursor to the ones we described here.
 
 Chapter 2 of Ken's PhD thesis\marginnote{\faExternalLink\ \url{https://3d.bk.tudelft.nl/ken/en/thesis/math.html}} describes all the mathematical notions from this chapter in a bit more detail.
 Section 3.1\marginnote{\faExternalLink\ \url{https://3d.bk.tudelft.nl/ken/en/thesis/modelling-background.html\#se:spatial-modelling}} lists many data models and data structures with references to the original papers where they came from.
@@ -265,5 +267,5 @@ Section 3.1\marginnote{\faExternalLink\ \url{https://3d.bk.tudelft.nl/ken/en/the
 
 \citet{Mantyla88} has an excellent overview of different 3D representations.
 Some other good standard alternatives are \citet{Requicha80,Hoffmann92,Foley95}.
-A newer book accessible from the campus is \citet{Salomon11}.
+A newer book freely accessible from the campus is \citet{Salomon11}.
 
