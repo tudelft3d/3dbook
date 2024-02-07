@@ -78,8 +78,9 @@ In every step of such a process, there is certain amount of information loss, bu
 
 Within the context of the built environment, 3D modelling is usually split into three different modelling components: geometry (modelling of shape), topology (modelling of connectivity) and semantics (modelling of qualitative or quantitative values).
 These terms, as well as others covered in this section, are mostly derived from different branches of mathematics, but it is worth noting that their application within the geoinformation domain can differ substantially from their original mathematical meaning.
+For instance, within geoinformation, it is common to refer to individual objects with a geometric description simply as \emph{geometries}, or to the interplay between different overlapping objects as \emph{a topology}.
 
-\subsection{Euclidean, Cartesian and point set geometry}
+\subsection{Geometry: Euclidean, Cartesian and point set}
 
 When we model objects mathematically, we often rely on abstract geometric shapes, such as point, lines and planes.
 The simplest mathematical descriptions for these are based on \emph{Euclidean geometry}\marginnote{Euclidean geometry}\index{Euclidean geometry}.
@@ -124,9 +125,27 @@ For instance, we can say that a sphere is a point set where the distance to a gi
 % \label{fig:boolean}
 % \end{figure}
 
+Within the context of the built environment, all of these types of geometric descriptions are used to define 3D objects.
+Euclidean geometry is what is most often used to describe geometric primitives, Cartesian geometry is usually used to append coordinates to points or equations to more complex shapes, and point set geometry is the basis for the representations that are based on implicit geometries.
+
 \subsection{Explicit and implicit geometry}
 
-\subsection{Graphs and algebraic topology}
+Another distinction with respect to geometry is between \emph{explicit} and \emph{implicit} geometries.
+This separation is related to the notion of \emph{explicit} and \emph{implicit functions} or \emph{equations} in mathematics.
+The exact definitions are a bit tricky, as a simple approximation, explicit functions between variables can express one variable in terms of the others, whereas implicit functions cannot, or at least cannot do so easily.
+Instead, they tend to be defined more indirectly using additional variables or based on conditions that all variables need to jointly comply with.
+
+Within the context of 2D/3D modelling, \emph{explicit representations of geometry}\marginnote{explicit geometry}\index{explicit geometry} are those that are more direct, usually using more straightforward descriptions of point coordinates or the equations typically used to describe shapes, \eg\ lines, planes or polygons.
+Complex objects are usually described explicitly using a large number of simple primitives.
+
+Meanwhile, \emph{implicit representations}\marginnote{implicit geometry}\index{implicit geometry} are those that rely on more indirect descriptions, such as sequences of operations or complex functions, which often rely on non-spatial parameters (\ie\ not \(x\), \(y\) or \(z\)).
+Usually, some complex objects can be described implicitly using only a few primitives.
+Many more advanced geoinformation processing methods rely on the specific properties of a certain type of implicit geometries.
+
+However, since many methods and software rely on explicit geometries, obtaining explicit geometries from implicit ones is a common task.
+It can be quite difficult in practice, often involving difficult calculations or leading to problems of discretisation or loss of precision.
+
+\subsection{Topology: graphs and algebraic topology}
 
 The concepts from different branches of geometry are useful to describe the overall shape of objects, but in practice we often need to add concepts of topology as well.
 For instance, this is often used to describe relationships between objects, such as adjacency or connectivity.
@@ -145,11 +164,14 @@ From a theoretical GIS standpoint, the typical way to conceptualise space recogn
 The objects\marginnote{object}\index{object} view considers that space is empty and is populated by discrete objects.
 In many cases, this results in an approach where objects are modelled individually (\eg\ a building modelled as a set of surfaces), although they can also be aggregated or generalised into (\eg\ a set of adjacent buildings with the same height modelled as a single block).
 
+% TODO: more about objects
+Mathematically, ...
+
 By contrast, the fields\marginnote{field}\index{field} view considers that there are certain attributes that fill space and have a value everywhere in it.
 The typical examples are physical characteristics, such as the elevation of a terrain, the temperature or the wind speed.
 Since we generally cannot know or store the values of fields in every possible location, of which there might be infinitely many, the standard approach is to mathematically model an approximation (\eg\ elevation modelled as an interpolated set of points).
 
-A field is a model of the spatial variation of an attribute $a$ over a spatial domain, we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
+Mathematically, a field is a model of the spatial variation of an attribute $a$ over a spatial domain, we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
 It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
 \[
   a = f(p)
@@ -165,14 +187,7 @@ Second, in practice it is usually impossible to measure continuous phenomena eve
 The discretisation task therefore begins at the acquisition phase, and is affected by the acquisition tools and techniques.
 This fact is aggravated for fields as found in GIS-related disciplines because, unlike disciplines like medicine or engineering, we seldom have direct access to the whole object of interest.
 Indeed, to collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere are collected by devices attached to balloons or airplanes. 
-Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution, 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.85\textwidth]{figs/watercolumns}
-%   \caption{An oceanographic dataset in the Bering Sea in which samples are distributed along water columns. Each red point represents a (vertical) water column, where samples are collected every 2m.}% 
-% \label{fig:watercolumns}
-% \end{figure}
-the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
+Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution, the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
 
 \section{Data models and data structures}
 
