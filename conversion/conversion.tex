@@ -27,139 +27,9 @@ The chapter is divided into two distinct parts:
   \index{b-rep}\marginnote{boundary representation (b-rep)}
 \end{description}
 
-\begin{kaobox}[frametitle=\faExternalLink\ To read or to watch.]
-  The reader is advised to first read the two chapters about spatial interpolation (Chapters~4 and 5) in the book \emph{Computational modelling of terrains}~\citep{terrain_book}, where the 2D concepts are introduced.
-\end{kaobox}
-
-
-
 %%% to dmds
 %
 \section{Conversions for fields}
-
-
-%%% to voxels
-\subsection{Points to voxels}
-
-The conversion from scattered points to grid is trivial: simply interpolate at regular locations in three dimensions% 
-\index{interpolation}\marginnote{interpolation}
-(which represent the centre of each voxel) and output the results in the appropriate format (grids can be stored in many ways). 
-Figure~\ref{fig:r-interpolation} shows the process in two dimensions.
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figs/r-interpolation}
-  \caption[Interpolations of sample points into a raster]{\textbf{(a)} input sample points. \textbf{(b)} size/location of output grid. \textbf{(c)} 9 interpolations must be performed (at locations marked with $\circ$): at the middle of each cell. \textbf{(d)} the convex hull of the sample points show that 2 estimations are outside, thus no interpolation. \textbf{(e)} the resulting raster.}%
-\label{fig:r-interpolation}
-\end{figure}
-
-All the two-dimensional interpolation methods (weighted-average and kriging) generalise in theory to three dimensions.
-However, it is not obvious that they preserve their properties or are appropriate for geoscientific datasets.
-We describe in the following how they can be, and their properties.
-
-%%%
-\paragraph{Nearest neighbour.} 
-The method, based on the Voronoi diagram (VD),% 
-\index{Voronoi diagram}\marginnote{Voronoi diagram}
-generalises in a straightforward manner to 3D.
-It suffices to build the VD and to identify inside which cell the interpolation point lies.
-The VD can be bypassed if a three-dimensional $k$d-tree is used.
-
-
-%%%
-\paragraph{Inverse distance weighting (\textbf{IDW}).}
-The generalisation of this method to three dimensions is straightforward: a searching \emph{sphere} with a given radius is used. 
-The same problems with the one-dimensionality of the method (the value for the search radius) will be even worse because the search must be performed in one more dimension. 
-The method has too many problems to be considered  has a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution, 
-\marginnote{anisotropic distribution}
-and the criterion has to be selected carefully by the user.
-Note that the implementation problems are also similar to the ones encountered with the previous method, and an auxiliary data structure must be used to avoid testing all the points in a dataset.
-
-
-%%%
-\paragraph{Linear interpolation in tetrahedra.}
-This is the generalisation of the popular linear interpolation in TINs where the tetrahedra of the Delaunay tetrahedralisation (DT) are used. 
-The barycentric coordinates can be used to linearly interpolate inside a tetrahedron, as shown in Figure~\ref{fig:barycentric} the volumes of 4 tetrahedra are used (instead of the area for the 2D case.)
-\begin{marginfigure}
-  \centering
-  \includegraphics[width=0.9\textwidth]{figs/barycentric}
-  \caption[Barycentric coordinates in two and three dimensions]{Barycentric coordinates in two and three dimensions. $A_i$ represents the area of the triangle formed by $x$ and one edge. In 3D, the tetrahedron is subdivided into 4 tetrahedra.}% 
-\label{fig:barycentric}
-\end{marginfigure}
-
-The volume of a $d$-simplex $\sigma$ is easily computed:
-\begin{equation}
-vol(\sigma) = \frac{1}{d \, !} \left| \,  
-                            \det \, \left( 
-                                  \begin{array}{ccc}
-                                    v^{0} & \cdots & v^{d} \\
-                                    1     & \cdots & 1 \\
-                                  \end{array}
-                                \right)
-                        \right|
-\end{equation}  
-where $v^{i}$ is a $d$-dimensional vector representing the coordinates of a vertex and $\det()$ is the determinant of the matrix. 
-
-As explained above, finding tetrahedra having a good shape is not as easy as in two dimensions, and the presence of slivers yield bad results for the interpolation process. 
-To be used in practice, the shape of the tetrahedra is usually improved with techniques involving the insertion of new points and/or applying flips.
-
-
-%%%
-\paragraph{Natural neighbour interpolation.}
-The theory of this method also generalises in a straightforward manner to 3D.
-Instead of having stolen areas, we have stolen \emph{volumes} between the Voronoi cells.
-However, although the concepts behind the method are simple and easy to understand, its implementation for the 3D case is far from being straightforward. 
-The main reasons are that it requires the computation of two VDs---one with and one without the interpolation point---and also the computation of volumes of Voronoi cells. 
-This involves algorithms for both constructing a VD and deleting a point from it.
-
-The volume of a $d$-dimensional Voronoi cell is computed by decomposing it into $d$-simplices---not necessarily Delaunay simplices---and summing their volumes. 
-Triangulating a Voronoi cell is easily performed since it is a convex polyhedron.
-
-
-
-%%%
-\paragraph{kriging.}
-All of the most common kriging varieties generalise to three dimensions without major changes, including simple kriging and ordinary kriging.
-In the simplest case, covariance functions, experimental variograms and fitted functions work exactly the same as in 2D but are computed using distances in 3D.
-
-However, the vertical direction has a much weaker correlation than the horizontal directions in many fields, \eg\ temperature, pressure and humidity.
-Anisotropy is thus a much more significant factor in 3D and almost always has to be modelled.
-A minimal solution is a custom distance function that scales the vertical direction.
-A better (but still simple) solution involves computing multiple experimental variograms: two (for the horizontal plane \(x,y\) and for the vertical direction \(z\)) or three (for \(x\), \(y\) and \(z\)).
-
-
-
-%%% to voxels
-\subsection{Voxels to points}
-
-The conversion of a voxel to a set of scattered points is not a simple operation.
-Given a three-dimensional grid, it is possible to create one data point at the centre of each voxel.
-Notice however that potentially a lot of the neighbouring points will be the same value, and thus a lot of redundancy is stored.
-
-%
-
-A better approach to this problem is to consider it as a simplification problem.%
-\index{simplification}\marginnote{simplification}
-Given a set $S$ of points in $\mathbb{R}^3$ representing a field $f$ (where each point $p$ in $S$ as an attribute $a$ attached to itself), the aim is to find a subset $R$ of $S$ which will approximate $f$ as accurately as possible, using as few points as possible. 
-The subset $R$ will contain the `important' points of $S$, \ie\ a point $p$ is important when $a$ at location $p$ can not be accurately estimated by using the neighbours of $p$.
-
-%
-
-The two algorithms described in the GEO1015 book (Section~8.3) can in theory be generalised; Figure~\ref{fig:meshsimplification} shows the idea for the 1D case.
-\begin{figure}
-  \centering
-  \includegraphics[width=0.85\linewidth]{figs/mesh_simplification}
-  \caption[The importance measure of a point expressed by its error]{The importance measure of a point can be expressed by its error. When this error is greater than a given threshold $\epsilon_{\max}$, the point is kept ($p_1$), else it is discarded ($p_2$).}%
-\label{fig:meshsimplification}
-\end{figure}
-Both strategies (decimation and refinement) can be implemented.
-
-The error associated with each point $p$, denoted error($p$), is calculated by interpolating at location $p$ after $p$ has been temporarily removed from the field, and comparing the value obtained with the real attribute $a$ of $p$, thus error($p) = |a - estimation|$. 
-As shown in Figure~\ref{fig:meshsimplification} for a one-dimensional case, when the error is more than $\epsilon_{\max}$ then the point must be kept, if it is less then the point can be discarded.
-
-The method for 2D fields in GEO1015 uses linear interpolation in triangles, that is after $p$ has been temporarily deleted from DT($S$), the triangulation is updated and the estimation is obtained with the triangle containing location $p$. 
-However, since mentioned earlier, using the DT in 3D for interpolation is not advised (because they contain slivers).
-As an alternative, one could use for instance the natural neighbour interpolation, and each error is calculated by interpolating in the field at the location and comparing the real and the estimated value.
-
 
 %%%
 \subsection{Conversion to isosurfaces}
@@ -204,23 +74,6 @@ In three dimensions, for a trivariate field, the same idea can be used to extrac
 
 %
 
-\paragraph{From voxels: Marching Cubes.} 
-The principal and most known algorithm for extracting an isosurface form a voxel dataset is the \emph{Marching Cu\-bes}. 
-The isosurface is computed by finding the intersections between the isosurface and each voxel/cube of the representation. 
-Linear interpolation is used along the edges of each cube to extract `polygonal patches' of the isosurface. 
-There exist 256 different cases for the intersection of a surface with a cube (considering that the value of each of the eight vertices of a cube is `above' of `under' the threshold), although if we consider the symmetry in a cube that comes down to only 15 cases. 
-The major problem with the marching cubes algorithm is that the isosurface may contain `holes' or `cracks' when a cube is formed by certain configurations of above and under vertices. 
-The ambiguities are shown in Figure~\ref{fig:isosurface_ambiguity} for the two-dimensional case when two vertices are above the threshold, and two under, and they form a `saddle'.
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\textwidth]{figs/isosurface_ambiguity}
-  \caption[Ambiguous extraction of an isoline]{Ambiguous extraction of an isoline where the attribute is 8.}% 
-\label{fig:isosurface_ambiguity}
-\end{figure}
-The three-dimensional case is similar, with many more cases possible. 
-
-%
-
 \paragraph{From a tetrahedral mesh: Marching Tetrahedra.} 
 Although it is possible to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide each cell into simplices (cubes into tetrahedra in 3D). 
 The so-called \emph{Marching Tetrahedra} algorithm is very simple: each tetrahedron is tested for the intersection with the isosurface, and triangular faces are extracted from the tetrahedra by linear interpolation on the edges. 
@@ -258,11 +111,6 @@ In the context of the built environment, this would most likely mean that from a
 
 It should be noticed that the b-rep can be formed solely of triangles, or of polygons.
 The polygons can have interior boundaries, as defined in ISO19107 (see Chapter~\ref{chap:iso19107}).
-
-%%%
-\subsection{Points/surfaces/volumes to voxels}
-
-The conversions of points, curves, surfaces and volumes to voxels are covered in Chapter~\ref{chap:voxels}.
 
 
 %%%
@@ -320,9 +168,6 @@ The surfaces of the b-rep also get meshed in the same process (each surface is t
 %%%
 %
 \section{Notes and comments}
-
-\citet{Lorensen87} first describe the Marching Cubes algorithm to extract isosurfaces from voxels.
-Although \citet{Wilhems90} describe various methods to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide the cubes into tetrahedra.
 
 \citet{Cheng00} and \citet{Miller02} both describe methods to remove slivers in Delaunay meshes and to improve the shape of tetrahedra (so that they can be used for interpolation).
 
