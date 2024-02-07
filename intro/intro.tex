@@ -149,7 +149,7 @@ It can be quite difficult in practice, often involving difficult calculations or
 
 The concepts from different branches of geometry are useful to describe the overall shape of objects, but in practice we often need to add concepts of topology as well.
 For instance, this is often used to describe relationships between objects, such as adjacency or connectivity.
-In the geometric modelling of the built environment, topology is especially important because the standard approach to model complex objects is to divide them into small elements, and thus we also need to describe how these elements are connected.
+In the 3D modelling of the built environment, topology is especially important because the standard approach to model complex objects is to divide them into small elements, and thus we also need to describe how these elements are connected.
 
 In its simplest form, topology often takes the form of a \emph{graph}\marginnote{graph}\index{graph}, where the elements are vertices that are connected by (directed) edges.
 Vertices often correspond to geometric points and edges to geometric line segments, but this is not always the case.
@@ -162,32 +162,36 @@ It also makes it possible to describe objects based on sets, as well as to creat
 
 From a theoretical GIS standpoint, the typical way to conceptualise space recognises two ways of looking at the world: \emph{objects} and \emph{fields}.
 The objects\marginnote{object}\index{object} view considers that space is empty and is populated by discrete objects.
-In many cases, this results in an approach where objects are modelled individually (\eg\ a building modelled as a set of surfaces), although they can also be aggregated or generalised into (\eg\ a set of adjacent buildings with the same height modelled as a single block).
+In order to represent this view, objects are therefore modelled individually (\eg\ a building modelled as a set of surfaces), although it is worth noting that these objects can be smaller or bigger depending on the level of detail involved.
+For instance, a building information model can model every individual brick, fire suppression sprinkler or layer of insulation in a wall as separate objects with high detail; whereas national or city-wide models can aggregate or generalise multiple buildings into simple rectangular city blocks.
 
 % TODO: more about objects
-Mathematically, ...
+Mathematically, the representation of objects ...
 
-By contrast, the fields\marginnote{field}\index{field} view considers that there are certain attributes that fill space and have a value everywhere in it.
+By contrast, the fields\marginnote{field}\index{field} view considers that there are certain attributes that fill regions of space and have a changing value as one moves through it.
 The typical examples are physical characteristics, such as the elevation of a terrain, the temperature or the wind speed.
 Since we generally cannot know or store the values of fields in every possible location, of which there might be infinitely many, the standard approach is to mathematically model an approximation (\eg\ elevation modelled as an interpolated set of points).
 
-Mathematically, a field is a model of the spatial variation of an attribute $a$ over a spatial domain, we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
-It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
-\[
-  a = f(p)
-\]
-The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate ($x,y$) (\eg\ for the elevation of terrain) or trivariate ($x,y,z$) (\eg\ for the temperature of a body of air).
+Mathematically, a field is a model of the spatial variation of an attribute over a spatial domain.
+% , we assume this domain to be $\mathbb{R}^d$, the $d$-dimensional Euclidean space.
+% It is modelled by a function mapping one point $p$ in $\mathbb{R}^d$ to the value of $a$, thus 
+% \[
+%   a = f(p)
+% \]
+The function can theoretically have any number of independent variables (\ie\ the spatial domain can have any dimensions), but in the context of geographical phenomena the function is usually bivariate \((x,y)\) (\eg\ for the elevation of terrain) or trivariate \((x,y,z)\) (\eg\ for the temperature of a body of air).
 
 %
 
-The representation of a field in a computer faces many problems. 
-First, fields are continuous functions, and, by contrast, computers are discrete machines. 
-Fields must therefore be \emph{discretised}, \ie\ broken into finite parts.
-Second, in practice it is usually impossible to measure continuous phenomena everywhere, and we have to resort to collecting samples at some finite locations and reconstructing fields from these samples.
-The discretisation task therefore begins at the acquisition phase, and is affected by the acquisition tools and techniques.
-This fact is aggravated for fields as found in GIS-related disciplines because, unlike disciplines like medicine or engineering, we seldom have direct access to the whole object of interest.
-Indeed, to collect samples in the ground we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere are collected by devices attached to balloons or airplanes. 
-Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution, the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
+The representation of both objects and fields in a computer faces many common problems. 
+Foremost, objects and fields are both continuous, and, by contrast, computers are discrete machines. 
+They must therefore be acquired in a discrete way, \eg\ measuring fields through samples or measurements from sensors, or acquiring the geometry of objects through a limited number of measured or remotely sensed points.
+
+This discrete acquissition process is affected by the acquisition tools and techniques, and is made more complex because we seldom have direct access to the whole object of interest, either due to physical or cost limitations.
+For example, to collect field samples in the ground, we must dig holes or use other devices (\eg\ ultrasound penetrating the ground); underwater samples are collected by instruments moved vertically under a boat, or by automated vehicles; and samples of the atmosphere are collected by devices attached to balloons or airplanes.
+Similarly, buildings and infrastructure can be acquired through images captured from a limited number of pictures from a few angles, using cameras with a limited resolution and often resulting in parts that are not sensed clearly or missing altogether.
+
+Then, it is necessary to reconstruct objects or fields from these limited samples using different discrete techniques.
+% Moreover, because of the way they are collected, geoscientific datasets often have a highly sparse and anisotropic distribution, the distribution can be for instance dense vertically (with a sample every 2m in that real-world case) but extremely sparse horizontally (water columns are located at about 35km from each others).
 
 \section{Data models and data structures}
 
