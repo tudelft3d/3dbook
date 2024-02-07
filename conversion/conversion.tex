@@ -10,22 +10,22 @@
 \chapter{Conversions between 3D representations and formats}%
 \label{chap:conversion}
 
-This chapter describes different conversions between 3D representations and formats that a geomatics engineer might have to perform.
-It does not claim to be an overview of all potential conversions, but it rather offers insights about the algorithms and methods most commonly used, and points out pitfalls to be aware of.
+% This chapter describes different conversions between 3D representations and formats that a geomatics engineer might have to perform.
+% It does not claim to be an overview of all potential conversions, but it rather offers insights about the algorithms and methods most commonly used, and points out pitfalls to be aware of.
 
-%% to dmds
+% %% to dmds
 
-The chapter is divided into two distinct parts:
-\begin{description}
-  \item[Fields:] conversions that are performed when we are dealing with a \emph{field}, let it be the temperature or the concentration of a certain chemical in the air (modelled as a 3D volume).
-  We name such field a trivariate field: each location ($x,y,z$) in space has one attribute.%
-  \index{trivariate field}\marginnote{trivariate field}
-  Voxels are usually what is used to represent, exchange, and analyse fields in 3D.%
-  \index{voxels}\marginnote{voxels}
-  \item[Objects:] when we are dealing with data (points, surfaces, and volumes) that represent the boundaries of objects in our environment. 
-  These can be sample points from lidar or dense matching of images, or the b-rep of some buildings (which have been reconstructed with different acquisition methods).%
-  \index{b-rep}\marginnote{boundary representation (b-rep)}
-\end{description}
+% The chapter is divided into two distinct parts:
+% \begin{description}
+%   \item[Fields:] conversions that are performed when we are dealing with a \emph{field}, let it be the temperature or the concentration of a certain chemical in the air (modelled as a 3D volume).
+%   We name such field a trivariate field: each location ($x,y,z$) in space has one attribute.%
+%   \index{trivariate field}\marginnote{trivariate field}
+%   Voxels are usually what is used to represent, exchange, and analyse fields in 3D.%
+%   \index{voxels}\marginnote{voxels}
+%   \item[Objects:] when we are dealing with data (points, surfaces, and volumes) that represent the boundaries of objects in our environment. 
+%   These can be sample points from lidar or dense matching of images, or the b-rep of some buildings (which have been reconstructed with different acquisition methods).%
+%   \index{b-rep}\marginnote{boundary representation (b-rep)}
+% \end{description}
 
 %%% to dmds
 %
@@ -105,12 +105,12 @@ Notice that the case when three vertices have exactly the same value, then the c
 
 
 %%%
-\subsection{Points to b-rep}
+% \subsection{Points to b-rep}
 
-In the context of the built environment, this would most likely mean that from a point cloud, a LoD2 model of the buildings, and eventually of other objects such as trees and bridges, are reconstructed. See Chapter~\ref{chap:LoD2recon}.
+% In the context of the built environment, this would most likely mean that from a point cloud, a LoD2 model of the buildings, and eventually of other objects such as trees and bridges, are reconstructed. See Chapter~\ref{chap:LoD2recon}.
 
-It should be noticed that the b-rep can be formed solely of triangles, or of polygons.
-The polygons can have interior boundaries, as defined in ISO19107 (see Chapter~\ref{chap:iso19107}).
+% It should be noticed that the b-rep can be formed solely of triangles, or of polygons.
+% The polygons can have interior boundaries, as defined in ISO19107 (see Chapter~\ref{chap:iso19107}).
 
 
 %%%
@@ -130,7 +130,7 @@ this model is formed of several planar faces (hopefully) forming a closed 2-mani
 In practice, if someone wants the mesh of this b-rep, it could mean two different structures:
 \begin{description}
   \item[2D triangulation of each surface:] the constrained Delaunay triangulation, or simply an arbitrary constrained triangulation, for each of the polygon can be created. These are independently performed for each surface, and involve transforming the 3D coordinate of the vertices of the surface to a 2D system; this coordinate system is on the plane defined by the surface. Notice that this assumes that all input surfaces of the b-rep are planar, if it is not the case then finding a projection that preserves the topology of the polygon might not be possible.
-  \item[Tetrahedralisation of the volume defined by the surfaces:] the constrained tetrahedralisation of the volume defined by the b-rep; see Chapter~\ref{chap:dtvd3d}.
+  \item[Tetrahedralisation of the volume defined by the surfaces:] the cons\-trained te\-tra\-he\-dra\-li\-sa\-tion of the volume defined by the b-rep; see Chapter~\ref{chap:dtvd3d}.
 \end{description}
 
 Figure~\ref{fig:meshing} shows one example,
@@ -176,9 +176,8 @@ The surfaces of the b-rep also get meshed in the same process (each surface is t
 \section{Exercises}
 
 \begin{enumerate}
-  \item Converting samples points to voxels require totally different algorithm if the samples point represent a field or an object. Discuss why.
   \item If the b-rep model of BK-city contains intersecting surfaces and has gaps/holes, will it be possible to mesh the model?
   \item For terrains, linear interpolation in a TIN is very popular and used. Why is it less popular for trivariate fields?
-  \item It is stated in the chapter that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron''. Explain one method.
-  \item In the methodology of \citet{Donkers16}, why are the dilation and erosion operators used? Are they always necessary? Can you think of a simple dataset where they could be skipped?
+  % \item It is stated in the chapter that ``Triangulating a Voronoi cell is easily performed since it is a convex polyhedron''. Explain one method.
+  % \item In the methodology of \citet{Donkers16}, why are the dilation and erosion operators used? Are they always necessary? Can you think of a simple dataset where they could be skipped?
 \end{enumerate}
