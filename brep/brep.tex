@@ -5,7 +5,7 @@
 \graphicspath{{brep/}}
 % \renewcommand*{\thelesson}{1.2}
 
-\chapter{Boundary representation}%
+\chapter{Boundary representation, surfaces and meshes}%
 \label{chap:brep}
 
 In the first chapter, we discussed how 3D modelling is done through a series of abstractions of the real world.
@@ -22,7 +22,7 @@ In this way, it is possible to use one of the many data structures that are used
 \label{fig:cube}
 \end{marginfigure}
 
-However, it is very important to note that not all 3D objects can be represented using boundary representation with most common 2D mesh data structures without issues.
+However, it is very important to note that representing certain 3D objects using boundary representation with the most common 2D mesh data structures can cause some issues.
 The main culprits are \emph{non-manifold} objects, which have properties that make representing them ambiguous, as well as objects with holes, which need to be stored using certain techniques.
 External data structures might also be needed to keep track of disconnected set of objects, since it might not be possible to have access to them otherwise.
 
@@ -57,10 +57,13 @@ In higher dimensions, this principle is known as the Jordan-Brouwer theorem\marg
 For our purposes, what the above theorems mean is that if we have a comprehensive method to represent a 2D surface, we can also use it to implicitly represent many 3D volumes with minimal modifications.
 The specifics of these modifications depend on the data structure that we are using, but it often is as simple as adding an extra coordinate for each point (\ie\ $(x, y)$ becoming $(x, y, z)$).
 
-\section{Objects with holes}
+\section{Dealing with exceptions}
 
-As hinted in the last paragraph, there are however some 3D volumes that are tricky to store using boundary representation.
-The most obvious ones are \emph{objects with 3D holes} (\ie\ cavities)\marginnote{hole}\index{hole}\marginnote{cavity}\index{cavity}, since just like the paper sheet example described previously, they are bounded by one outer surface and possibly several inner surfaces (one per cavity).
+As hinted in the last paragraph, there are however some 3D volumes that are tricky to store using boundary representation: objects with holes and non-manifolds.
+
+\subsection{Objects with holes}
+
+\emph{Objects with 3D holes} (\ie\ cavities)\marginnote{hole}\index{hole}\marginnote{cavity}\index{cavity} are the most obvious problematic objects, since just like the paper sheet example described previously, they are bounded by one outer surface and possibly several inner surfaces (one per cavity).
 Less obviously, objects with 2D faces with holes can have exactly the same problem with certain data structures (Figure~\ref{subfig:hole}), since a surface can be bounded by an outer ring and possibly multiple inner rings.
 
 \begin{figure}
@@ -104,7 +107,7 @@ The three most common approaches are:
 % In order to support these objects, many data structures have an explicit list of all existing objects, from which it is possible to access them.
 % This list can be as simple as an array of pointers or ids, or as complex as a spatial index (\eg\ an R-Tree or $k$-d tree).
 
-\section{Non-manifolds}
+\subsection{Non-manifolds}
 
 In addition to the above mentioned objects with holes, the other kind of objects that are tricky to store using boundary representation are \emph{non-manifolds}\marginnote{non-manifold}\index{non-manifold}.
 However, in order to precisely describe what these are, we need to introduce some concepts from topology, which will allow us to describe them in terms of topological characteristics.
@@ -227,9 +230,9 @@ However, real-world objects are always volumetric---no matter how thin they are-
 \label{fig:mobius}
 \end{figure}
 
-\section{Data structures for meshes}
+\section{Data structures for 2D meshes}
 
-Moving back to the storage of 3D models using boundary representation, there are a large number of data structures that can be used for this purpose.
+Moving back to the storage of 3D models using boundary representation, there are a large number of 2D mesh data structures that can be used for this purpose.
 However, there are three broad approaches: (i) data structures using triangles as base elements; (ii) data structures that use edges or half-edges as base elements; and (iii) data structures that have polygons, edges and vertices as base elements.
 We will show one or two characteristic examples for each approach, with the understanding that there are many possible variations of each of them.
 
@@ -238,6 +241,10 @@ We will show one or two characteristic examples for each approach, with the unde
 The first typical approach relies on a surface being triangulated, \ie\ being split entirely into triangles, so that you have a triangle mesh\marginnote{triangle mesh}\index{triangle mesh}.
 This is often desirable because in a triangle mesh, each triangle is known to have only up to three adjacent triangles and only up to three incident vertices, whereas in a polygon it can be any number.
 Because of this, a triangle-based data structures (Figure~\ref{fig:2-simplex}) can use fixed-length data structures to store all their elements (\eg\ arrays), which are more efficient.
+
+The typical approach to obtain a triangulation of the surfaces of a 3D object is to apply the constrained Delaunay triangulation, or simply an arbitrary constrained triangulation, to each surface (polygon).
+This involves transforming the 3D coordinate of the vertices of the surface to a 2D system; this coordinate system is on the plane defined by the surface.
+Notice that this assumes that all input surfaces of the b-rep are roughly planar, if it is not the case then finding a projection that preserves the topology of the polygon might not be possible.
 
 \begin{figure}
 \centering
@@ -369,6 +376,40 @@ Because of this, it is commonly used where this limitation is not a problem (\eg
 \caption[The incidence graph]{In the incidence graph, (a) faces have a list with links to the edges that bound them, (b) edges have links to the two vertices that bound them, and (c) vertices contain their coordinates.}%
 \label{fig:incidencegraph}
 \end{figure}
+
+\section{Boundary representation and fields: isosurfaces}
+
+Throughout most of this chapter, we have focussed on modelling objects using boundary representation, and indeed it is rare to find this term linked to fields.
+However, it is worth noting that there is a clear equivalence between 3D objects represented by their 2D boundary and 3D fields (\ie\ trivariate fields) represented using a set of isosurfaces.
+In fact, the same kinds of techniques and data structures are often used in both cases.
+
+Given a trivariate field $f(x,y,z) = a$, an isosurface is the set of points in space where $f(x,y,z) = a_0$, where $a_0$ is a constant. 
+Isosurfaces, also called \emph{level sets}, 
+\marginnote{isosurface}\index{isosurface}\marginnote{level set}\index{level set}
+are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps.
+Figure~\ref{fig:isosurface} shows one concrete example.
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.28\linewidth}
+    \centering
+    \includegraphics[width=\textwidth]{figs/isosurface2}
+    \caption{}
+  \end{subfigure}%
+  \qquad
+  \begin{subfigure}[b]{0.28\linewidth}
+    \centering
+    \includegraphics[width=\textwidth]{figs/isosurface25}
+    \caption{}
+  \end{subfigure}
+  \qquad
+  \begin{subfigure}[b]{0.28\linewidth}
+    \centering
+    \includegraphics[width=\textwidth]{figs/isosurface3}
+    \caption{}
+  \end{subfigure}
+\caption[An oceanographic dataset with three isosurfaces]{An oceanographic dataset where each point has the temperature of the water, and three isosurfaces extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
+\label{fig:isosurface}
+\end{figure*}
 
 %%%
 %

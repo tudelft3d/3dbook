@@ -503,53 +503,40 @@ Another advantage is that the VD can be efficiently and robustly reconstructed, 
 
 Finally, the tessellations of the VD (and the DT) make possible, and even optimise, several spatial analysis and visualisation operations.
 
-
-
-
 %%%
-\subsection{Spatial interpolation}%
+\subsection{Extracting isosurfaces}%
 \label{sec:interpol}
 
 Given a set of samples, embedded in three-dimension, to which an attribute $a$ is attached, spatial interpolation permits us to reconstruct the field that was sampled.
 
 As is the case in 2D, the properties of both the 3DVD and the 3DDT can be used to estimate the value of an attribute.
 
-Chapter~\ref{chap:conversion} presents in details how to extend to three dimensions the usual interpolation methods used in GIS, and discusses whether they preserve their properties or are appropriate for geoscientific datasets.
+In two dimensions, isolines are usually extracted directly from a TIN or a regular grid. 
+The idea is to compute the intersection between the level value (\eg\ 200m) and the terrain, represented for instance with a TIN\@. 
+Each triangle is scanned and segment lines are extracted to form an approximation of an isoline.
+In three dimensions, for a trivariate field, the same idea can be used to extract surfaces.
 
-
-
-
-
-%%%
-\subsection{Iso-surfaces}
-
-Given a set of samples from a trivariate field $f(x,y,z) = a$, an isosurface is the set of points in space where $f(x,y,z) = a_0$, where $a_0$ is a constant. 
-Isosurfaces, also called \emph{level sets}, are the three-dimensional analogous concept to isolines (also called contour lines), which have been traditionally used to represent the elevation in topographic maps.
-Figure~\ref{fig:isosurface} shows one concrete example.
-\begin{figure*}
+Although it is possible to fix the ambiguities, as is the case in two dimensions, the simplest solution is to subdivide each cell into simplices (cubes into tetrahedra in 3D). 
+The so-called \emph{Marching Tetrahedra} algorithm is very simple: each tetrahedron is tested for the intersection with the isosurface, and triangular faces are extracted from the tetrahedra by linear interpolation on the edges. 
+The resulting isosurface is guaranteed to be topologically consistent (\ie\ will not contain holes), except at the border of the dataset. 
+But again, if a ``big tetrahedron''% 
+\index{big tetrahedron}\marginnote{big tetrahedron}
+is used where the vertices are assigned to a value lower than the minimum value of the field, then all the isosurfaces extracted are guaranteed to be `watertight'. 
+The nice thing about the algorithm is that only three cases for the intersection of the isosurface and a tetrahedron can arise:
+\begin{enumerate}
+  \item the four vertices have a higher (or lower) value. No intersection. (Figure~\ref{fig:isosurface_3cases}a)
+  \item one vertex has a higher (or lower) value, hence the three others have a lower (or higher) value. Three intersections are thus defined, and a triangular face is extracted. (Figure~\ref{fig:isosurface_3cases}b)
+  \item two vertices have a higher (or lower) value and the others have a lower (or higher) value. Four intersections are thus defined. To ensure that triangular faces are extracted (better output for graphics cards), the polygon can be split into two triangles, with an arbitrary diagonal. (Figure~\ref{fig:isosurface_3cases}c)
+  \end{enumerate}
+\begin{figure}
   \centering
-  \begin{subfigure}[b]{0.28\linewidth}
-    \centering
-    \includegraphics[width=\textwidth]{figs/isosurface2}
-    \caption{}
-  \end{subfigure}%
-  \qquad
-  \begin{subfigure}[b]{0.28\linewidth}
-    \centering
-    \includegraphics[width=\textwidth]{figs/isosurface25}
-    \caption{}
-  \end{subfigure}
-  \qquad
-  \begin{subfigure}[b]{0.28\linewidth}
-    \centering
-    \includegraphics[width=\textwidth]{figs/isosurface3}
-    \caption{}
-  \end{subfigure}
-\caption[An oceanographic dataset with three isosurfaces]{An oceanographic dataset where each point has the temperature of the water, and three isosurfaces extracted (for a value of respectively 2.0, 2.5 and 3.5) from this dataset.}%
-\label{fig:isosurface}
-\end{figure*}
-
-As explained in Chapter~\ref{chap:conversion}, isosurfaces can be extracted automatically from the DT\@.
+  \includegraphics[width=1.0\textwidth]{figs/isosurface_3cases}
+  \caption[Potential isosurface extracted for one tetrahedron]{Potential isosurface (for an attribute value $v$) extracted for one tetrahedron. Black vertex means that the attribute of this vertex is below $v$; white vertex means it is above; and grey that it is equal.}% 
+\label{fig:isosurface_3cases}
+\end{figure}
+The only degenerate cases possible are when one or more vertices have exactly the same value as the isosurface. 
+These cases are handled very easily, and the intersection is simply assumed to be at the vertices themselves (see Figure~\ref{fig:isosurface_3cases}d/e/f). 
+Notice that the case when three vertices have exactly the same value, then the complete face of the tetrahedron must be extracted to ensure topological consistency.
 
 
 %%%
@@ -569,11 +556,6 @@ Both tetrahedralisations covers the convex hull of $\mathcal{P}$, respect every 
 %
 
 The typical input of a Delaunay tetrahedralisation program (or algorithm) is a called \emph{piecewise linear complex} (PLC).
-A PLC $\mathcal{P}$ is a set of linear $d$-cells (where $0 \leq d \leq 3$), that satisfy the following properties:
-\begin{enumerate}
-  \item the boundary of a $d$-cell in $\mathcal{P}$ is a union of cells in $\mathcal{P}$
-  \item if two distinct cell $f, g \in \mathcal{P}$ intersect, their intersection is a union of cells in $\mathcal{P}$.
-\end{enumerate}
 Figure~\ref{fig:plc} shows one example.
 \begin{marginfigure}
   \centering
@@ -581,14 +563,19 @@ Figure~\ref{fig:plc} shows one example.
   \caption[A PLC representing a solid]{A PLC representing a solid (with a genus of 1) and having one dangling left; notice also that one extra edge is on a polygon. \textbf{Right:} These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
 \label{fig:plc}
 \end{marginfigure}
-As shown in Figure~\ref{fig:plc_not}, 
+A PLC $\mathcal{P}$ is a set of linear $d$-cells (where $0 \leq d \leq 3$), that satisfy the following properties:
+\begin{enumerate}
+  \item the boundary of a $d$-cell in $\mathcal{P}$ is a union of cells in $\mathcal{P}$
+  \item if two distinct cell $f, g \in \mathcal{P}$ intersect, their intersection is a union of cells in $\mathcal{P}$.
+\end{enumerate}
+
+As shown in Figure~\ref{fig:plc_not}, in practice this means that polygons cannot intersect other polygons (there needs to be a vertex and/or edges), but there are otherwise no restriction on the shapes that can be represented.
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.7\linewidth]{figs/plc_not}
   \caption[Two polygons that do not form a valid PLC]{These two polygons do not form a valid PLC because their intersection is not formed of vertices and edges in the PLC.}%
 \label{fig:plc_not}
 \end{marginfigure}
-in practice this means that polygons cannot intersect other polygons (there needs to be a vertex and/or edges), but there are otherwise no restriction on the shapes that can be represented.
 Observe also that a PLC is flexible and allows unconnected (\ie\ `floating') vertices, edges, and faces (an edge can for instance be inside a polygon).
 Dangling edges, such as the one in Figure~\ref{fig:plc}, are also allowed.
 The domain represented by a PLC does not have to represent a volume, it can be simply a set of points and surfaces that act as constraints for the tetrahedralisation.
@@ -596,19 +583,26 @@ The domain represented by a PLC does not have to represent a volume, it can be s
 %%%
 \paragraph*{Tetrahedralisation of a polyhedron.}
 
+If we use all the polygons bounding a polyhedron as the input PLC, the result is a tetrahedralisation of a polyhedron.
+Figure~\ref{fig:meshing} shows one example, notice that the volume modelled by the boundary is tetrahedralised, but that here only some tetrahedra (in grey) are shown. 
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figs/mesh1}
+  \caption{BK-City LoD2 b-rep tetrahedralised.}%
+\label{fig:meshing}
+\end{figure}
+The surfaces of the b-rep also get meshed in the same process (each surface is triangulated).
+
 While any polygon in two dimensions can be triangulated, some arbitrary polyhedra cannot be tetrahedralised without the addition of extra vertices, the so-called Steiner points. 
-Figure~\ref{fig:schonhardt}
+Figure~\ref{fig:schonhardt} shows a simple example, called the Sch\"onhardt polyhedron after the mathematician who first described the case.
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.95\textwidth]{figs/schonhardt}
   \caption[The Sch\"onhardt polyhedron]{The Sch\"onhardt polyhedron is impossible to tetrahedralise without adding extra vertices inside.}%
 \label{fig:schonhardt}
 \end{marginfigure}
-shows a simple example, called the Sch\"onhardt polyhedron after the mathematician who first described the case.
 This polyhedron is formed by twisting the top face of a triangular prism to form a 6-vertex polyhedron having eight triangular faces (each one of the three quadrilateral faces adjacent to the top face will fold into two triangles). 
 It is impossible to select four vertices of the polyhedron such that a tetrahedron is totally contained inside the polyhedron, as none of the vertices of the bottom face can directly `see' the three vertices of the top triangular face.
-
-
 
 %%%
 \paragraph*{Conforming DT (ConfDT).}
@@ -651,12 +645,12 @@ The empty circumsphere for a ConsDT is less strict: a tetrahedron is Delaunay if
 %
 
 Thus, the ConsDT aims at keeping the Delaunay properties, but relaxes them to be able to respect the constraints (edges and polygons in the PLC).
-\begin{figure*}
-  \centering
-  \includegraphics[width=0.95\linewidth]{figs/cdt_tudelft}
-  \caption[A ConsDT of each building of the TU Delft]{The LoD1 3D model of the TU Delft where each building is represented with the ConsDT of its PLC.}%
-\label{fig:cdt_tudelft}
-\end{figure*}
+% \begin{figure*}
+%   \centering
+%   \includegraphics[width=0.95\linewidth]{figs/cdt_tudelft}
+%   \caption[A ConsDT of each building of the TU Delft]{The LoD1 3D model of the TU Delft where each building is represented with the ConsDT of its PLC.}%
+% \label{fig:cdt_tudelft}
+% \end{figure*}
 
 %
 
@@ -692,7 +686,7 @@ See \citet{Ledoux07} for an easy explanation of the steps to construct the 3D DT
 
 \citet{Ledoux08} presents an overview of why the VD is a better alternatives to grids for the modelling of geoscientific fields.
 
-
+\citet{Cheng00} and \citet{Miller02} both describe methods to remove slivers in Delaunay meshes and to improve the shape of tetrahedra (so that they can be used for interpolation).
 
 %%%
 %
