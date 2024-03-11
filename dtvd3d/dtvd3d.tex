@@ -382,15 +382,14 @@ If not, then a \emph{flip32} is possible if and only if there exists in the tetr
 
 The `orientation' of points in three dimensions is somewhat tricky because, unlike in two dimensions, we can not simply rely on the counter-clockwise orientation. 
 In three dimensions, the orientation is always relative to another point of reference, \ie\ given three points we cannot say if a fourth one is left of right, this depends on the orientation of the three points.
-When dealing with a single tetrahedron $\tau$ formed by the four vertices $a$, $b$, $c$ and $d$ (as in Figure~\ref{fig:orient}), 
+When dealing with a single tetrahedron $\tau$ formed by the four vertices $a$, $b$, $c$ and $d$ (as in Figure~\ref{fig:orient}), we say that $\tau$ is correctly oriented if \Orient($a,b,c,d$) returns a positive value. 
+Notice that if two vertices are swapped in the order, then the result is the opposite (\ie\ \Orient($a,c,b,d$) returns a negative value). 
 \begin{marginfigure}
   \centering
   \includegraphics[width=0.9\textwidth]{figs/orient}
   \caption[Orientation of a tetrahedron]{The tetrahedron $abcd$ is correctly oriented since \Orient($a,b,c,d$) returns a positive result. The arrow indicates the correct orientation for the face $\sigma_a$, so that \Orient($\sigma_a,a$) returns a positive result.}%
 \label{fig:orient}
 \end{marginfigure}
-we say that $\tau$ is correctly oriented if \Orient($a,b,c,d$) returns a positive value. 
-Notice that if two vertices are swapped in the order, then the result is the opposite (\ie\ \Orient($a,c,b,d$) returns a negative value). 
 
 Vertices forming a face in a tetrahedron $\tau$ can also be ordered. 
 As shown in Figure~\ref{fig:orient}, a face $\sigma_a$, formed by the vertices $b$, $c$ and $d$, is correctly oriented if \Orient($\sigma_a,a$) gives a positive result---in the case here, \Orient($b,c,d,a$) gives a negative result, therefore the correct orientation of $\sigma_a$ is $cbd$. Observe that the face $bcd$ is called $\sigma_a$ because it is `mapped' to the vertex $a$ that is opposite; each of the four faces of a tetrahedron can be referred to in this way.
