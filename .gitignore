@@ -11,12 +11,14 @@
 *.idx
 *.ilg
 *.ind
+*.lof
 *.log
 *.mw
 *.nlo
 *.run.xml
 *.synctex.gz
 *.toc
+*.xdv
 *.xdy
 
 3dbook-blx.bib
