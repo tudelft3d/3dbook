@@ -93,7 +93,7 @@ And both can be applied to both 2D and 3D objects.
 	Now, the MAT is defined as the set of points where the fire front meets itself. 
 	This concept is illustrated in Figure~\ref{fig:gbm:dt}, where each contour can be seen as a fire front at some constant time $t$. The medial axis is drawn where the fire front meets itself.
 	\item[Medial balls]
-	A \emph{medial ball}\marginnote{medial balls}\index{medial balls} is a ball that fits completely inside $\mathcal{B}$ and does not contain any other ball that would fit inside $\mathcal{B}$. 
+	A \emph{medial ball}\marginnote{medial balls}\index{medial balls} is a ball that fits completely inside $\mathcal{B}$ and is not contained in any other ball that would fit inside $\mathcal{B}$. 
 	The MAT is defined as the set of points that are the centres of all medial balls of $\mathcal{B}$ (see Figure~\ref{fig:gbm:mballs}). 
 	Notice that each medial ball touches $\mathcal{B}$ on at least two points, called its \emph{feature points}\marginnote{feature points}\index{feature points}. 
 \end{description}
@@ -200,7 +200,7 @@ Each medial cluster is in fact a set of adjacent sheets where each adjacency is 
 For objects with open boundaries like DTMs, there can also be multiple interior medial clusters.
 In this case one object on the terrain typically corresponds to one medial cluster (Figure~\ref{fig:matterrain}).
 Figure~\ref{fig:smat_r3d_int} also illustrates how the MAT can thus be used to meaningfully subdivide an object into parts.
-For an input that is simply a surface point cloud that happens to contain several object, we can detect easily these objects by looking at the medial clusters of its MAT\@.
+For an input that is simply a surface point cloud that happens to contain several objects, we can detect easily these objects by looking at the medial clusters of its MAT\@.
 This effectively decomposes the object into meaningful sub-objects.
 \begin{figure*}
 	\begin{subfigure}[t]{0.45\linewidth}
@@ -473,5 +473,5 @@ The Medial Axis Transform was originally introduced in 1967 by Harry Blum, a bio
 \begin{enumerate}
   \item Draw the medial axis of a 2D box. Then draw the medial bisectors. How could the medial bisector be used to distinguish between the different sheets?
   \item For what closed object the MAT is a single point?
-  \item Do think the MAT could help us to detect thick and thin parts of an object? If so, how?
+  \item Do you think the MAT could help us to detect thick and thin parts of an object? If so, how?
 \end{enumerate}
