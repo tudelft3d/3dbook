@@ -204,7 +204,7 @@ To remedy to this situation, improved LoDs for buildings have been proposed at T
 
 %
 
-Notice that while each of the CityGML classes can be represented with four different LoDs, only those for buildings are prescribed and documented.
+Notice that while each of the CityGML classes can be represented with five different LoDs, only those for buildings are prescribed and documented.
 For trees and roads, practitioners can decide that a given representation is `LoD2', 
 \marginnote{LoDs for trees and roads}
 but that would purely indicate that the LoD is higher than a LoD1 one.
@@ -467,7 +467,7 @@ CityJSON defines the same 3D geometric primitives used in CityGML, with the same
 \marginnote{ISO19107 geometries are used}
 However, since they are rarely used in a 3D context, \emph{Point} and \emph{LineString} only have their Multi* counterparts; a single \emph{Point} is a \emph{MultiPoint} with only one object.
 When a geometry is defined, it must contain a value for the LoD. 
-In order to avoid ambiguities, we encourage the use of the TUDelft LoDs (see above), over the four standard CityGML ones.
+In order to avoid ambiguities, we encourage the use of the TUDelft LoDs (see above), over the five standard CityGML ones.
 City Object can have several LoDs, and thus CityJSON, as is the case for CityGML, allows us to store concurrently several LoDs for the same object.
 \begin{lstlisting}
   {
