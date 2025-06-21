@@ -276,7 +276,7 @@ We discuss in the following the first two.
 
 The XML encoding of the CityGML data model is an application schema of GML, the \emph{Geography Markup Language}, also standardised by the OGC\marginnote{GML specifications: \faExternalLink\ \url{https://www.opengeospatial.org/standards/gml}}.
 
-Observe that both the data model and the XML encoding are officially called `CityGML', but that since this is too confusing in practice, in this book we refer to the data model by using simply `CityGML', and to the encoding by using `CityGML-XML'.
+Observe that both the data model and the XML encoding are officially called `CityGML', but since this is too confusing in practice, in this book we refer to the data model by using simply `CityGML', and to the encoding by using `CityGML-XML'.
 \marginnote{CityGML vs CityGML-XML}
 
 
@@ -467,7 +467,7 @@ CityJSON defines the same 3D geometric primitives used in CityGML, with the same
 \marginnote{ISO19107 geometries are used}
 However, since they are rarely used in a 3D context, \emph{Point} and \emph{LineString} only have their Multi* counterparts; a single \emph{Point} is a \emph{MultiPoint} with only one object.
 When a geometry is defined, it must contain a value for the LoD. 
-In order to avoid ambiguities, we encourage the use of the TUDelft LoDs (see above), over the five standard CityGML ones.
+In order to avoid ambiguities, we encourage the use of the TUDelft LoDs (see above), over the four standard CityGML ones.
 City Object can have several LoDs, and thus CityJSON, as is the case for CityGML, allows us to store concurrently several LoDs for the same object.
 \begin{lstlisting}
   {
@@ -491,7 +491,7 @@ A geometric primitive does not list all the coordinates of its vertices, rather 
   ]
 \end{lstlisting}
 The indexing mechanism of the format \emph{Wavefront OBJ}\marginnote{\faExternalLink\ \url{https://en.wikipedia.org/wiki/Wavefront_.obj_file}} is reused, because it has been used for many years, with success, in the computer graphics community.
-This mechanism is modified so that the coordinates of the vertices of the geometries are represented integer values (and not float).
+This mechanism is modified so that the coordinates of the vertices of the geometries are represented as integer values (and not floats).
 This is to reduce the size of a CityJSON object (and thus the size of files) and to ensure that only a fixed number of digits is stored for the coordinates of the geometries (eg to have millimetre precision).
 This is achieved by using a simple \emph{quantization} method, 
 \marginnote{\faExternalLink\ \url{https://www.cityjson.org/specs/\#transform-object}}
@@ -601,7 +601,7 @@ glTF\marginnote{glTF specifications: \url{https://www.khronos.org/gltf/}} is a J
 It also has a binary encoding for storing mesh geometry and animation data.
 It provides compact representation of geometries, and small file sizes.
 
-It used for instance in CesiumJS\marginnote{CesiumJS: \url{https://cesium.com/cesiumjs/}} (which supports semantic 3D city models to some extents), and in other libraries like \emph{three.js}\marginnote{three.js: \url{https://threejs.org/}}.
+It is used for instance in CesiumJS\marginnote{CesiumJS: \url{https://cesium.com/cesiumjs/}} (which supports semantic 3D city models to some extents), and in other libraries like \emph{three.js}\marginnote{three.js: \url{https://threejs.org/}}.
 
 % TODO: b3dm?
 
@@ -637,7 +637,7 @@ The official specifications of CityJSON are available at \url{https://www.cityjs
 CityJSON specifications, examples datasets, tutorials, and software are available at \url{https://cityjson.org}.
 \citet{Ledoux19} discuss in details the encoding and give concrete examples why they believe it is a superior encoding to XML for the CityGML data model; parts of this chapter was taken and adapted from that paper.
 
-\citet{Helsinki19} describe the efforts and workflows used by the city Helsinki to built both a textures mesh and a semantic 3D city models of their city. 
+\citet{Helsinki19} describe the efforts and workflows used by the city of Helsinki to build both a textured mesh and semantic 3D city models of the city. 
 Details about how the model is used in practice are also given.
 
 \citet{Kumar19} describe the role and position of LandInfra with respect to CityGML and BIM/IFC\@.

@@ -144,7 +144,7 @@ The VD can be bypassed if a three-dimensional $k$d-tree is used.
 \paragraph{Inverse distance weighting (\textbf{IDW}).}
 The generalisation of this method to three dimensions is straightforward: a searching \emph{sphere} with a given radius is used. 
 The same problems with the one-dimensionality of the method (the value for the search radius) will be even worse because the search must be performed in one more dimension. 
-The method has too many problems to be considered  has a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution, 
+The method has too many problems to be considered as a viable solution for fields as found in geosciences: the interpolant is not guaranteed to be continuous, especially when the dataset has an anisotropic distribution, 
 \marginnote{anisotropic distribution}
 and the criterion has to be selected carefully by the user.
 Note that the implementation problems are also similar to the ones encountered with the previous method, and an auxiliary data structure must be used to avoid testing all the points in a dataset.
@@ -209,7 +209,7 @@ Notice however that potentially a lot of the neighbouring points will be the sam
 
 A better approach to this problem is to consider it as a simplification problem.%
 \index{simplification}\marginnote{simplification}
-Given a set $S$ of points in $\mathbb{R}^3$ representing a field $f$ (where each point $p$ in $S$ as an attribute $a$ attached to itself), the aim is to find a subset $R$ of $S$ which will approximate $f$ as accurately as possible, using as few points as possible. 
+Given a set $S$ of points in $\mathbb{R}^3$ representing a field $f$ (where each point $p$ in $S$ has an attribute $a$ attached to itself), the aim is to find a subset $R$ of $S$ which will approximate $f$ as accurately as possible, using as few points as possible. 
 The subset $R$ will contain the `important' points of $S$, \ie\ a point $p$ is important when $a$ at location $p$ can not be accurately estimated by using the neighbours of $p$.
 
 %
@@ -294,7 +294,7 @@ In order to understand the logic of the targets, it is important to consider two
 For 4-connectivity, the targets simply detect when a line exits the pixel through the left, right, bottom or top edges on the \emph{boundary of the pixel}.
 Since all intersections will be between pixels, the 2 or 4 pixels incident to the points will be part of the pixellated curve.
 For 8-connectivity, the targets detect when they pass through the middle of the pixel either vertically or horizontally, which happens in the \emph{interior of the pixel}.
-Crucially, note that they might do not detect when a line cuts through a corner of the pixel without crossing its middle vertically or horizontally.
+Crucially, note that they do not detect when a line cuts through a corner of the pixel without crossing its middle vertically or horizontally.
 
 Having covered the rasterisation of a 1D curve, let us discuss the two other cases: rasterising 0D points and 2D areas.
 Since vector points are not connected, they do not need to be connected when rasterised either.
@@ -411,7 +411,7 @@ For 26-connectivity, we can use 1D targets that detect when we pass through the 
 \section{Exercises}
 
 \begin{enumerate}
-	\item Converting samples points to voxels require totally different algorithm if the samples point represent a field or an object. Discuss why.
+	\item Converting sample points to voxels requires a totally different algorithm if the sample points represent a field or an object. Discuss why.
 	\item Can you devise a formula to compare the space occupied by:
 	\begin{enumerate}
 		\item encoding all voxels in a grid linearly
