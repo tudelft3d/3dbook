@@ -5,7 +5,7 @@
 \graphicspath{{curves/}}
 % \renewcommand*{\thelesson}{6.1}
 
-\chapter{B\'ezier curves and surfaces}
+\chapter{Curves and curved surfaces}
 \label{chap:curves}
 
 The vast majority of geographic information uses only linear geometries (\ie\ line segments, polygons and polyhedra).
@@ -19,17 +19,20 @@ Moreover, most data models are designed with linear geometries in mind.
 \label{fig:circulararc}
 \end{marginfigure}
 
-However, modelling curves and curved surfaces is still highly desirable in certain circumstances, as they make it possible to model many shapes a lot more compactly and without losing precision through discretisation.
+However, the real-world shapes that we find in the built environment are often curved, which means that representing them with linear geometries can only approximate them---and a good approximation might involve using many elements.
+By contrast, working with representations for curved shapes can be both compact and more precise.
+
+Creating and manipulating fewer elements is also often simpler.
+For instance, a user of 3D modelling or design software will find it easier to adjust the shape of a curved surface based on a few key points than to adjust the vertices of many small triangles to achieve a similar result.
 Most CAD and 3D modelling software thus support curves and curved surfaces, and BIM models routinely use them internally as well.
 
-There are several methods that can be used to represent general curves in 2D/3D and curved surfaces in 3D.
-This chapter covers one of them that is relatively simple and works well in practice: B\'ezier curves and surfaces.
+Among the possible methods that can be used to represent curves in 2D/3D and curved surfaces in 3D, this chapter covers two related methods that are often found in practice: B\'ezier curves/surfaces and B-splines.
 
 \section{Background}
 
 \subsection{Types of points}
 
-In general, curve and surface modelling is done by specifying the locations of points, of which there are two kinds (Figure~\ref{subfig:pointtypesa}):
+In general, curve and curved surface modelling is done by specifying the locations of points, of which there are two kinds (Figure~\ref{subfig:pointtypesa}):
 
 \begin{figure}
 \centering
@@ -70,13 +73,50 @@ This makes it impossible to represent vertical lines in 2D and planes in 3D (wit
 For instance, \(f(x,y) = x^2+y^2=1\) defines a unit circle in 2D and \(f(x,y,z)=x^2+y^2+z^2=1\) defines a unit sphere in 3D.
 This works fine with vertical lines/planes and can represent multiple values per dependent variable, but complete functions have to be built to represent different curves.
 
-\item[Parametric curves/surfaces] are\marginnote{parametric curve}\index{parametric curve}\marginnote{parametric surface}\index{parametric surface} modelled using different functions per coordinate which have independent non-coordinate variables as parameters.
-For instance, \(f(x,y) = (\cos t, \sin t)\) with \(0 \leq t \leq 2\pi \) defines a unit circle in 2D, whereas \(f(x,y,z) = (\cos \theta \sin \phi , \sin \theta \sin \phi, \cos \phi)\) with \(0 \leq \theta \leq 2\pi \) and \(0 \leq \phi \leq \pi \) defines a unit sphere in 3D.
+\item[Parametric curves/surfaces] are\marginnote{parametric curve}\index{parametric curve}\marginnote{parametric surface}\index{parametric surface} modelled using different functions per coordinate which have independent non-coordinate variables as \emph{parameters}.
+These functions are evaluated at a range of values, which is known as the \emph{parameter space}\marginnote{parameter space}\index{parameter space}.
+For instance, \(f(x,y) = (\cos t, \sin t)\) where the parameter \(t\) is evaluated at \(0 \leq t \leq 2\pi \) defines a unit circle in 2D.
+Similarly, \(f(x,y,z) = (\cos \theta \sin \phi , \sin \theta \sin \phi, \cos \phi)\) with \(0 \leq \theta \leq 2\pi \) and \(0 \leq \phi \leq \pi \) defines a unit sphere in 3D.
 This is the most flexible approach because it allows us to define curves and surfaces in a general form that works independently of the coordinates used. 
 \end{description}
 
-Because of their flexibility, B\'ezier curves/surfaces and most other curve modelling methods (\eg\ splines) are based on parametric curves/surfaces.
+Because of their flexibility, most curve modelling methods are based on parametric curves/surfaces.
 For the rest of this chapter, we will therefore be working with parametric curves/surfaces only.
+
+\subsection{Segments and patches}
+
+When we want to model a curve or curved surface with a complex shape consisting of many bends and turns, it is often easier to split it into \emph{segments}\marginnote{curve segment}\index{curve segment} (for curves) and \emph{patches}\marginnote{surface patch}\index{surface patch} (for surfaces).
+In this way, we can model each part independently and get more precise results.
+
+\subsection{Uniform vs.\ non-uniform}
+
+In a parametric curve \(C(t)\), specific values of \(t\) represent points that are used to split the curve into segments.
+When these values of \(t\) are evenly spaced, we devote the same amount of parameter space for each segment and we call it a \emph{uniform} parametric curve\marginnote{uniform parametric curve}\index{uniform parametric curve} (Figure~\ref{fig:segments}).
+
+\begin{figure*}
+\centering
+\includegraphics[width=\linewidth]{figs/segments}
+\caption{A composite B\'ezier curve made from three segments. In B\'ezier curves, the values of \(t\) are evenly spaced, and it is therefore a uniform parametric curve.}%
+\label{fig:segments}
+\end{figure*}
+
+Similarly, in a parametric surface \(S(u, v)\), specific values of \(u\) are curves on the surface, as are values of \(v\).
+A set of two curves with fixed \(u\) and two curves with fixed \(v\) will bound a patch, \eg\ \(S(u, 0)\), \(S(u, 1)\), \(S(0, v)\) and \(S(1, v)\) (Figure~\ref{fig:patch}).
+If the values of both \(u\) and \(v\) are both evenly spaced, we devote the same amount of parameter space for each patch, which makes it a \emph{uniform} parametric surface\marginnote{uniform parametric surface}\index{uniform parametric surface}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\linewidth]{figs/patch}
+\caption{A B\'ezier rectangular patch.}%
+\label{fig:patch}
+\end{figure}
+
+However, it is important to note that using the same amount of parameter space to each segment/patch does not mean the same geometric distance.
+In other words, even if we `move' from \(t = 0\) to \(t = 1\) at a constant speed, we will likely not move at the same speed across the curve or surface.
+This is easiest to see when we consider that the data or control points are not evenly spaced either---we will move slower through parts with bunched up points, but it can also happen even when the points are evenly spaced.
+
+When we use different amounts of parameter space per segment or patch, we can define a \emph{non-uniform} parametric curve\marginnote{non-uniform parametric curve}\index{non-uniform parametric curve} or \emph{non-uniform} parametric surface\marginnote{non-uniform parametric surface}\index{non-uniform parametric surface}.
+These are more powerful than their uniform counterparts, meaning that we can better represent certain shapes (eg exact circles or sharp corners) and have better control of the resulting shape with fewer control points.
 
 \subsection{Tangent vectors and other derivatives}
 
@@ -97,50 +137,6 @@ The parametric function tells us the position of the particle at any given time,
 The second derivative of a parametric curve is a little harder to visualise, but it is also a vector that tells us the rate of change of the curvature at a point.
 In the particle analogy, it is the acceleration of the particle (and its acceleration direction).
 In the circle from the previous example, the second derivative is \(d^2C(x,y)/dt^2 = (-\cos t, -\sin t)\), which at \(t=0\) is \((-1, 0)\), \ie\ a unit vector towards the centre of the circle.
-
-\subsection{Uniform vs.\ non-uniform}
-
-In order to fit a parametric curve through a series of points, we need to decide the curve equations and the values of the parameters that should be used.
-We will discuss the curve equations for B\'ezier curves and surfaces later in this chapter, so for the moment let us consider only two points \(p_0\) and \(p_1\), which are connected by a straight line segment \(L\).
-The parametric equation of the line segment would be given by:
-
-\begin{equation}
-\label{eq:lineparam}
-L(t) = (1-t)p_0 + tp_1\text{, for }0 \leq t \leq 1.
-\end{equation}
-
-Here, note that \(t=0\) corresponds to \(p_0\) and \(t=1\) corresponds to \(p_1\).
-When the equation is parametrised so that the parameter increases by a fixed amount for every point in a sequence of points, it is said to be a \emph{uniform} parametric curve\marginnote{uniform parametric curve}\index{uniform parametric curve}.
-When this is not the case, it is a \emph{non-uniform} parametric curve\marginnote{non-uniform parametric curve}\index{non-uniform parametric curve}.
-
-\subsection{Polynomials, segments and patches}
-
-Polynomial functions can be used to directly model entire curves and surfaces.
-In 2D, a polynomial of degree one (\ie\ a straight line) is a linear function of the form \(f(t) = at+b\) that can be defined so as to pass through two points, a polynomial of degree two (\ie\ a parabola) is a quadratic function of the form \(f(t)=at^2+bt+c\) that can be made to pass through three points, a polynomial of degree three is a cubic function of the form \(f(t)=at^3+bt^2+ct\) that can be made to pass through four points, and so on.
-We can therefore use a polynomial of degree \(n\) to model a curve passing through \(n+1\) points.
-
-However, high-degree polynomials wobble uncontrollably to pass through all the points, and a small change in the position of one of the points can cause large changes all over the curve.
-It is thus much better to split curves and surfaces into \emph{segments}\marginnote{curve segment}\index{curve segment} (for curves) and \emph{patches}\marginnote{surface patch}\index{surface patch} (for surfaces) passing through only a small number of points, and then to join these segments/patches using low-degree polynomial functions (generally quadratic or cubic).
-
-In a parametric curve \(C(t)\), specific values of \(t\) can be used to split the curve into segments.
-Most commonly, the data points will be used for this purpose, which for uniform parametric curves will be at \(t = 0, 1, 2, \ldots \) (Figure~\ref{fig:segments}).
-
-\begin{figure*}
-\centering
-\includegraphics[width=\linewidth]{figs/segments}
-\caption{A composite B\'ezier curve made from three segments.}%
-\label{fig:segments}
-\end{figure*}
-
-In a parametric surface \(S(u, v)\), specific values of \(u\) are curves on the surface, as are values of \(v\).
-Similarly, a set of two curves with fixed \(u\) and two curves with fixed \(v\) will bound a patch, \eg\ \(S(u, 0)\), \(S(u, 1)\), \(S(0, v)\) and \(S(1, v)\) (Figure~\ref{fig:patch}).
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\linewidth]{figs/patch}
-\caption{A B\'ezier rectangular patch.}%
-\label{fig:patch}
-\end{figure}
 
 \subsection{Continuity}
 
@@ -519,67 +515,112 @@ For \(G_1\) continuity, it is somewhat more complex than for rectangular B\'ezie
 Basically, we need to ensure that along the common boundary curve, three specific vectors starting at every common point on the boundary surface except for the last one, \ie\ \(p_{0,j,n-j}\), for all \(0 \leq j < n\), should be coplanar.
 These three vectors are the ones pointing to: (i) the next point along the common curve (\ie\ \(p_{0, j, n-j}\) to \(p_{0, j+1, n-j-1}\)), (ii) the next point in the \(u\) direction in the patch on the left (\ie\ \(p_{0, j, n-j}\) to \(p_{1, j, n-j-1}\)), and (iii) the next point in the \(u\) direction in the patch on the right (\ie\ \(q_{0, j, n-j}\) to \(q_{1, j, n-j-1}\)).
 
-% \section{B-splines}
+\section{B-splines and NURBS}
 
-% Spline curves, named after flat splines (Figure~\ref{fig:spline}), refer to a variety of piecewise polynomial functions that connect smoothly at certain data points.
-% Out of those function, we are most interested in \emph{basis splines}, or \emph{b-splines} for short, which have a number of properties that make them very useful for modelling curves.
+\subsection{B-splines}
 
-% \begin{figure}
-% \centering
-% \includegraphics[width=0.3\linewidth]{figs/spline}
-% \caption{Splines are named after the flexible pieces of wood that were used to draw curves, often used for engineering drawings before computers. From Wikipedia Commons.}%
-% \label{fig:spline}
-% \end{figure}
+Spline curves are named after \emph{flat splines}\marginnote{flat spline}\index{flat spline}, which were thin flexible strips of wood or metal used to draw smooth curves through a set of points before the advent of computers (Figure~\ref{fig:spline}).
+Out of the many varieties of spline curves, we are most interested in \emph{basis splines}, or \emph{b-splines}\marginnote{b-spline}\index{b-spline} for short, which have a number of properties that make them very useful for modelling curves.
 
-% A b-spline curve is created based on at least two elements: (i) a sequence of control points that are used by all the segments in the curve, and (ii) a sequence of non-decreasing values called \emph{knots}, which define how the parameters in the parametric curve are evaluated.
+\begin{figure}
+\centering
+\includegraphics[width=0.3\linewidth]{figs/spline}
+\caption{Splines are named after the flexible pieces of wood that were used to draw curves, often used for engineering drawings before computers. From Wikipedia Commons.}%
+\label{fig:spline}
+\end{figure}
 
-% Given a sequence of \(n+1\) points \((p_0, \ldots, p_n)\), a b-spline of order \(k\) is composed of segments, each of which is created based on a sub-sequence of \(n+1\) control points from those of the curve in a moving window, thus overlapping with all except one of the control points of the previous and next segments.
+A b-spline curve is a parametric curve created based on two kinds of elements: (i) a sequence of points that are used by all the segments in the curve, and (ii) a sequence of non-decreasing values called \emph{knots}\marginnote{knot}\index{knot}, which define how the parameters in the parametric curve are evaluated.
+The former are similar to the data and control points used in B\'ezier curves.
+The latter are the values of the parameter that split the curve into segments, which in the case of a B\'ezier curve were simply 0 and 1.
 
-% Since b-splines are created from a limited number of control points, they have \emph{local control}, meaning that moving a control point affects only the segments of the curve that use that control point.
-% Continuity in B-splines is also easy to achieve, with a b-spline of degree \(n\) being able to have \(C^n\) continuity.
+Given a sequence of \(n+1\) points \((p_0, \ldots, p_n)\), a b-spline of order \(k\) is composed of segments, each of which is created based on a sub-sequence of \(k\) control points from the curve in a moving window.
+Since b-splines are created from a limited number of control points, they have \emph{local control}\marginnote{local control}\index{local control}, meaning that moving a control point affects only the segments of the curve that use that control point.
+This is a major advantage over B\'ezier curves, where every control point influences the entire curve.
+Continuity in b-splines is also easy to achieve, with a b-spline of degree \(n\) being able to have up to \(C^{n-1}\) continuity at its knots.
 
-% \subsection{Uniform b-splines}
-
-% In uniform b-splines, the knot values are evenly spaced, \eg\ \((0, 1, 2, 3, 4, 5)\), and so the weight functions used for the control points are the same.
-% A b-spline segment \(B_i\) of order \(n\) is thus a parametric curve that is defined as:
-
-% \begin{equation}
-% B_i(t) = \left(\begin{array}{ccc}t^n & \cdots & t^0\end{array} \right) M_n \left(\begin{array}{c} p_i \\ \vdots \\ p_{i+n} \end{array}\right)
-% \end{equation}
-
-% where \(M_n\) is a basis matrix of the form:
-
-% \begin{equation}
-% M_n = \left(\begin{array}{ccc}
-% m_{0,0} & \cdots & m_{0, n} \\
-% \vdots & \ddots & \vdots \\
-% m_{n, 0} & \cdots & m_{n, n}
-% \end{array}\right),
-% \end{equation}
-
-% and the elements \(m_{i,j}\) of \(M_n\) are given by:
-
-% \begin{equation}
-% m_{i,j} = \frac{1}{n!}\binom{n}{i}\sum_{k=j}^n \left(n-k\right)^i \left(-1\right)^{k-j} \binom{n+1}{k-j}.
-% \end{equation}
-
-% For the first few values of \(n\), the basis matrices are:
-
-% \begin{equation}
-% M_1 = \left(\begin{array}{cc}-1 & 1 \\
-% 1 & 0\end{array}\right),
-% M_2 = \frac{1}{2}\left(\begin{array}{ccc}1 & -1 & 1 \\
-% -2 & 2 & 0 \\
-% 1 & 1 & 0\end{array}\right),
-% M_3 = \frac{1}{6}\left(\begin{array}{cccc}-1 & 3 & -3 & 1 \\
-% 3 & -6 & 3 & 0 \\
-% -3 & 0 & 3 & 0 \\
-% 1 & 4 & 1 & 0\end{array}\right),
-% \end{equation}
-
-% \subsection{}
+A b-spline curve 
+\(S\)
 
 
+The b-spline basis functions can be defined recursively using the Cox--de Boor recursion formula\marginnote{Cox--de Boor recursion}\index{Cox--de Boor recursion}:
+
+\begin{equation}
+\label{eq:bsplinebasis0}
+N_{i,0}(t) = \begin{cases}
+1 & \text{if } k_i \leq t < k_{i+1} \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\label{eq:bsplinebasis}
+N_{i,p}(t) = \frac{t - k_i}{k_{i+p} - k_i} N_{i,p-1}(t) + \frac{k_{i+p+1} - t}{k_{i+p+1} - k_{i+1}} N_{i+1,p-1}(t)
+\end{equation}
+
+where \(k_i\) are the knots and \(p\) is the degree of the curve.
+A b-spline curve of degree \(p\) is then defined as:
+
+\begin{equation}
+\label{eq:bsplinecurve}
+C(t) = \sum_{i=0}^n N_{i,p}(t) p_i
+\end{equation}
+
+In \emph{uniform} b-splines\marginnote{uniform b-spline}\index{uniform b-spline}, the knot values are evenly spaced, \eg\ \((0, 1, 2, 3, 4, 5)\), and the basis functions for each segment are identical up to translation.
+A b-spline segment can therefore be expressed using a basis matrix:
+
+\begin{equation}
+\label{eq:bsplinesegment}
+B_i(t) = \left(\begin{array}{ccc}t^{k-1} & \cdots & t^0\end{array} \right) M_k \left(\begin{array}{c} p_i \\ \vdots \\ p_{i+k-1} \end{array}\right)
+\end{equation}
+
+where \(M_k\) is the \(k \times k\) basis matrix for order \(k\).
+For the first few values of \(k\), these are:
+
+\begin{equation}
+\label{eq:bsplinematrices}
+M_2 = \left(\begin{array}{cc}-1 & 1 \\
+1 & 0\end{array}\right),\quad
+M_3 = \frac{1}{2}\left(\begin{array}{ccc}1 & -2 & 1 \\
+-2 & 2 & 0 \\
+1 & 1 & 0\end{array}\right),\quad
+M_4 = \frac{1}{6}\left(\begin{array}{cccc}-1 & 3 & -3 & 1 \\
+3 & -6 & 3 & 0 \\
+-3 & 0 & 3 & 0 \\
+1 & 4 & 1 & 0\end{array}\right)
+\end{equation}
+
+corresponding to linear (\(k=2\)), quadratic (\(k=3\)), and cubic (\(k=4\)) uniform b-spline segments.
+
+\subsection{NURBS}
+
+\emph{Non-uniform rational b-splines}\marginnote{NURBS}\index{NURBS}, commonly abbreviated as NURBS, are a generalisation of b-splines that adds two important capabilities: non-uniform knots and rational weights.
+
+In a \emph{non-uniform} b-spline\marginnote{non-uniform}\index{non-uniform b-spline}, the knot vector can have uneven spacing, and individual knots can be repeated (multiplicity\marginnote{knot multiplicity}\index{knot multiplicity}).
+Repeating a knot reduces the continuity at that point: a knot with multiplicity \(m\) reduces the continuity from \(C^{p-1}\) to \(C^{p-m}\).
+This makes it possible to create sharp corners or even discontinuities within the same spline, which is essential for modelling complex shapes.
+Non-uniform knots also allow for better parametrisation when the control points are unevenly spaced relative to the shape of the curve.
+
+The \emph{rational} aspect of NURBS\marginnote{rational curve}\index{rational curve} means that each control point is assigned a scalar weight \(w_i\), making the curve a rational function (a ratio of two polynomials).
+The NURBS curve is defined as:
+
+\begin{equation}
+\label{eq:nurbscurve}
+C(t) = \frac{\sum_{i=0}^n N_{i,p}(t) w_i p_i}{\sum_{i=0}^n N_{i,p}(t) w_i}
+\end{equation}
+
+where \(N_{i,p}(t)\) are the standard b-spline basis functions.
+The denominator is a scalar that normalises the weighted sum, ensuring that the curve is invariant under affine transformations (translation, rotation, scaling).
+
+The weights give additional control over the shape: increasing the weight of a control point `pulls' the curve closer to it, while decreasing it pushes the curve away.
+When all weights are equal (conventionally set to 1), the NURBS curve reduces to a standard (non-rational) b-spline.
+
+One of the most important properties of NURBS is their ability to represent \emph{conic sections}\marginnote{conic section}\index{conic section} (circles, ellipses, parabolas, and hyperbolas) exactly.
+This is impossible with polynomial B\'ezier curves or uniform b-splines, which can only approximate these shapes.
+For example, a full circle can be represented exactly using a NURBS curve of degree 2 with seven control points and a carefully chosen knot vector with rational weights.
+
+NURBS have become the industry standard for curve and surface representation in computer-aided design and manufacturing.
+They are used in data exchange formats such as IGES and STEP, and are supported by virtually all major CAD software packages (\eg\ SolidWorks, CATIA, AutoCAD, Rhinoceros 3D).
+Importantly, NURBS subsume both B\'ezier curves and uniform b-splines: a B\'ezier curve is a special case of a NURBS curve where the knot vector has full multiplicity at the endpoints (e.g.\ \((0,0,\ldots,0,1,1,\ldots,1)\)) and all weights are equal.
 %%%
 %
 \section{Exercises}
@@ -609,3 +650,11 @@ Some of the equations described in this chapter are adapted (and usually simplif
 \citet{Farin04} covers the history of how B\'ezier curves and other curve modelling approaches were created (with nice historical pictures).
 
 There are nice animations showing a graphical interpretation of B\'ezier curves in their \href{https://en.wikipedia.org/wiki/Bézier_curve#Constructing_Bézier_curves}{Wikipedia article}, although the rest of the article is not as good.
+
+\subsection{Why not just use polynomials?}
+
+Polynomial functions \emph{can} be used to directly model entire curves and surfaces.
+For instance, in 2D, a polynomial of degree one (\ie\ a straight line) is a linear function of the form \(f(t) = at+b\) that can be defined so as to pass through two points, a polynomial of degree two (\ie\ a parabola) is a quadratic function of the form \(f(t)=at^2+bt+c\) that can be made to pass through three points, a polynomial of degree three is a cubic function of the form \(f(t)=at^3+bt^2+ct\) that can be made to pass through four points, and so on.
+We can therefore use a polynomial of degree \(n\) to model a curve passing through \(n+1\) points.
+However, high-degree polynomials wobble uncontrollably to pass through all the points, and a small change in the position of one of the points can cause large changes all over the curve.
+Therefore, we typically don't want them because they make it difficult to control the shape of the resulting curve or surface.
