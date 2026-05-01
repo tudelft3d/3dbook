@@ -9,24 +9,25 @@
 \label{chap:curves}
 
 The vast majority of geographic information uses only linear geometries (\ie\ line segments, polygons and polyhedra).
-When curved geometries are present, they are usually simple parametric shapes, such as spheres, cylinders and cones in CSG or circular arcs in certain 2D datasets (Figure~\ref{fig:circulararc}).
-Moreover, most data models are designed with linear geometries in mind.
-
-\begin{marginfigure}
-\centering
-\includegraphics[width=0.8\linewidth]{figs/circulararc}
-\caption{A composite curve made from two line segments and a circular arc.}%
-\label{fig:circulararc}
-\end{marginfigure}
+When curved geometries are present, they are usually simple parametric shapes, such as spheres, cylinders and cones in CSG or circular arcs in a few 2D datasets (Figure~\ref{fig:circulararc}).
+Moreover, most data models for geographic data are designed with linear geometries in mind.
 
 However, the real-world shapes that we find in the built environment are often curved, which means that representing them with linear geometries can only approximate them---and a good approximation might involve using many elements.
 By contrast, working with representations for curved shapes can be both compact and more precise.
 
-Creating and manipulating fewer elements is also often simpler.
-For instance, a user of 3D modelling or design software will find it easier to adjust the shape of a curved surface based on a few key points than to adjust the vertices of many small triangles to achieve a similar result.
-Most CAD and 3D modelling software thus support curves and curved surfaces, and BIM models routinely use them internally as well.
+\begin{marginfigure}
+\centering
+\includegraphics[width=0.8\linewidth]{figs/circulararc}
+\caption{A composite curve made from two line segments and a circular arc. This curve could represent the corner of a pavement (sidewalk) or a turn where two roads cross.}%
+\label{fig:circulararc}
+\end{marginfigure}
 
-Among the possible methods that can be used to represent curves in 2D/3D and curved surfaces in 3D, this chapter covers two related methods that are often found in practice: B\'ezier curves/surfaces and B-splines.
+Creating and manipulating fewer elements is also often simpler.
+For instance, a user of 3D modelling or design software will find it easier to adjust the shape of a curved surface based on a few key points than to adjust the vertices of many small triangles to achieve a similar shape.
+Most CAD and 3D modelling software thus support curves, and BIM models routinely use them internally as well.
+
+Throughout this chapter, we will explain how to use curved (1D) lines and curved (2D) surfaces, which in turn can be used to model 3D objects as an extension of straight-line b-rep.
+Among the possible methods that can be used for this purpose, this chapter covers two related methods that are often found in practice: B\'ezier curves/surfaces and b-splines.
 
 \section{Background}
 
@@ -47,7 +48,7 @@ In general, curve and curved surface modelling is done by specifying the locatio
 \label{subfig:pointtypesb}
 \end{subfigure}\\
 \caption[The data points and control points used to draw a B\'ezier curve]{(a) The data points (white) and control points (black) used to draw a B\'ezier curve.
-(b) In Affinity Designer (shown here) and most other graphics editors, data points (large circles) are surrounded by handles with the control points at their ends (small blue circles)}%
+(b) In vector graphics software, they are often shown differently: data points (large circles) are surrounded by handles with the control points at their ends (small blue circles) and the lines between control points are not drawn. This specific example is from Affinity Designer.}%
 \label{fig:pointtypes}
 \end{figure}
 
@@ -56,12 +57,15 @@ In general, curve and curved surface modelling is done by specifying the locatio
 \item[control points] are\marginnote{control point}\index{control point} points that have some influence over the shape of the curve/surface, but through which the curve/surface does not necessarily pass. Intuitively, they `pull' the curve in their direction.
 \end{description}
 
-Note that in some contexts, they might all be referred to as control points (\eg\ graphics software), whereas in others (\eg\ interpolation) the distinction is almost always made.
 If you have some experience with vector-based graphic editors (\eg\ Adobe Illustrator, Inkscape or Sketch), you have likely drawn curves using data points and control points (Figure~\ref{subfig:pointtypesb}).
+
+Note that often the distinction between the two kinds of points is not made and both are just referred to as control points, particularly in some contexts (\eg\ graphics software), whereas in others (\eg\ interpolation) the distinction is almost always made.
+For the two representations in this chapter, descriptions of B\'ezier curves/surfaces usually distinguish between the two, whereas descriptions of b-splines usually do not.
+We will follow this convention as well.
 
 \subsection{Types of curves and surfaces}
 
-There are three kinds of mathematical representations that are typically used to represent curves and surfaces.
+There are three kinds of mathematical representations that are typically used to represent curves and curved surfaces.
 From most restrictive to least restrictive, these are:
 
 \begin{description}
@@ -83,41 +87,6 @@ This is the most flexible approach because it allows us to define curves and sur
 Because of their flexibility, most curve modelling methods are based on parametric curves/surfaces.
 For the rest of this chapter, we will therefore be working with parametric curves/surfaces only.
 
-\subsection{Segments and patches}
-
-When we want to model a curve or curved surface with a complex shape consisting of many bends and turns, it is often easier to split it into \emph{segments}\marginnote{curve segment}\index{curve segment} (for curves) and \emph{patches}\marginnote{surface patch}\index{surface patch} (for surfaces).
-In this way, we can model each part independently and get more precise results.
-
-\subsection{Uniform vs.\ non-uniform}
-
-In a parametric curve \(C(t)\), specific values of \(t\) represent points that are used to split the curve into segments.
-When these values of \(t\) are evenly spaced, we devote the same amount of parameter space for each segment and we call it a \emph{uniform} parametric curve\marginnote{uniform parametric curve}\index{uniform parametric curve} (Figure~\ref{fig:segments}).
-
-\begin{figure*}
-\centering
-\includegraphics[width=\linewidth]{figs/segments}
-\caption{A composite B\'ezier curve made from three segments. In B\'ezier curves, the values of \(t\) are evenly spaced, and it is therefore a uniform parametric curve.}%
-\label{fig:segments}
-\end{figure*}
-
-Similarly, in a parametric surface \(S(u, v)\), specific values of \(u\) are curves on the surface, as are values of \(v\).
-A set of two curves with fixed \(u\) and two curves with fixed \(v\) will bound a patch, \eg\ \(S(u, 0)\), \(S(u, 1)\), \(S(0, v)\) and \(S(1, v)\) (Figure~\ref{fig:patch}).
-If the values of both \(u\) and \(v\) are both evenly spaced, we devote the same amount of parameter space for each patch, which makes it a \emph{uniform} parametric surface\marginnote{uniform parametric surface}\index{uniform parametric surface}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\linewidth]{figs/patch}
-\caption{A B\'ezier rectangular patch.}%
-\label{fig:patch}
-\end{figure}
-
-However, it is important to note that using the same amount of parameter space to each segment/patch does not mean the same geometric distance.
-In other words, even if we `move' from \(t = 0\) to \(t = 1\) at a constant speed, we will likely not move at the same speed across the curve or surface.
-This is easiest to see when we consider that the data or control points are not evenly spaced either---we will move slower through parts with bunched up points, but it can also happen even when the points are evenly spaced.
-
-When we use different amounts of parameter space per segment or patch, we can define a \emph{non-uniform} parametric curve\marginnote{non-uniform parametric curve}\index{non-uniform parametric curve} or \emph{non-uniform} parametric surface\marginnote{non-uniform parametric surface}\index{non-uniform parametric surface}.
-These are more powerful than their uniform counterparts, meaning that we can better represent certain shapes (eg exact circles or sharp corners) and have better control of the resulting shape with fewer control points.
-
 \subsection{Tangent vectors and other derivatives}
 
 If we compute the first derivative of a parametric curve with respect to its parameter(s) at a given point, we get vector(s)\marginnote{tangent vector}\index{tangent vector} with a direction that is tangent to the curve and a magnitude that tells us the rate of change of the parameter(s) at that point.
@@ -131,8 +100,9 @@ The tangent vector is then \(dC(x,y)/dt = (-\sin t, \cos t)\), which at \(t=0\) 
 \label{fig:derivatives}
 \end{marginfigure}
 
-A common analogy to understand this concept is to consider a moving particle moving in time (hence you will often see \(t\) used in parametric functions).
-The parametric function tells us the position of the particle at any given time, and the tangent vector tells us the direction and speed of the particle at that time.
+A common analogy to understand this concept is to consider a moving particle, which you could find in an animation showing the current point along a path.
+Since this particle moves as time passes, you will often see that the parameter \(t\) used in parametric functions.
+To recap: the parametric function tells us the position of the particle at any given time, and the tangent vector tells us the direction and speed of the particle at that time.
 
 The second derivative of a parametric curve is a little harder to visualise, but it is also a vector that tells us the rate of change of the curvature at a point.
 In the particle analogy, it is the acceleration of the particle (and its acceleration direction).
@@ -140,13 +110,13 @@ In the circle from the previous example, the second derivative is \(d^2C(x,y)/dt
 
 \subsection{Continuity}
 
-In order to describe how segments/patches should be joined, we rely on the concept of continuity, of which there are two types: geometric and parametric.
+In order to describe how multiple curves or surfaces should be joined, we rely on the concept of continuity, of which there are two types: geometric and parametric.
 Geometric continuity\marginnote{geometric continuity}\index{geometric continuity} can be defined as follows:
 
 \begin{description}
-\item[Positional] (\(G^0\)) continuity\marginnote{positional continuity}\index{positional continuity}\marginnote{\(G^0\) continuity}\index{\(G^0\) continuity} means that the boundary of a segment or patch matches that of its neighbours, \ie\ there are no holes at common boundaries (Figure~\ref{subfig:g0});
-\item[Tangential] (\(G^1\))\marginnote{tangential continuity}\index{tangential continuity}\marginnote{\(G^1\) continuity}\index{\(G^1\) continuity} means that the angles of segments or patches match those of its neighbours at their common boundaries, \ie\ no sharp edges at common boundaries (Figure~\ref{subfig:g1});
-\item[Curvature] (\(G^2\))\marginnote{curvature continuity}\index{curvature continuity}\marginnote{\(G^2\) continuity}\index{\(G^2\) continuity} means that the curvature of a segment or patch match that of its neighbours at their common boundaries, \ie\ no `soft' edges at common boundaries.
+\item[Positional] (\(G^0\)) continuity\marginnote{positional continuity}\index{positional continuity}\marginnote{\(G^0\) continuity}\index{\(G^0\) continuity} means that the boundary of a curve (ie a point) or surface (ie a curve) matches that of its neighbours, \ie\ there are no gaps at common boundaries (Figure~\ref{subfig:g0});
+\item[Tangential] (\(G^1\))\marginnote{tangential continuity}\index{tangential continuity}\marginnote{\(G^1\) continuity}\index{\(G^1\) continuity} means that the angles of curves or surfaces match those of its neighbours at their common boundaries, \ie\ no sharp edges (creases / folds) at common boundaries (Figure~\ref{subfig:g1});
+\item[Curvature] (\(G^2\))\marginnote{curvature continuity}\index{curvature continuity}\marginnote{\(G^2\) continuity}\index{\(G^2\) continuity} means that the curvature of a curve or surface matches that of its neighbours at their common boundaries, \ie\ not even `soft' edges at common boundaries.
 \end{description}
 
 \begin{figure}
@@ -168,6 +138,12 @@ Geometric continuity\marginnote{geometric continuity}\index{geometric continuity
 Generalising from here, we can say that a curve has \(G^n\) continuity\marginnote{\(G^n\) continuity}\index{\(G^n\) continuity} at a boundary point when the \(n\)-th derivatives have the same direction at that point.
 If they have the same magnitude as well, it is also said to have \(C^n\) continuity.
 Therefore, \(C^n\) continuity\marginnote{\(C^n\) continuity}\index{\(C^n\) continuity} implies \(G^n\) continuity.
+
+Curves and surfaces with \(C^n\) continuity look the same as their \(G^n\) counterparts.
+However, the distinction is important in applications that depend on more subtle geometric properties of curves.
+For example, if we put a texture (ie an image) on a set of surfaces with only 
+\(G_1\) continuity, the texture will seem to stretch differently on different surfaces.
+Simulations of different kinds, such as with fluids or building stresses also often require \(C^n\) continuity.
 
 \section{B\'ezier curves}
 
@@ -282,13 +258,23 @@ C(t) &= \sum_{i=0}^3 B^3_i(t) p_i \nonumber \\
 
 \subsection{Composite B\'ezier curves}
 
-Now, let us discuss how to join multiple B\'ezier segments together smoothly into a \emph{composite B\'ezier curve}\marginnote{composite B\'ezier curve}\index{composite B\'ezier curve} or a \emph{polybezier}\marginnote{polybezier}\index{polybezier} (accent usually omitted).
-When they are joined in a loop, \ie\ joining the last to the first, it is sometimes called a \emph{beziergon}\marginnote{beziergon}\index{beziergon} or \emph{bezigon}\marginnote{bezigon}\index{bezigon}.
-Many common vector file formats use these, including several font formats, PDF files, and SVG images.
-Figure~\ref{fig:pointtypes} also shows how these commonly look in software, where the intermediate control points are shown as `handles' around the data points.
+In the examples before, we saw how low-degree B\'ezier segments (quadratic, cubic) can be used to model simple curves.
+In theory, they can also be used to model arbitrarily complex ones as well (with plenty of turns) by using high-degree polynomials instead, which is equivalent to curves with a lot of control points.
+However, in a B\'ezier curve, all control points affect all parts of the curve.
+In other words, moving a control point slightly will have effects everywhere on the curve, which in turn makes it difficult to control its shape.
 
-As we mentioned before, high-degree polynomials are undesirable because they tend to wobble and are hard to control.
-It is therefore usually better to create composite B\'ezier curves by connecting B\'ezier segments made from low-degree B\'ezier curves using only a few control points, most often cubics.
+% About non Bezier polynomials, better to skip
+% For instance, in 2D, a polynomial of degree one (\ie\ a straight line) is a linear function of the form \(f(t) = at+b\) that can be defined so as to pass through two points, a polynomial of degree two (\ie\ a parabola) is a quadratic function of the form \(f(t)=at^2+bt+c\) that can be made to pass through three points, a polynomial of degree three is a cubic function of the form \(f(t)=at^3+bt^2+ct\) that can be made to pass through four points, and so on.
+% We can therefore use a polynomial of degree \(n\) to model a curve passing through \(n+1\) points.
+% However, high-degree polynomials wobble uncontrollably to pass through all the points, and a small change in the position of one of the points can cause large changes all over the curve.
+% Therefore, we typically don't want them because they make it difficult to control the shape of the resulting curve or surface.
+
+Therefore, when we want to model a curve or curved surface with a complex shape with many bends, the better approach is to split it into \emph{segments}\marginnote{curve segment}\index{curve segment} (for curves) and \emph{patches}\marginnote{surface patch}\index{surface patch} (for surfaces).
+In this way, we can model each part independently and get more precise results.
+
+With B\'ezier curves, we therefore join multiple low-degree B\'ezier segments (usually cubic) together into a \emph{composite B\'ezier curve}\marginnote{composite B\'ezier curve}\index{composite B\'ezier curve} or a \emph{polybezier}\marginnote{polybezier}\index{polybezier} (accent usually omitted).
+When they are joined in a loop, \ie\ joining the last to the first, it is sometimes called a \emph{beziergon}\marginnote{beziergon}\index{beziergon} or \emph{bezigon}\marginnote{bezigon}\index{bezigon}.
+Many common vector file formats use these, including those used in fonts, PDF files, and SVG images.
 
 Connecting multiple B\'ezier segments with \(G_0\) or \(C_0\) continuity simply means that their common endpoint should be the same.
 That is, if we have a composite B\'ezier curve formed by two adjacent B\'ezier segments, where the first is defined by the points \((p_0, \ldots, p_n)\) and the second is defined by the points \((q_0, \ldots, q_n)\), we need to enforce that \(p_n = q_0\).
@@ -296,7 +282,7 @@ That is, if we have a composite B\'ezier curve formed by two adjacent B\'ezier s
 As we previously discussed, the tangent vector of the endpoint of a B\'ezier curve is related only to the endpoint and its neighbour.
 Therefore, \(G_1\) continuity can be achieved by making sure that the common endpoint and its two neighbours, \ie\ \(p_{n-1}\) and \(q_1\), are collinear (Figure~\ref{fig:polybezier}).
 For \(C_1\) continuity, they should also be evenly spaced.
-\(G_2\) and \(C_2\) continuity is hard to achieve, so we will not discuss it here.
+\(G_2\) and \(C_2\) continuity is more difficult to explain intuitively, but it basically involves mirrored configurations with more control points on both neighbours.
 
 \begin{figure}
 \centering
@@ -317,7 +303,7 @@ For \(C_1\) continuity, they should also be evenly spaced.
 \section{B\'ezier surfaces}
 \subsection{Rectangular B\'ezier surfaces}
 
-Moving on to 3D, the most common implementation of B\'ezier surfaces uses rectangular patches, which are made of grids of points.
+Moving on to 3D (through b-rep), the most common implementation of B\'ezier surfaces uses rectangular patches, which are made of grids of points.
 The most common are biquadratic\marginnote{biquadratic B\'ezier surface}\index{biquadratic B\'ezier surface} (\(3 \times 3\); Figure~\ref{fig:quadraticsurf}) and bicubic\marginnote{bicubic B\'ezier surface}\index{bicubic B\'ezier surface} (\(4 \times 4\); Figure~\ref{fig:cubicsurf}) surfaces, which are defined based on square matrices of points, such as:
 
 \begin{figure}
@@ -517,9 +503,39 @@ These three vectors are the ones pointing to: (i) the next point along the commo
 
 \section{B-splines and NURBS}
 
+\subsection{Uniform vs. non-uniform curves}
+
+As we saw previously, in a parametric curve \(C(t)\), specific values of \(t\) represent points that are used to split the curve into segments.
+When these values of \(t\) are evenly spaced, we devote the same amount of parameter space for each segment and we call it a \emph{uniform} parametric curve\marginnote{uniform parametric curve}\index{uniform parametric curve} (Figure~\ref{fig:segments}).
+
+\begin{figure*}
+\centering
+\includegraphics[width=\linewidth]{figs/segments}
+\caption{A composite B\'ezier curve made from three segments. In composite B\'ezier curves, the values of \(t\) are evenly spaced, and it is therefore a uniform parametric curve.}%
+\label{fig:segments}
+\end{figure*}
+
+Similarly, in a parametric surface \(S(u, v)\), specific values of \(u\) are curves on the surface, as are values of \(v\).
+A set of two curves with fixed \(u\) and two curves with fixed \(v\) will bound a patch, \eg\ \(S(u, 0)\), \(S(u, 1)\), \(S(0, v)\) and \(S(1, v)\) (Figure~\ref{fig:patch}).
+If the values of both \(u\) and \(v\) are both evenly spaced, we devote the same amount of parameter space for each patch, which makes it a \emph{uniform} parametric surface\marginnote{uniform parametric surface}\index{uniform parametric surface}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\linewidth]{figs/patch}
+\caption{A B\'ezier rectangular patch.}%
+\label{fig:patch}
+\end{figure}
+
+However, it is important to note that using the same amount of parameter space to each segment/patch does not mean the same geometric distance.
+In other words, even if we have the moving particle moving from \(t = 0\) to \(t = 1\) at a constant speed, we will likely not move at the same speed across the curve or surface (with the exception of some very specific curves).
+This is easiest to see when we consider that the data or control points are not evenly spaced either---we will move slower through parts with bunched up points, but it can also happen even when the points are evenly spaced.
+
+When we use different amounts of parameter space per segment or patch, we can define a \emph{non-uniform} parametric curve\marginnote{non-uniform parametric curve}\index{non-uniform parametric curve} or \emph{non-uniform} parametric surface\marginnote{non-uniform parametric surface}\index{non-uniform parametric surface}.
+These are more powerful than their uniform counterparts, meaning that we can better represent certain shapes (eg exact circles or sharp corners) and have better control of the resulting shape with fewer control points.
+
 \subsection{B-splines}
 
-Spline curves are named after \emph{flat splines}\marginnote{flat spline}\index{flat spline}, which were thin flexible strips of wood or metal used to draw smooth curves through a set of points before the advent of computers (Figure~\ref{fig:spline}).
+Spline curves are named after \emph{flat splines}\marginnote{flat spline}\index{flat spline}, which were thin flexible strips of wood or metal used to draw smooth curves before the advent of computers (Figure~\ref{fig:spline}).
 Out of the many varieties of spline curves, we are most interested in \emph{basis splines}, or \emph{b-splines}\marginnote{b-spline}\index{b-spline} for short, which have a number of properties that make them very useful for modelling curves.
 
 \begin{figure}
@@ -529,11 +545,12 @@ Out of the many varieties of spline curves, we are most interested in \emph{basi
 \label{fig:spline}
 \end{figure}
 
-A b-spline curve is a parametric curve created based on two kinds of elements: (i) a sequence of points that are used by all the segments in the curve, and (ii) a sequence of non-decreasing values called \emph{knots}\marginnote{knot}\index{knot}, which define how the parameters in the parametric curve are evaluated.
+A b-spline curve is a non-uniform parametric curve created based on two kinds of elements: (i) a sequence of control points that are used by all the segments in the curve, and (ii) a sequence of non-decreasing values called \emph{knots}\marginnote{knot}\index{knot}, which define how the parameters in the parametric curve are evaluated.
 The former are similar to the data and control points used in B\'ezier curves.
-The latter are the values of the parameter that split the curve into segments, which in the case of a B\'ezier curve were simply 0 and 1.
+The latter are the values of the parameter that split the curve into segments, which in the case of a (uniform) simple B\'ezier curve were simply 0 and 1.
 
 Given a sequence of \(n+1\) points \((p_0, \ldots, p_n)\), a b-spline of order \(k\) is composed of segments, each of which is created based on a sub-sequence of \(k\) control points from the curve in a moving window.
+
 Since b-splines are created from a limited number of control points, they have \emph{local control}\marginnote{local control}\index{local control}, meaning that moving a control point affects only the segments of the curve that use that control point.
 This is a major advantage over B\'ezier curves, where every control point influences the entire curve.
 Continuity in b-splines is also easy to achieve, with a b-spline of degree \(n\) being able to have up to \(C^{n-1}\) continuity at its knots.
@@ -650,11 +667,3 @@ Some of the equations described in this chapter are adapted (and usually simplif
 \citet{Farin04} covers the history of how B\'ezier curves and other curve modelling approaches were created (with nice historical pictures).
 
 There are nice animations showing a graphical interpretation of B\'ezier curves in their \href{https://en.wikipedia.org/wiki/Bézier_curve#Constructing_Bézier_curves}{Wikipedia article}, although the rest of the article is not as good.
-
-\subsection{Why not just use polynomials?}
-
-Polynomial functions \emph{can} be used to directly model entire curves and surfaces.
-For instance, in 2D, a polynomial of degree one (\ie\ a straight line) is a linear function of the form \(f(t) = at+b\) that can be defined so as to pass through two points, a polynomial of degree two (\ie\ a parabola) is a quadratic function of the form \(f(t)=at^2+bt+c\) that can be made to pass through three points, a polynomial of degree three is a cubic function of the form \(f(t)=at^3+bt^2+ct\) that can be made to pass through four points, and so on.
-We can therefore use a polynomial of degree \(n\) to model a curve passing through \(n+1\) points.
-However, high-degree polynomials wobble uncontrollably to pass through all the points, and a small change in the position of one of the points can cause large changes all over the curve.
-Therefore, we typically don't want them because they make it difficult to control the shape of the resulting curve or surface.
