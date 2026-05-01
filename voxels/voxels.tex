@@ -73,12 +73,19 @@ Using a complex representation where the geometry is not trivial to compute on t
 Most examples that are found in practice are thus relatively minor variations of voxel grids.
 For instance, cells can have varying sizes according to their place in the grid (\eg\ when more details are desired in a particular region), the domains of grids can be stretched in some directions (such that the domain is oblique), or the cells can be of different shapes (\eg\ octahedra).
 
-Among the variations of voxel grids, \textbf{sparse voxel models}\marginnote{sparse voxel model}\index{sparse voxel model} are used widely in practice to describe objects (\ie\ not fields) and are thus worth describing in more detail here.
+Among the variations of voxel grids, \emph{sparse voxel models}\marginnote{sparse voxel model}\index{sparse voxel model} are used widely in practice to describe objects (\ie\ not fields) and are thus worth describing in more detail here.
 These representations opt to encode only the voxels containing something (rather than all voxels in the domain).
 In order to do so, they usually specify simple objects consisting of: (i) a voxel position, \eg\ using integer coordinates for its position along each axis, and (ii) the voxel's variables.
 While this is undoubtedly more space-intensive per voxel than the standard encode-all approach, it works well for 3D models consist of largely empty space, which occurs frequently in 3D city models and where the objects we want to represent do not fit neatly into a box-shaped domain.
 
-It is also worth pointing out that most variations of voxel models can be processed with basically the same methods as standard voxel grids.
+Another potential way to compress the space used in voxel models is to use \emph{run-length encoding}\marginnote{run-length encoding}\index{run-length encoding} (RLE), which is applied after defining the order of the voxel domain.
+In it, consecutive identical values of voxels are replaced by a single value and a count.
+Since datasets of the built environment tend to have large contiguous empty regions, RLE often achieves very high compression ratios.
+The main trade-off is that random access to an individual voxel can require scanning the run-length list.
+
+More sophisticated compression methods---such as differential encoding (storing only differences between adjacent voxels) or block-based lossy compression---can achieve even higher ratios, particularly for field data where nearby values are correlated.
+These are not yet widely used for 3D geospatial data but are common in other fields (eg medical imaging).
+Note that sparse voxel models and hierarchical subdivisions (discussed below) are also forms of compression that avoid storing empty regions in the first place.
 
 \section{Hierarchical subdivision models}
 
