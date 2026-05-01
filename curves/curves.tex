@@ -218,7 +218,12 @@ where \(n\) is the degree of the B\'ezier curve, \ie\ 1 for linear, 2 for quadra
 \caption{}%
 \label{subfig:bernstein3}
 \end{subfigure}%
-\caption[Weights obtained from the Bernstein polynomials for B\'ezier curves]{Weights obtained from the Bernstein polynomials for (a) linear, (b) quadratic and (c) cubic B\'ezier curves.}%
+\begin{subfigure}{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/bernstein4}
+\caption{}%
+\label{subfig:bernstein4}
+\end{subfigure}%
+\caption[Weights obtained from the Bernstein polynomials for B\'ezier curves]{Weights obtained from the Bernstein polynomials for (a) linear, (b) quadratic, (c) cubic and (d) degree 4 B\'ezier curves.}%
 \label{fig:bernstein}
 \end{figure*}
 
@@ -503,6 +508,75 @@ These three vectors are the ones pointing to: (i) the next point along the commo
 
 \section{B-splines and NURBS}
 
+\subsection{B-splines}
+
+Spline curves are named after \emph{flat splines}\marginnote{flat spline}\index{flat spline}, which were thin flexible strips of wood or metal used to draw smooth curves before the advent of computers (Figure~\ref{fig:spline}).
+Out of the many varieties of spline curves, we are most interested in \emph{basis splines}, or \emph{b-splines}\marginnote{b-spline}\index{b-spline} for short, which have a number of properties that make them very useful for modelling curves.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.3\linewidth]{figs/spline}
+\caption{Splines are named after the flexible pieces of wood that were used to draw curves, often used for engineering drawings before computers. From Wikipedia Commons.}%
+\label{fig:spline}
+\end{figure}
+
+A b-spline curve is a parametric curve created based on two kinds of elements: (i) a sequence of control points that are used by the segments in the curve, and (ii) a sequence of non-decreasing values called \emph{knots}\marginnote{knot}\index{knot}, which define how the parameters in the parametric curve are evaluated.
+The control points are similar to the data and control points used in B\'ezier curves.
+The knots are the values of the parameter that split the curve into segments, which in the case of a simple B\'ezier curve (which is uniform) were simply 0 and 1 (which are the end points of the curve).
+
+The sequence of knots, usually known as the \emph{knot vector}\marginnote{knot vector}\index{knot vector}, also describes the control points that affect each segment of the curve.
+Since only some control points affect each segment, their shape is easier to control,  which means that we don't have to simply it into smaller segments to describe more complex shapes.
+
+Let us go through a more precise definition of a b-spline and its knots.
+Given a sequence of \(n+1\) control points \((p_0, \ldots, p_n)\) and a knot vector 
+\((t_0, \ldots, t_m)\), a b-spline curve of degree \(k\) is a weighted average of its control points, which is given by:
+
+\begin{equation}
+C(t) = \sum_{i=0}^{n} B_{i,k}(t) p_i
+\end{equation}
+
+where \(B_{i,k}(t)\) are the b-spline basis functions of degree \(k\), which are defined recursively using the Cox--de Boor recursion formula\marginnote{Cox--de Boor recursion}\index{Cox--de Boor recursion} as:
+
+\begin{align}
+B_{i,0}(t) &= \begin{cases}
+1 & \text{if } t_i  \leq t < t_{i+1} \\
+0 & \text{otherwise}
+\end{cases} \\
+B_{i,k}(t) &= \frac{t-t_i}{t_{i+k}-t_i} B_{i,p-1}(t) + \frac{t_{i+k+1}-t}{t_{i+k+1}-t_{i+1}}B_{i+1,k-1}(t)
+\end{align}
+
+Note how the \(B_{i,k}(t)\) basis functions act as the weights of the weighted average, which is similar to the role of the Bernstein polynomials in B\'ezier curves.
+However, unlike the Bernstein polynomials, the weights of the basis functions only have a value above zero within a limited range (Figure~\ref{fig:bspline}).
+This relates to how each segment of a b-spline is only affected by some control points (ie those with a value above 0).
+This means that adjusting the location of a control point will only have a local effect, which is known as \emph{local control}\marginnote{local control}\index{local control}.
+Continuity in b-splines is also built-in, where a b-spline of degree \(k\) has \(C^{k-1}\) continuity everywhere, including at its knots.
+
+\begin{figure*}
+\centering
+\begin{subfigure}{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/bspline0}
+\caption{}%
+\label{subfig:bspline0}
+\end{subfigure}%
+\begin{subfigure}{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/bspline1}
+\caption{}%
+\label{subfig:bspline1}
+\end{subfigure}\\
+\begin{subfigure}{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/bspline2}
+\caption{}%
+\label{subfig:bspline2}
+\end{subfigure}%
+\begin{subfigure}{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/bspline3}
+\caption{}%
+\label{subfig:bspline2}
+\end{subfigure}%
+\caption[Weights obtained from the b-spline basis functions]{Weights obtained from the b-spline basis functions (a) \(B_{i,0}\), (b) \(B_{i,1}\), (c) \(B_{i,2}\) and (c) \(B_{i,3}\).}%
+\label{fig:bspline}
+\end{figure*}
+
 \subsection{Uniform vs. non-uniform curves}
 
 As we saw previously, in a parametric curve \(C(t)\), specific values of \(t\) represent points that are used to split the curve into segments.
@@ -528,61 +602,19 @@ If the values of both \(u\) and \(v\) are both evenly spaced, we devote the same
 
 However, it is important to note that using the same amount of parameter space to each segment/patch does not mean the same geometric distance.
 In other words, even if we have the moving particle moving from \(t = 0\) to \(t = 1\) at a constant speed, we will likely not move at the same speed across the curve or surface (with the exception of some very specific curves).
-This is easiest to see when we consider that the data or control points are not evenly spaced either---we will move slower through parts with bunched up points, but it can also happen even when the points are evenly spaced.
+This is easiest to see when we consider that the data or control points are not evenly spaced either---we will move slower through parts with bunched up points, but it will also happen even when the points are evenly spaced.
 
 When we use different amounts of parameter space per segment or patch, we can define a \emph{non-uniform} parametric curve\marginnote{non-uniform parametric curve}\index{non-uniform parametric curve} or \emph{non-uniform} parametric surface\marginnote{non-uniform parametric surface}\index{non-uniform parametric surface}.
 These are more powerful than their uniform counterparts, meaning that we can better represent certain shapes (eg exact circles or sharp corners) and have better control of the resulting shape with fewer control points.
 
-\subsection{B-splines}
-
-Spline curves are named after \emph{flat splines}\marginnote{flat spline}\index{flat spline}, which were thin flexible strips of wood or metal used to draw smooth curves before the advent of computers (Figure~\ref{fig:spline}).
-Out of the many varieties of spline curves, we are most interested in \emph{basis splines}, or \emph{b-splines}\marginnote{b-spline}\index{b-spline} for short, which have a number of properties that make them very useful for modelling curves.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.3\linewidth]{figs/spline}
-\caption{Splines are named after the flexible pieces of wood that were used to draw curves, often used for engineering drawings before computers. From Wikipedia Commons.}%
-\label{fig:spline}
-\end{figure}
-
-A b-spline curve is a non-uniform parametric curve created based on two kinds of elements: (i) a sequence of control points that are used by all the segments in the curve, and (ii) a sequence of non-decreasing values called \emph{knots}\marginnote{knot}\index{knot}, which define how the parameters in the parametric curve are evaluated.
-The former are similar to the data and control points used in B\'ezier curves.
-The latter are the values of the parameter that split the curve into segments, which in the case of a (uniform) simple B\'ezier curve were simply 0 and 1.
-
-Given a sequence of \(n+1\) points \((p_0, \ldots, p_n)\), a b-spline of order \(k\) is composed of segments, each of which is created based on a sub-sequence of \(k\) control points from the curve in a moving window.
-
-Since b-splines are created from a limited number of control points, they have \emph{local control}\marginnote{local control}\index{local control}, meaning that moving a control point affects only the segments of the curve that use that control point.
-This is a major advantage over B\'ezier curves, where every control point influences the entire curve.
-Continuity in b-splines is also easy to achieve, with a b-spline of degree \(n\) being able to have up to \(C^{n-1}\) continuity at its knots.
-
-A b-spline curve 
-\(S\)
+Returning to the specific case of splines, in \emph{uniform} b-splines\marginnote{uniform b-spline}\index{uniform b-spline}, the knot values are evenly spaced, \eg\ \((0, 1, 2, 3, 4, 5)\).
 
 
-The b-spline basis functions can be defined recursively using the Cox--de Boor recursion formula\marginnote{Cox--de Boor recursion}\index{Cox--de Boor recursion}:
 
-\begin{equation}
-\label{eq:bsplinebasis0}
-N_{i,0}(t) = \begin{cases}
-1 & \text{if } k_i \leq t < k_{i+1} \\
-0 & \text{otherwise}
-\end{cases}
-\end{equation}
 
-\begin{equation}
-\label{eq:bsplinebasis}
-N_{i,p}(t) = \frac{t - k_i}{k_{i+p} - k_i} N_{i,p-1}(t) + \frac{k_{i+p+1} - t}{k_{i+p+1} - k_{i+1}} N_{i+1,p-1}(t)
-\end{equation}
 
-where \(k_i\) are the knots and \(p\) is the degree of the curve.
-A b-spline curve of degree \(p\) is then defined as:
 
-\begin{equation}
-\label{eq:bsplinecurve}
-C(t) = \sum_{i=0}^n N_{i,p}(t) p_i
-\end{equation}
-
-In \emph{uniform} b-splines\marginnote{uniform b-spline}\index{uniform b-spline}, the knot values are evenly spaced, \eg\ \((0, 1, 2, 3, 4, 5)\), and the basis functions for each segment are identical up to translation.
+% When? To be completed and polished
 A b-spline segment can therefore be expressed using a basis matrix:
 
 \begin{equation}
@@ -593,7 +625,7 @@ B_i(t) = \left(\begin{array}{ccc}t^{k-1} & \cdots & t^0\end{array} \right) M_k \
 where \(M_k\) is the \(k \times k\) basis matrix for order \(k\).
 For the first few values of \(k\), these are:
 
-\begin{equation}
+\begin{equation*}
 \label{eq:bsplinematrices}
 M_2 = \left(\begin{array}{cc}-1 & 1 \\
 1 & 0\end{array}\right),\quad
@@ -604,7 +636,7 @@ M_4 = \frac{1}{6}\left(\begin{array}{cccc}-1 & 3 & -3 & 1 \\
 3 & -6 & 3 & 0 \\
 -3 & 0 & 3 & 0 \\
 1 & 4 & 1 & 0\end{array}\right)
-\end{equation}
+\end{equation*}
 
 corresponding to linear (\(k=2\)), quadratic (\(k=3\)), and cubic (\(k=4\)) uniform b-spline segments.
 
