@@ -150,7 +150,7 @@ Simulations of different kinds, such as with fluids or building stresses also of
 B\'ezier curves\marginnote{B\'ezier curve}\index{B\'ezier curve} are parametric curves that are based on a polynomial function with one parameter.
 They are named after Pierre B\'ezier, who developed them to model the stylised shapes of cars while working at Renault in the 1960s.
 Interestingly enough, they were also independently developed by Paul de Casteljau at Citro\"en, likely before B\'ezier, but it appears that he was not allowed to publish them.
-However, De Casteljau's algorithm, which is used to evaluate B\'ezier curves, is named after him.
+However, De Casteljau's algorithm (Section~\ref{sec:decasteljau}), which is used to evaluate B\'ezier curves, is named after him.
 
 \subsection{A single B\'ezier segment}
 
@@ -260,6 +260,29 @@ C(t) &= \sum_{i=0}^3 B^3_i(t) p_i \nonumber \\
 &= (1-t)^3 p_0 + 3 t (1-t)^2 p_1 + 3 t^2 (1-t) p_2 + t^3 p_3\text{, for }0 \leq t \leq 1.
 \end{align}
 \end{small}
+
+\subsection{De Casteljau's algorithm}
+\label{sec:decasteljau}
+
+While the Bernstein polynomial form (Equation~\ref{eq:beziercurve}) is useful for analysis, evaluating a B\'ezier curve using De Casteljau's algorithm\marginnote{De Casteljau's algorithm}\index{De Casteljau's algorithm} provides a simple geometric construction that makes the behaviour of the curve more intuitive.
+
+Given a set of points \((p_0, \ldots, p_n)\) defining a B\'ezier segment of degree \(n\) and a parameter value \(t\), the algorithm proceeds by repeatedly performing linear interpolation between consecutive points:
+
+\begin{align}
+p_i^{0} &= p_i \nonumber \\
+p_i^{j} &= (1-t) p_i^{j-1} + t p_{i+1}^{j-1}
+\end{align}
+
+where \(1 \leq j \leq n\) and \(0 \leq i \leq n-j\).
+At each level \(j\), we obtain one fewer point than at the previous level.
+After \(n\) levels, we are left with a single point \(p_0^{n}\), which is the point on the B\'ezier curve at parameter \(t\).
+
+The intermediate points also have geometric meaning.
+For a quadratic B\'ezier curve \((p_0, p_1, p_2)\) at \(t=0.5\), the first level produces the midpoints \(p_0^1\) of \(p_0p_1\) and \(p_1^1\) of \(p_1p_2\), and the second level produces the midpoint \(p_0^2\) of their segment, which lies on the curve.
+More generally, the vector from \(p_1^{n-1}\) to \(p_0^{n-1}\) at any \(t\) gives the direction of the tangent vector at that point.
+
+This algorithm is numerically stable and is often used in practice to render B\'ezier curves by recursively subdividing them until the segments are small enough to be approximated as straight lines (eg a single pixel segment in a computer).
+Indeed, it was developed by Paul de Casteljau at Citro\"en for precisely this purpose.
 
 \subsection{Composite B\'ezier curves}
 
