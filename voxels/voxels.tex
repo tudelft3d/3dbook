@@ -110,6 +110,12 @@ Usually, an additional termination condition is set (\eg\ maximum depth or minim
 This adaptivity makes octrees well-suited for scenes with large homogeneous regions, such as empty airspace above a city model.
 
 The two main implementation variants are \emph{pointer-based octrees}, where each node stores links (pointers or IDs) to its eight children, and \emph{linear octrees}\index{linear octree}, where nodes are all stored in the same array and indexed using the unique long ID that is given by a space-filling curve (eg a Morton code) that encodes the path from root to node.
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=\textwidth]{figs/morton}
+  \caption[The Morton code can uniquely identify octree octants]{The Morton (or Z-order) space-filling curve can be used to create a code that uniquely identifies each octant in an octree. From Wikimedia Commons.}% 
+\label{fig:morton}
+\end{marginfigure}
 Linear octrees are a bit more difficult to implement, but they are more compact and can simplify implementing operations on them (eg as Boolean set union and intersection) because the IDs uniquely identify nodes (even when they are in different octrees of the same domain).
 A notable hybrid is the \emph{sparse voxel octree}\index{sparse voxel octree} (SVO), which stores only occupied nodes within an octree framework, combining the memory efficiency of sparse voxel models with the adaptive resolution of an octree.
 SVOs are widely used in real-time graphics for GPU-based ray tracing and level-of-detail rendering.
