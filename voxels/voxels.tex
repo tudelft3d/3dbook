@@ -103,12 +103,31 @@ The most common structures used by hierarchical subdivision models are:
 
 \begin{description}
 
-\item[octrees] subdivide space evenly along the \(x\), \(y\) and \(z\) axes into eight equal-size \emph{octants}\marginnote{octant}\index{octant}.
-They are analogous to quadtrees in 2D, which subdivide space evenly along the \(x\) and \(y\) axes into four equal-size quadrants.
+\item[octrees]\marginnote{octree}\index{octree} subdivide a node's space evenly along the \(x\), \(y\) and \(z\) axes into eight equal-size \emph{octants}\marginnote{octant}\index{octant}.
+They are the 3D equivalent of quadtrees in 2D, which subdivide along the \(x\) and \(y\) axes into four equal-size quadrants.
+Octrees are typically built top-down, starting from a root node covering the entire domain and recursively subdividing nodes based on a splitting predicate---such as containing more than a threshold number of objects or containing an object's boundary.
+Usually, an additional termination condition is set (\eg\ maximum depth or minimum node size) to avoid the creation of potentially infinite levels.
+This adaptivity makes octrees well-suited for scenes with large homogeneous regions, such as empty airspace above a city model.
 
-\item[bintrees] are similar to octrees, but they subdivide space in halves along only one axis per node, then switching to a different axis for the next level of the tree, \eg\ \(x\), then \(y\), then \(z\), then \(x\) again, etc.
+The two main implementation variants are \emph{pointer-based octrees}, where each node stores links (pointers or IDs) to its eight children, and \emph{linear octrees}\index{linear octree}, where nodes are all stored in the same array and indexed using the unique long ID that is given by a space-filling curve (eg a Morton code) that encodes the path from root to node.
+Linear octrees are a bit more difficult to implement, but they are more compact and can simplify implementing operations on them (eg as Boolean set union and intersection) because the IDs uniquely identify nodes (even when they are in different octrees of the same domain).
+A notable hybrid is the \emph{sparse voxel octree}\index{sparse voxel octree} (SVO), which stores only occupied nodes within an octree framework, combining the memory efficiency of sparse voxel models with the adaptive resolution of an octree.
+SVOs are widely used in real-time graphics for GPU-based ray tracing and level-of-detail rendering.
 
-\item[\(k\)-d trees] are similar to bintrees, but they subdivide space using an arbitrary plane per node, which can be defined by a single coordinate included in the node.
+\item[bintrees]\marginnote{bintree}\index{bintree} are similar to octrees, but subdivide space in halves along only one axis per node, switching to a different axis at each level of the tree, producing binary trees with exactly two children per node.
+The most common axis ordering cycles through \(x\), then \(y\), then \(z\), then \(x\) again, and so on.
+An adaptive strategy that splits along the longest axis of the node can also used, eg when the domain is extended more along some axes; or when objects have anisotropic shapes, eg when there is more detailed geometry along a certain axis.
+
+Because each node has only two children instead of eight, bintrees use less memory per node for child links.
+The trade-off is that they generally produce deeper trees than octrees for the same scene, which can increase query time in the worst case.
+Bintrees are particularly effective for fields with anisotropic resolution requirements---for instance, a point cloud that is densely sampled in the horizontal plane but sparsely in the vertical direction, or a terrain with much greater extent in \(x\) and \(y\) than in \(z\).
+
+\item[\(k\)-d trees]\marginnote{k-d tree}\index{k-d tree} are similar to bintrees in that each node splits space into two children, but the splitting plane can be positioned arbitrarily along the chosen axis, not necessarily at the midpoint.
+The split coordinate is chosen using different strategies: the \emph{median} of the data in the node (producing a balanced tree with equal-sized children), the \emph{midpoint} of the node's extent (simpler but possibly unbalanced), or a location that separates objects into disjoint sets (ie no objects are crossed at that specific value).
+
+K-d trees are most commonly used in practice for organising unstructured point clouds rather than for volumetric representations.
+Their efficient nearest-neighbour and range query performance (ie obtaining the objects in a given range) makes them a standard tool in point cloud processing, and they are widely implemented in libraries such as nanoflann and CGAL.
+When used for volumetric representation, k-d trees can achieve higher compactness than octrees by placing split planes at object boundaries, but this comes at the cost of more complex operations.
 
 \end{description}
 
