@@ -276,6 +276,7 @@ It outputs a disjoint set of medial atoms.
 
 The algorithm is based on the observation that the medial atom corresponding to a boundary point $\mathbf{p}$ must be positioned somewhere on the line $L$ through the normal $\vec{\mathbf{n}}$ of $\mathbf{p}$.
 This observation is used to restrict the search space for the medial ball of $\mathbf{p}$ to the line $L$.
+
 As illustrated by Figure~\ref{fig:shrinkballAlgo}, the algorithm begins with a very large candidate ball for $\mathbf{p}$ that is centered on $L$.
 \begin{figure*}[tbp]
 	\begin{subfigure}{0.245\linewidth}
@@ -303,12 +304,20 @@ As illustrated by Figure~\ref{fig:shrinkballAlgo}, the algorithm begins with a v
 \end{figure*}
 At each consecutive iteration, a new candidate ball is constructed that is smaller than the previous one and closer to the final \emph{medial} ball.
 Every ball is constructed so that it touches $\mathbf{p}$ and is centred on $L$.
-Only the candidate feature point $\mathbf{q}$ changes with each iteration.
+The extra boundary point $\mathbf{q}$ that the ball must touch (besides $\mathbf{p}$) changes with each iteration. Together, $\mathbf{p}$ and $\mathbf{q}$ determine where along the normal line the next centre lies.
 A new $\mathbf{q}$, denoted $\mathbf{q_{next}}$, is found by selecting the closest point from the centre $\mathbf{c}$ of the current ball.
 Using $\mathbf{p}, \vec{\mathbf{n}}, \mathbf{q_{next}}$ we can compute the centre of the next ball $\mathbf{c_{next}}$, at which point we move on to the next iteration.
+Intuitively, $\mathbf{q_{next}}$ is closer to the normal line than the current ball's surface, so the next ball must shrink: we slide the centre back along $\vec{\mathbf{n}}$ until it is equally far from $\mathbf{p}$ and $\mathbf{q_{next}}$. Since $\mathbf{c_{next}}$ must lie on $\mathbf{p} + t \vec{\mathbf{n}}$ and satisfy $|\mathbf{c_{next}} - \mathbf{p}| = |\mathbf{c_{next}} - \mathbf{q_{next}}|$, we solve for $t$:
+\[
+t = -\frac{|\mathbf{p} - \mathbf{q_{next}}|^2}{2 \vec{\mathbf{n}} \cdot (\mathbf{p} - \mathbf{q_{next}})},
+\qquad
+\mathbf{c_{next}} = \mathbf{p} + t \vec{\mathbf{n}},
+\qquad
+r_{next} = t.
+\]
 The algorithm terminates when an empty ball is found, which is the case when the radius no longer shrinks.
 Algorithm~\ref{alg:shrinkBall} gives the pseudo-code for the shrinking-ball algorithm.
-\begin{algorithm}[tb]
+\begin{algorithm}[htbp]
 	\SetKwInOut{Input}{Input}
 	\SetKwInOut{Output}{Output}
 	\DontPrintSemicolon\Input{
@@ -322,7 +331,7 @@ Algorithm~\ref{alg:shrinkBall} gives the pseudo-code for the shrinking-ball algo
 	\Repeat{a \textbf{break} statement is executed} {
 		$q_{next} \leftarrow$ the nearest point to $\mathbf{c}$, obtained quickly using $T$ \\
 		$r_{next} \leftarrow$ radius of the next ball that touches $\mathbf{p}$ and $\mathbf{q_{next}}$ and is centred on $\vec{\mathbf{n}}$ \\
-		$\mathbf{c_{next}} \leftarrow$ centre of the next ball, can be computed with $\mathbf{p}, \vec{\mathbf{n}}$, and $r_{next}$ \\
+		$\mathbf{c_{next}} \leftarrow \mathbf{p} + t \vec{\mathbf{n}}$ where $t = -|\mathbf{p} - \mathbf{q_{next}}|^2 / (2 \vec{\mathbf{n}} \cdot (\mathbf{p} - \mathbf{q_{next}}))$ \\
 		\If{$r_{next} = r$} {
 			\textbf{break}
 		}
