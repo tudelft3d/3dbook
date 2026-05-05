@@ -265,7 +265,6 @@ To use the MAT in practice, its medial atoms, branches and sheets must be organi
 In 2D, the MAT has a simple graph structure: the medial branches are edges, and the junctions and branch tips are nodes.
 Each node stores its position and radius, and edges can be assumed to be linear geometries between nodes, which results in a linear interpolation of both the node geometries and radii.
 A more complex representation could use curves, eg a parametric curve in each edge and a radius function of its branch.
-Both of these implementations could be stored using half-edge data structures (\refchap{chap:brep}) can store this directly.
 
 In 3D, the MAT is a cell complex with three types of cells:
 \begin{description}
@@ -274,6 +273,8 @@ In 3D, the MAT is a cell complex with three types of cells:
 	\item[Medial sheets] (2-cells) bounded by curve junctions and point junctions.
 \end{description}
 As in 2D, we could opt for a simple implementation with linear geometries or having sheets that stores their surface geometry and a radius function over the sheet.
+
+All of these implementations could be stored using the b-rep data structures described in \refchap{chap:brep}.
 
 \section{Computing the MAT} 
 Computing the MAT from the boundary $\mathcal{B}$ of an object is typically done in two steps. 
