@@ -9,7 +9,7 @@
 \label{chap:mat}
 
 The Medial Axis Transform (MAT) is yet another way to represent a 3D model.
-It can be considered a \emph{dual} representation to the b-rep, similar to how the Voronoi diagram is dual to the Delaunay triangulation. 
+It can be considered a \emph{dual} representation to the b-rep (\refchap{chap:brep}), similar to how the Voronoi diagram is dual to the Delaunay triangulation (\refchap{chap:dtvd3d}). 
 Contrary to the b-rep, that represents a model by describing explicitly its boundary surface, the MAT describes a model by its \emph{skeleton} (compare Figures~\ref{fig:gbm:brep} and~\ref{fig:gbm:maxis}).
 \begin{figure}
 	\centering
@@ -264,11 +264,11 @@ Computing the MAT from the boundary $\mathcal{B}$ of an object is typically done
 During the first step, \ie\ \emph{MAT approximation}, a noisy approximation of the MAT is obtained, and during the second step, \ie\ \emph{pruning}, the noise is removed.
 
 \subsection{MAT approximation}
-The MAT can be approximated in various ways, \eg\ by using voxels and distance transforms or as a subset of the Voronoi diagram.
+The MAT can be approximated in various ways, \eg\ by using voxels (\refchap{chap:voxels}) and distance transforms or as a subset of the Voronoi diagram (\refchap{chap:dtvd3d}).
 However, here we will focus on the so-called shrinking-ball algorithm.
 
 \subsubsection{The shrinking-ball algorithm}
-The shrinking-ball algorithm works well for robustly approximating the MAT of 3D objects that are represented using boundary points, \ie\ point clouds.
+The shrinking-ball algorithm works well for robustly approximating the MAT of 3D objects that are represented using boundary points, \ie\ point clouds (\refchap{chap:LoD2recon}).
 It is a simple and fast algorithm that can be made robust to noise in the boundary points.
 %This means that pruning the MAT after approximation is not necessary with the shrinking-ball algorithm.
 The shrinking-ball algorithm takes an \emph{oriented point cloud} as input, \ie\ a point cloud that includes a normal vector for each point. 
@@ -333,7 +333,7 @@ Algorithm~\ref{alg:shrinkBall} gives the pseudo-code for the shrinking-ball algo
 	\label{alg:shrinkBall}
 \end{algorithm}
 
-The algorithm is ran for each point in the input point cloud. 
+The algorithm is run for each point in the input point cloud. 
 If the normal vectors point away from the interior, the interior MAT is computed.
 And by flipping the orientation of the normal vector, the exterior MAT can also be computed.
 If normals are not available for a point cloud, these can be estimated using local plane fitting, \ie\ by fitting a plane to the $k$ nearest neighbours of each boundary point. 
@@ -363,8 +363,8 @@ Observe how the MAT describes the valleys (exterior MAT) and ridges (interior MA
 \end{figure}
 
 Notice that the shrinking ball algorithm subdivides the output only in an interior and exterior part based on the point normals in the input. 
-It is possible to further segment the MAT into for example medial sheets and medial clusters.
-This can be achieved for example with a region-growing segmentation algorithm that uses properties of the medial geometry (\eg\ the medial bisector). 
+It is possible to further segment the MAT into, for example, medial sheets and medial clusters.
+This can be achieved, for example, with a region-growing segmentation algorithm that uses properties of the medial geometry (\eg\ the medial bisector). 
 Figures~\ref{fig:smat_r3d_sheets_all} and \ref{fig:smat_r3d_ballo_all} show the result of such a segmentation.
 
 % The main limitation of the shrinking-ball algorithm is that it outputs only an unstructured set of medial atoms, \ie\ there is no distinction between its different medial sheets.% and also the surface of the sheets is not explicitly reconstructed.
