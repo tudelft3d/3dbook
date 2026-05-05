@@ -470,9 +470,13 @@ Figure~\ref{fig:imaimp} gives an example of pruning with the separation distance
 % This typically happens in the presence of noisy boundary points, and illustrates why filtering on a low separation angle is effective for pruning.
 
 \section{Notes and comments}
-The Medial Axis Transform was originally introduced in 1967 by Harry Blum, a biologist \citep{Blum67}.
+The Medial Axis Transform was originally introduced in 1967 by Harry Blum, a biologist \citep{Blum67}. He later elaborated on its properties and argued for symmetry as the central organising principle of the MAT \citep{Blum73}.
 
-\citet{Ma12} introduced the shrinking ball algorithm. \citet{Peters18} explains how to make the algorithm robust so that it can be successfully applied to lidar point cloud inputs and how to obtain a sheet and cluster segmentation using a region-growing approach.
+The MAT is closely related to the Voronoi diagram (\refchap{chap:dtvd3d}): for a dense set of boundary points, the medial axis can be approximated as a subset of the Voronoi diagram, and the medial balls as a subset of the Voronoi cells. More precisely, the interior MAT corresponds to the Voronoi vertices (and edges) that lie inside the object.
+
+\citet{Ma12} introduced the shrinking ball algorithm as a practical method for approximating the MAT from point clouds. \citet{Peters18} explains how to make the algorithm robust so that it can be successfully applied to lidar point cloud inputs, and how to obtain a sheet and cluster segmentation using a region-growing approach. An application of this to the automatic identification of watercourses from point clouds is described by \citet{Broersen17}.
+
+Since the MAT encodes both the position and the thickness of an object, it can be used to reconstruct the object boundary from a pruned skeleton. This makes it useful for shape simplification, where small-scale boundary noise is removed while preserving the overall shape. Applications of the MAT beyond the geospatial domain include path planning (the skeleton defines a collision-free routes), mesh generation, and shape animation.
 
 
 %%%
