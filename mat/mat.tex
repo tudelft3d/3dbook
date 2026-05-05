@@ -53,7 +53,7 @@ Compared to other shape representations, this skeleton structure makes different
 For example, the MAT allows us to split a shape into parts simply by looking at the branches of the skeleton. 
 The resulting shape parts often turn out to be meaningful in practice. 
 Observe for instance that for the gingerbread man in Figure~\ref{fig:gingerman}, its arms, legs, torso and head each have one corresponding branch in its medial axis (compare Figures~\ref{fig:gbm:whole} and~\ref{fig:gbm:maxis}).
-For DTMs for example, equally meaningful decompositions into parts can be made, \eg\ the MAT allows us to decompose a DTM into separate hills, watercourses and other objects on top the DTM (see Figure~\ref{fig:matterrain}).
+For DTMs for example, equally meaningful decompositions into parts can be made, \eg\ the MAT allows us to decompose a DTM into separate hills, watercourses and other objects on top of the DTM (see Figure~\ref{fig:matterrain}).
 
 \section{Defining the MAT}
 The MAT can be computed both for 2D and 3D objects (compare Figures~\ref{fig:3dmat_2d} and~\ref{fig:3dmat_halfopen}).
@@ -103,10 +103,10 @@ As illustrated in Figure~\ref{fig:gbm:maxis}, the MAT can be subdivided into \em
 Junctions are locations where three or more medial branches coincide. 
 The points of the MAT are called \emph{medial atoms}\marginnote{medial atoms}\index{medial atoms}, or simply \emph{atoms}. 
 Observe that if an atom has exactly two feature points, it is part of a medial branch, and if it has more than two feature points it lies on a junction or on the tip of a medial branch. 
-The medial branches, its junctions and how those are are connected define the \emph{medial structure}\marginnote{medial structure}\index{medial structure}.
+The medial branches, its junctions and how those are connected define the \emph{medial structure}\marginnote{medial structure}\index{medial structure}.
 % If we consider that each branch corresponds to one part of $\mathcal{B}$ gives us a natural way to split an object into parts
 
-For a 2D object, such as in Figure~\ref{fig:gingerman}, the medial branches are curves and the the junctions are points. 
+For a 2D object, such as in Figure~\ref{fig:gingerman}, the medial branches are curves and the junctions are points. 
 However, for a 3D object, the medial branches can also be surfaces (see Figure~\ref{fig:3dmat_sheets}), and the junctions can also be curves.
 The branches of the 3D MAT are therefore also called \emph{medial sheets}\marginnote{medial sheets}\index{medial sheets}.
 
@@ -155,7 +155,7 @@ Using the medial geometry we can describe a number of interesting properties of 
 \begin{enumerate}
 	\item Any atom $\mathbf{c}$ is always \emph{medial} to $\mathcal{B}$, \ie\ it is equidistant to the feature points of $\mathbf{c}$ (hence the name of the MAT).
 	\item The medial ball $B$ is always tangential to $\mathcal{B}$ at the feature points. 
-	\item The radius $r$ can be used to define the `thickness' of an object, since it measured the distance to the `middle' of the object where the MAT is located.
+	\item The radius $r$ can be used to define the `thickness' of an object, since it measures the distance to the `middle' of the object where the MAT is located.
 	% \item From the union of all interior medial balls of an object, its boundary can be reconstructed.
 	% \item The medial bisector $\vec{\mathbf{b}}$ always points in the direction of decreasing radius along a medial branch or sheet.
 	% \item The feature points of a medial atom at the tip of a medial branch indicate points of minimal of curvature on $\mathcal{B}$. Notice also that the radius of those atoms is inversely proportional to the curvature at its feature points.
@@ -169,7 +169,7 @@ That part of the MAT is called the \emph{exterior MAT}\marginnote{exterior MAT}\
 An object can only have an exterior MAT if the shape of that object is non-convex, since for convex object it is not possible to find exterior medial balls with a finite radius.
 % In case of a composition of multiple objects, the interaction between these object can also lead to an exterior MAT, even if all objects are convex.\todo{illustrate that}
 
-The separation between inside and outside is very clear and unambiguous for a an object with a closed boundary such as the gingerbread man of Figure~\ref{fig:gingerman} or for any perfectly manifold boundary.
+The separation between inside and outside is very clear and unambiguous for an object with a closed boundary such as the gingerbread man of Figure~\ref{fig:gingerman} or for any perfectly manifold boundary.
 However, for objects that are not completely closed this separation is less clear, as there could be MAT sheets that connect the interior and exterior parts though holes in the boundary surface.
 In some cases with an open boundary a reasonable distinction can still be made.
 For example for a DTM we can follow the convention that the `ground side' of the DTM is the interior, and the `sky side' is the exterior, as follows from Figure~\ref{fig:object_earth}.
@@ -314,11 +314,11 @@ Algorithm~\ref{alg:shrinkBall} gives the pseudo-code for the shrinking-ball algo
 	\DontPrintSemicolon\Input{
 		a KD-tree of the surface point cloud $T$,\\ 
 		a surface point $\mathbf{p}$\\ 
-		it's normal vector $\vec{\mathbf{n}}$, and\\
+		its normal vector $\vec{\mathbf{n}}$, and\\
 		the initial ball radius $r_{init}$}
 	\Output{the medial ball centre $\mathbf{c}$,\\the medial ball radius $r$}
 	$r \leftarrow r_{init}$ \\
-	$\mathbf{c} \leftarrow$ the centre of the ball that touches $\mathbf{p}$ is centered on $\vec{\mathbf{n}}$ with a radius $r$ \\
+	$\mathbf{c} \leftarrow$ centre of the ball that touches $\mathbf{p}$, is centred on $\vec{\mathbf{n}}$, and has radius $r$ \\
 	\Repeat{a \textbf{break} statement is executed} {
 		$q_{next} \leftarrow$ the nearest point to $\mathbf{c}$, obtained quickly using $T$ \\
 		$r_{next} \leftarrow$ radius of the next ball that touches $\mathbf{p}$ and $\mathbf{q_{next}}$ and is centred on $\vec{\mathbf{n}}$ \\
@@ -445,7 +445,7 @@ Figure~\ref{fig:imaimp} gives an example of pruning with the separation distance
 	\quad
 	\begin{subfigure}{0.4\linewidth}
 		\includegraphics[width=\linewidth]{figs/rasterimpl/simple_dtm-gamma10_earthskel.png}
-		\caption{Reconstructed object for $\lambda=10$. Notice how the tree is separated from the the ground and that edges have become rounder.}
+		\caption{Reconstructed object for $\lambda=10$. Notice how the tree is separated from the ground and that edges have become rounder.}
 		\label{fig:imaimp:f}
 	\end{subfigure}
 	\caption[The effect of different levels of pruning]{The effect of different levels of pruning based on the separation distance $\lambda$ on the MAT.}
