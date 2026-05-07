@@ -13,7 +13,7 @@ To facilitate and encourage the exchange and interoperability of geographical in
 While the abstract definitions for the primitives are not restricted to two dimensions (2D), most of the efforts for the representation and storage of the geographical primitives have been done only in 2D; the \emph{Simple Features} specifications are well-defined, used, and implemented across the GIS community.
 \marginnote{Simple Features specifications}\index{Simple Features specifications}
 
-This document gives an overview of the primitives in 3D, both from the ISO19107 and the GML point-of-views.
+This document gives an overview of the primitives in 3D, both from the ISO19107 and the GML points of view.
 Although the topic might appear trivial---``a polyhedron is simply a polyhedron, no?''---it is in practice a problem because several definitions exist and different software packages use different ones.
 \marginnote{polyhedron}\index{polyhedron}
 
@@ -54,18 +54,17 @@ The 2D data structures typically used in GIS, \eg\ the half-edge or the DCEL, ca
 \section{The standard ISO19107}%
 \label{sec:19107}
 
-The geometric primitives as used in 3D GIS are based on the ISO19107 definitions, and the definition of a polyhedra there is broader than that of a 2-manifold, to allow us to represent all the real-world features.
+The geometric primitives as used in 3D GIS are based on the ISO19107 definitions, and the definition of a polyhedron there is broader than that of a 2-manifold, to allow us to represent all the real-world features.
 
-As shown in Figure~\ref{fig:isoprimitives}, 
+As shown in Figure~\ref{fig:isoprimitives}, the ISO19107 geometric primitives for representing an object are: a 0D primitive is a \texttt{GM\_Point}, a 1D a \texttt{GM\_Curve}, a 2D a \texttt{GM\_Surface}, and a 3D a \texttt{GM\_Solid}.
 \begin{marginfigure}
   \centering
   \includegraphics[width=\linewidth]{figs/isoprimitives.pdf}
-  \caption{ISO 19017 primitives relevant for the modelling of the built environment.}%
+  \caption{ISO 19107 primitives relevant for the modelling of the built environment.}%
 \label{fig:isoprimitives}
 \end{marginfigure}
-the ISO19107 geometric primitives for representing an object are: a 0D primitive is a \texttt{GM\_Point}, a 1D a \texttt{GM\_Curve}, a 2D a \texttt{GM\_Surface}, and a 3D a \texttt{GM\_Solid}.
 A $d$-dimensional primitive is built with a set of $(d-1)$-dimensional primitives, \eg\ a \texttt{GM\_Solid} is formed by several \texttt{GM\_Surfaces}, which are formed of several \texttt{GM\_Curves}, which are themselves formed of \texttt{GM\_Point}.
-Observe that the ISO19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed
+Observe that the ISO19107 primitives do not need to be linear or planar, \ie\ curves defined by mathematical functions are allowed.
 
 %
 
@@ -75,7 +74,7 @@ A \texttt{GM\_Solid} is the basis for 3-dimensional geometry.
 The extent of a solid is defined by the boundary surfaces.
 The boundaries of \texttt{GM\_Solids} shall be represented as \texttt{GM\_SolidBoundary}.
 [\ldots] 
-The \texttt{GM\_OrientablesSurfaces} that bound a solid shall be oriented outward.
+The \texttt{GM\_OrientableSurfaces} that bound a solid shall be oriented outward.
 \end{definition}
 \begin{definition}
 A \texttt{GM\_Shell} is used to represent a single connected component of a \texttt{GM\_SolidBoundary}. 
@@ -98,12 +97,6 @@ To be a valid shell, the 2-manifold should be closed, \ie\ there should not be `
 %
 
 Figure~\ref{fig:onesolid} shows a solid that respects that definition.
-\begin{marginfigure}
-  \centering
-  \includegraphics[width=0.95\textwidth]{figs/isosolid.pdf}
-  \caption[One solid which respects the ISO19107 definition]{One solid which respects the ISO19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
-\label{fig:onesolid}
-\end{marginfigure}
 First observe that the solid is composed of two shells (both forming its boundaries), one being the exterior and one being the interior shell.
 The exterior shell has eleven surfaces, and the interior one six.
 An interior shell creates a cavity in the solid---cavities are also referred to as ``voids'' or holes in a solid.
@@ -112,8 +105,14 @@ Observe that a cavity is not the same as a hole in a torus (a doughnut) such as 
 Observe also that the top face of the solid in Figure~\ref{fig:onesolid} has one inner ring, but that other surfaces ``fill'' that hole so that the exterior shell is closed.
 \begin{marginfigure}
   \centering
+  \includegraphics[width=0.95\textwidth]{figs/isosolid.pdf}
+  \caption[One solid which respects the ISO19107 definition]{One solid which respects the ISO19107 definition. It has one exterior shell (grey) and one interior shell (orange) forming a cavity.}%
+\label{fig:onesolid}
+\end{marginfigure}
+\begin{marginfigure}
+  \centering
   \includegraphics[width=0.8\linewidth]{figs/torus.pdf}
-  \caption[A `squared torus']{A `squared torus' is modelled with one exterior boundary formed of ten surfaces. Notice that there are no interior boundary.}%
+  \caption[A `squared torus']{A `squared torus' is modelled with one exterior boundary formed of ten surfaces. Notice that the solid has no interior boundaries.}%
 \label{fig:torus}
 \end{marginfigure}
 
@@ -142,7 +141,7 @@ CityGML, the international standard for 3D modelling of cities (see Chapter~\ref
 Following ISO19107, in GML and CityGML geometric primitives can be combined into either \emph{aggregates} or \emph{composites}.
 
 An aggregate (class \texttt{gml:\_AbstractGeometricAggregate}) is an arbitrary collection of primitives of same dimensionality that is simply used to bundle together geometries.
-GML (and CityGML) has classes for each dimensionality (\texttt{Multi*}), the most relevant one in our context is \texttt{MultiSurface} that is often used in practice to represent the geometry of a building.
+GML (and CityGML) has classes for each dimensionality (\texttt{Multi*}); the most relevant one in our context is \texttt{MultiSurface}, which is often used in practice to represent the geometry of a building.
 An aggregate does not prescribe any topological relationships between the primitives.
 
 A composite of dimension $d$ is a collection of $d$-dimensional primitives that form a $d$-manifold. 
@@ -165,7 +164,7 @@ For instance, a valid Solid cannot have as one of its surfaces a Polygon having 
 \subsection{\texttt{Polygon}}
 
 For a \texttt{Polygon} embedded in $\mathbb{R}^3$ to be valid, it needs to fulfil the 6 assertions in Figure~\ref{fig:ogcsf_definitions}, which are given on pages 27--28 of the OGC \emph{Simple Features} document.
-These rules are verified by first projecting each \texttt{Polygon} to a plane, this plane is usually obtained by least-square adjustment of its points.
+These rules are verified by first projecting each \texttt{Polygon} to a plane; this plane is usually obtained by least-square adjustment of its points.
 A \texttt{Polygon} must also be \emph{planar} to be valid: its points (used for both the exterior and interior rings) have to lie on a plane.
 \begin{figure}
   \centering
@@ -230,17 +229,17 @@ The solid $s_1$ is thus not valid, but $s_2$ is because the hole in the top surf
 
 The second assertion implies that each shell must be simple, \ie\ that it is a 2-manifold.
 
-The third assertion means that the boundaries of shells can intersect each others, but the intersection between the shells can only contain primitives of dimensionality 0 (vertices) and 1 (edges).
+The third assertion means that the boundaries of shells can intersect each other, but the intersection between the shells can only contain primitives of dimensionality 0 (vertices) and 1 (edges).
 If a surface or a volume is part of the intersection, then the solid is invalid.
 The solid $s_3$ is an example of a valid solid: it has two interior shells whose boundaries intersect at one point (at the apexes of the tetrahedra), and the apex of one of the tetrahedra is coplanar with the exterior shell.
-If the interior of the two interior shells intersects (as in $s_4$) the solid is not valid; this is also related to the sixth assertion stating that each cavity must define one connected component: if the interior of two cavities are intersecting they define the same connected component.
+If the interior of the two interior shells intersects (as in $s_4$) the solid is not valid; this is also related to the sixth assertion stating that each cavity must define one connected component: if the interiors of two cavities are intersecting they define the same connected component.
 Notice also that $s_5$ is not valid since one surface of its cavity intersects with one surface of the exterior shell (they ``share a surface''); $s_5$ should be represented with one single exterior shell (having a `dent'), and no interior shell.
 
 The fourth assertion states that a shell is a 2-manifold and that no dangling pieces can exist (such as that of $s_6$); it is equivalent to the \emph{regularisation} of a point-set in $\mathbb{R}^3$.
 \marginnote{regularisation}\index{regularisation}
 
 The fifth assertion states that the interior of a solid must form a connected point-set (in $\mathbb{R}^3$).
-Consider the solid $s_7$, it is valid since its interior is connected and it fulfils the other assertions; notice that: (1) it is a 2-manifold but that unlike other solids in Figure~\ref{fig:validornot} (except $s_8$) its genus is 1; (2) it is modelled only with an exterior shell.
+Consider the solid $s_7$; it is valid since its interior is connected and it fulfils the other assertions; notice that: (1) it is a 2-manifold but that unlike other solids in Figure~\ref{fig:validornot} (except $s_8$) its genus is 1; (2) it is modelled only with an exterior shell.
 If we move the location of the triangular prism (which is part of the exterior shell, and is not an interior shell) so that it touches the boundary of the exterior shell (as in $s_8$), then the solid becomes invalid since its interior is not connected anymore, and also since its exterior shell is not simple anymore (2 edges have 4 incident planar faces, which is not 2-manifold).
 It is also possible that the interior shell of a solid separates the solid into two parts: the interior shell of $s_9$ is a pyramid having four of its edges intersecting with the exterior shell, but no two surfaces are shared, thus these interactions are allowed.
 However, the presence of the pyramid separates the interior of the solid into two unconnected volumes (violating assertion 5); for both $s_8$ and $s_9$, the only possible valid representation is with two different solids.
@@ -257,7 +256,7 @@ Enforcing simplicity requires calculating the intersections between the surfaces
 
 Lastly, the orientation of the polygons must be considered.
 In 2D, the only requirement for a polygon is that its exterior ring must have the opposite orientation of that of its interior ring(s) (\eg\ clockwise versus counter-clockwise).
-In 3D, if one polygon is used to construct a shell, its exterior ring must be oriented in such as way that when viewed from outside the shell the points are ordered counter-clockwise.
+In 3D, if one polygon is used to construct a shell, its exterior ring must be oriented in such a way that when viewed from outside the shell the points are ordered counter-clockwise.
 Figure~\ref{fig:orientation} shows an example.
 \begin{marginfigure}
   \centering
@@ -270,7 +269,7 @@ If the polygon has interior rings, then these have to be ordered clockwise.
 
 
 \begin{kaobox}[frametitle=\faCog\ How does it work in practice?]
-  The software `val3dity', developed at TU Delft, allows us to validate directly all the ISO19107 primitives, it accepts as input CityJSON and OBJ, among others.
+  The software `val3dity', developed at TU Delft, allows us to validate directly all the ISO19107 primitives; it accepts as input CityJSON and OBJ, among others.
   It is freely available at \url{https://github.com/tudelft3d/val3dity}, and a web-application can be used at \url{http://geovalidation.bk.tudelft.nl/val3dity/}
 \end{kaobox}
 
@@ -297,7 +296,7 @@ The title ``\emph{Are your polyhedra the same as my polyhedra?}'' is taken from 
 
 The 2D GIS data structures that can be used for storing 2-manifolds are, for instance, the half-edge~\citep{Mantyla88}, the quad-edge~\citep{Guibas85}, and the doubly-connected edge list (DCEL)~\citep{Muller78}; all of these store the edge of a polyhedron as the atom, with links to its adjacent edges and incident faces.
 
-For details how the validation of a the 3D primitives can be implemented, see \citet{13_cacaie} and \citet{18_ogdss_val3dity}.
+For details on how the validation of the 3D primitives can be implemented, see \citet{13_cacaie} and \citet{18_ogdss_val3dity}.
 
 The official specifications documents are the following:
 \begin{itemize}
@@ -317,5 +316,5 @@ The official specifications documents are the following:
   \item Draw a 2-manifold that has a genus of 2.
   \item The object in Figure~\ref{fig:nonmanifoldiso} contains 8 surfaces but is not a 2-manifold. If you were to store it in a 3D primitive in GML, which one would you choose? 
   \item How many interior shells does the solid in Figure~\ref{fig:orientation} have?
-  \item In which direction points the normal of the interior shell of the solid in Figure~\ref{fig:geomprimitives}?
+  \item In which direction does the normal of the interior shell of the solid point to in Figure~\ref{fig:geomprimitives}?
 \end{enumerate}
