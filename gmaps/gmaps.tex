@@ -128,6 +128,7 @@ Since having an operation that yields two different results is undesirable, we t
 This orientation is defined by ordering the two \(0\)-dimensional elements in the dart, and as in half-edge data structures, two darts connected by an involution should have \emph{opposite orientations}.
 Since this operation switches the edges of a dart, it is thus denoted as \(\beta_1\).
 As for the other operations, they are defined as in a generalised map, but they are all denoted as \(\beta_i\)\marginnote{\(\beta\)}\index{\(\beta\)}, where \(i\) is the dimension of the element being switched.
+Consequently, combinatorial maps have no \(\beta_0\) operation; the lowest-indexed operation is \(\beta_1\).
 
 \begin{figure}
 \centering
@@ -192,7 +193,8 @@ Starting from a given dart \(d\), the operation to obtain all the darts connecte
 Among these orbits, the most important one is the one to obtain all the darts belonging to a particular \emph{cell}\marginnote{cell}\index{cell}, \ie\ a vertex, edge, face, or volume.
 As we discussed previously, changing the \(i\)-dimensional cell (\(i\)-cell) of a dart, \ie\ applying \(\alpha_i\) or \(\beta_i\), means switching to an adjacent \(i\)-cell.
 By the opposite logic, the orbit that obtains all the darts of an \(i\)-dimensional cell is the one that follows all the permutations and involutions except for \(\alpha_i\) or \(\beta_i\) (Figure~\ref{fig:darts-of-cell}).
-For an \(n\)-dimensional generalised map, we can denote this as \(\langle \alpha_0, \ldots, \alpha_{i-1}, \alpha_{i+1}, \ldots, \alpha_n \rangle(d)\), and for an \(n\)-dimensional combinatorial map, we can denote this as \(\langle \beta_1, \ldots, \beta_{i-1}, \beta_{i+1}, \ldots, \beta_n \rangle(d)\). For combinatorial maps this formula holds for \(i \ge 1\); for a vertex (\(i = 0\)) the orbit follows all \(\beta_1, \ldots, \beta_n\), since there is no \(\beta_0\).
+For an \(n\)-dimensional generalised map, we can denote this as \(\langle \alpha_0, \ldots, \alpha_{i-1}, \alpha_{i+1}, \ldots, \alpha_n \rangle(d)\), and for an \(n\)-dimensional combinatorial map, we can denote this as \(\langle \beta_1, \ldots, \beta_{i-1}, \beta_{i+1}, \ldots, \beta_n \rangle(d)\).
+For combinatorial maps this formula holds for \(i \ge 1\); for a vertex (\(i = 0\)) the orbit follows all \(\beta_1, \ldots, \beta_n\), since there is no \(\beta_0\).
 
 \begin{figure}
 \centering
