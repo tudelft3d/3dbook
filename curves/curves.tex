@@ -26,7 +26,7 @@ Creating and manipulating fewer elements is also often simpler.
 For instance, a user of 3D modelling or design software will find it easier to adjust the shape of a curved surface based on a few key points than to adjust the vertices of many small triangles to achieve a similar shape.
 Most CAD and 3D modelling software thus support curves, and BIM models routinely use them internally as well.
 
-Throughout this chapter, we will explain how to use curved (1D) lines and curved (2D) surfaces, which in turn can be used to model 3D objects as an extension of straight-line b-rep.
+Throughout this chapter, we will explain how to use curved (1D) lines and curved (2D) surfaces, which in turn can be used to model 3D objects as an extension of linear geometry b-rep.
 Among the possible methods that can be used for this purpose, this chapter covers two related methods that are often found in practice: B\'ezier curves/surfaces and b-splines.
 
 \section{Background}
@@ -116,7 +116,7 @@ Geometric continuity\marginnote{geometric continuity}\index{geometric continuity
 \begin{description}
 \item[Positional] (\(G^0\)) continuity\marginnote{positional continuity}\index{positional continuity}\marginnote{\(G^0\) continuity}\index{\(G^0\) continuity} means that the boundary of a curve (ie a point) or surface (ie a curve) matches that of its neighbours, \ie\ there are no gaps at common boundaries (Figure~\ref{subfig:g0});
 \item[Tangential] (\(G^1\))\marginnote{tangential continuity}\index{tangential continuity}\marginnote{\(G^1\) continuity}\index{\(G^1\) continuity} means that the angles of curves or surfaces match those of its neighbours at their common boundaries, \ie\ no sharp edges (creases / folds) at common boundaries (Figure~\ref{subfig:g1});
-\item[Curvature] (\(G^2\))\marginnote{curvature continuity}\index{curvature continuity}\marginnote{\(G^2\) continuity}\index{\(G^2\) continuity} means that the curvature of a curve or surface matches that of its neighbours at their common boundaries, \ie\ not even `soft' edges at common boundaries.
+\item[Curvature] (\(G^2\))\marginnote{curvature continuity}\index{curvature continuity}\marginnote{\(G^2\) continuity}\index{\(G^2\) continuity} means that the curvature of a curve or surface matches that of its neighbours at their common boundaries, \ie\ not even `soft' or rounded edges at common boundaries.
 \end{description}
 
 \begin{figure}
@@ -139,7 +139,7 @@ Generalising from here, we can say that a curve has \(G^n\) continuity\marginnot
 If they have the same magnitude as well, it is also said to have \(C^n\) continuity.
 Therefore, \(C^n\) continuity\marginnote{\(C^n\) continuity}\index{\(C^n\) continuity} implies \(G^n\) continuity.
 
-Curves and surfaces with \(C^n\) continuity look the same as their \(G^n\) counterparts.
+Curves and surfaces with \(C^n\) continuity look very similar as their \(G^n\) counterparts.
 However, the distinction is important in applications that depend on more subtle geometric properties of curves.
 For example, if we put a texture (ie an image) on a set of surfaces with only 
 \(G_1\) continuity, the texture will seem to stretch differently on different surfaces.
@@ -157,7 +157,7 @@ However, De Casteljau's algorithm (Section~\ref{sec:decasteljau}), which is used
 Given a sequence of points, the B\'ezier curve starts from the first point and ends at the last point, whereas the intermediate points are treated as control points that `pull' the curve in their direction, but always remaining inside the convex hull of the points.
 This is known as a \emph{B\'ezier segment}\marginnote{B\'ezier segment}\index{B\'ezier segment}.
 
-The tangent vector at the first point points to the second point, whereas the tangent vector at the last point points from the next-to-last point to it.
+The tangent vector at the first point points towards the second point, whereas the tangent vector at the last point points from the next-to-last point to it.
 Similar constructions can be made for the higher derivatives, with the \(n\)-th derivative being determined only by \(n+1\) points.
 
 If there are no intermediate points, the result is a linear B\'ezier curve\marginnote{linear B\'ezier curve}\index{linear B\'ezier curve}, which is equivalent to a straight line between the two endpoints.
@@ -278,18 +278,18 @@ At each level \(j\), we obtain one fewer point than at the previous level.
 After \(n\) levels, we are left with a single point \(p_0^{n}\), which is the point on the B\'ezier curve at parameter \(t\).
 
 The intermediate points also have geometric meaning.
-For a quadratic B\'ezier curve \((p_0, p_1, p_2)\) at \(t=0.5\), the first level produces the midpoints \(p_0^1\) of \(p_0p_1\) and \(p_1^1\) of \(p_1p_2\), and the second level produces the midpoint \(p_0^2\) of their segment, which lies on the curve.
+For a quadratic B\'ezier curve \((p_0, p_1, p_2)\) at \(t=0.5\), the first level produces the midpoints \(p_0^1\) of \((p_0, p_1)\) and \(p_1^1\) of \((p_1, p_2)\), and the second level produces the midpoint \(p_0^2\) of their segment, which lies on the curve.
 More generally, the vector from \(p_1^{n-1}\) to \(p_0^{n-1}\) at any \(t\) gives the direction of the tangent vector at that point.
 
-This algorithm is numerically stable and is often used in practice to render B\'ezier curves by recursively subdividing them until the segments are small enough to be approximated as straight lines (eg a single pixel segment in a computer).
+This algorithm is numerically stable and is often used in practice to render B\'ezier curves by recursively subdividing them until the segments are small enough to be approximated as straight lines (eg a single pixel segment in a computer screen).
 Indeed, it was developed by Paul de Casteljau at Citro\"en for precisely this purpose.
 
 \subsection{Composite B\'ezier curves}
 
-In the examples before, we saw how low-degree B\'ezier segments (quadratic, cubic) can be used to model simple curves.
+In the examples before, we saw how low-degree B\'ezier segments (eg quadratic or cubic) can be used to model simple curves.
 In theory, they can also be used to model arbitrarily complex ones as well (with plenty of turns) by using high-degree polynomials instead, which is equivalent to curves with a lot of control points.
 However, in a B\'ezier curve, all control points affect all parts of the curve.
-In other words, moving a control point slightly will have effects everywhere on the curve, which in turn makes it difficult to control its shape.
+In other words, moving a control point slightly will have effects everywhere on the curve, which in turn makes it difficult to precisely control its shape.
 
 % About non Bezier polynomials, better to skip
 % For instance, in 2D, a polynomial of degree one (\ie\ a straight line) is a linear function of the form \(f(t) = at+b\) that can be defined so as to pass through two points, a polynomial of degree two (\ie\ a parabola) is a quadratic function of the form \(f(t)=at^2+bt+c\) that can be made to pass through three points, a polynomial of degree three is a cubic function of the form \(f(t)=at^3+bt^2+ct\) that can be made to pass through four points, and so on.
@@ -331,7 +331,7 @@ For \(C_1\) continuity, they should also be evenly spaced.
 \section{B\'ezier surfaces}
 \subsection{Rectangular B\'ezier surfaces}
 
-Moving on to 3D (through b-rep), the most common implementation of B\'ezier surfaces uses rectangular patches, which are made of grids of points.
+Moving on to 2D and 3D (as b-rep), the most common implementation of B\'ezier surfaces uses rectangular patches, which are made of grids of points.
 The most common are biquadratic\marginnote{biquadratic B\'ezier surface}\index{biquadratic B\'ezier surface} (\(3 \times 3\); Figure~\ref{fig:quadraticsurf}) and bicubic\marginnote{bicubic B\'ezier surface}\index{bicubic B\'ezier surface} (\(4 \times 4\); Figure~\ref{fig:cubicsurf}) surfaces, which are defined based on square matrices of points, such as:
 
 \begin{figure}
@@ -547,8 +547,9 @@ A b-spline curve is a parametric curve created based on two kinds of elements: (
 The control points are similar to the data and control points used in B\'ezier curves.
 The knots are the values of the parameter that split the curve into segments, which in the case of a simple B\'ezier curve (which is uniform) were simply 0 and 1 (which are the end points of the curve).
 
-The sequence of knots, usually known as the \emph{knot vector}\marginnote{knot vector}\index{knot vector}, also describes the control points that affect each segment of the curve.
-Since only some control points affect each segment, their shape is easier to control,  which means that we don't have to simply it into smaller segments to describe more complex shapes.
+The sequence of knots, usually known as the \emph{knot vector}\marginnote{knot vector}\index{knot vector}, also describes which control points that affect each segment of the curve.
+Since only some control points affect each segment and a control point only affects some segments, their shape is much easier to control.
+In turn, this means that we don't have to create composite curves in order to describe more complex shapes.
 
 Let us go through a more precise definition of a b-spline and its knots.
 Given a sequence of \(n+1\) control points \((p_0, \ldots, p_n)\) and a knot vector 
@@ -626,7 +627,7 @@ If the values of both \(u\) and \(v\) are both evenly spaced, we devote the same
 \end{figure}
 
 However, it is important to note that using the same amount of parameter space to each segment/patch does not mean the same geometric distance.
-In other words, even if we have the moving particle moving from \(t = 0\) to \(t = 1\) at a constant speed, we will likely not move at the same speed across the curve or surface (with the exception of some very specific curves).
+In other words, if we have the moving particle from the analogy moving from \(t = 0\) to \(t = 1\) at a constant speed, we will most likely not move at the same speed across the curve or surface.
 This is easiest to see when we consider that the data or control points are not evenly spaced either---we will move slower through parts with bunched up points, but it will also happen even when the points are evenly spaced.
 
 When we use different amounts of parameter space per segment or patch, we can define a \emph{non-uniform} parametric curve\marginnote{non-uniform parametric curve}\index{non-uniform parametric curve} or \emph{non-uniform} parametric surface\marginnote{non-uniform parametric surface}\index{non-uniform parametric surface}.
