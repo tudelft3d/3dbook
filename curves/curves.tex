@@ -566,7 +566,7 @@ B_{i,0}(t) &= \begin{cases}
 1 & \text{if } t_i  \leq t < t_{i+1} \\
 0 & \text{otherwise}
 \end{cases} \\
-B_{i,k}(t) &= \frac{t-t_i}{t_{i+k}-t_i} B_{i,p-1}(t) + \frac{t_{i+k+1}-t}{t_{i+k+1}-t_{i+1}}B_{i+1,k-1}(t)
+B_{i,k}(t) &= \frac{t-t_i}{t_{i+k}-t_i} B_{i,k-1}(t) + \frac{t_{i+k+1}-t}{t_{i+k+1}-t_{i+1}}B_{i+1,k-1}(t)
 \end{align}
 
 Note how the \(B_{i,k}(t)\) basis functions act as the weights of the weighted average, which is similar to the role of the Bernstein polynomials in B\'ezier curves.
@@ -574,8 +574,6 @@ However, unlike the Bernstein polynomials, the weights of the basis functions on
 This relates to how each segment of a b-spline is only affected by some control points (ie those with a value above 0).
 This means that adjusting the location of a control point will only have a local effect, which is known as \emph{local control}\marginnote{local control}\index{local control}.
 Continuity in b-splines is also built-in, where a b-spline of degree \(k\) has \(C^{k-1}\) continuity everywhere, including at its knots.
-
-% TODO: these figures use non-uniform b-splines! should be fixed
 
 \begin{figure*}
 \centering
@@ -599,7 +597,7 @@ Continuity in b-splines is also built-in, where a b-spline of degree \(k\) has \
 \caption{}%
 \label{subfig:bspline2}
 \end{subfigure}%
-\caption[Weights obtained from the b-spline basis functions]{Weights obtained from the b-spline basis functions (a) \(B_{i,0}\), (b) \(B_{i,1}\), (c) \(B_{i,2}\) and (c) \(B_{i,3}\).}%
+\caption[B-spline basis functions]{B-spline basis functions (a) \(B_{i,0}(t)\), (b) \(B_{i,1}(t)\), (c) \(B_{i,2}(t)\) and (c) \(B_{i,3}(t)\) with uniform clamped knot vectors on [0, 4]. As the degree increases, the basis functions become smoother and wider, each spanning 1 more knot interval.}%
 \label{fig:bspline}
 \end{figure*}
 
