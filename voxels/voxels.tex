@@ -8,13 +8,24 @@
 \chapter{Voxels and voxelisation}%
 \label{chap:voxels}
 
-Voxel models, which are the 3D equivalent of 2D rasters, are a common way to store 3D models of the built environment using a regular 3D grid (Figure~\ref{fig:model}).
+Voxel models, which are the 3D equivalent of 2D rasters, are a common way to store 3D models of the built environment using a regular 3D grid (Figures~\ref{fig:voxel}, ~\ref{fig:voxelmodel} and~\ref{fig:model}).
 Much like rasters in 2D, they have inherent limits in precision based on the grid size that is used and can easily grow to very large sizes in terms of memory, especially with a small grid size and when compression is not used.
 
 At the same time, voxel models are easy to use and understand, and algorithms to process them are typically much simpler than those using other representations, which also makes them more reliable, robust and easy to parallelise.
 They also work well for both objects (by storing which objects are present in each voxel) and fields (by storing the field value in each voxel).
 These characteristics make voxels an important and widely used representation to process 3D information in general.
-
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=\textwidth]{figs/voxel}
+  \caption[A voxel]{A voxel is a box-shaped element (cuboid), equivalent to a pixel in 2D.}% 
+\label{fig:voxel}
+\end{marginfigure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figs/voxelmodel}
+  \caption[A voxel model]{A voxel model is a representation of an object or field comprised of voxels.}% 
+\label{fig:voxelmodel}
+\end{figure}
 \begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{\linewidth}
@@ -39,9 +50,25 @@ The specifics of these data models differ, but in general they represent objects
 
 \begin{enumerate}
 
-\item \textbf{defining the shape of a domain}\marginnote{voxel domain}\index{voxel domain} in which the objects to be represented fit, or alternatively in which the region of interest of a field fits, \eg\ a bounding box defined by their minimum and maximum coordinates along each axis;
+\item \textbf{defining the shape of a domain}\marginnote{voxel domain}\index{voxel domain} (Figure~\ref{subfig:domain}) in which the objects to be represented fit, or alternatively in which the region of interest of a field fits, \eg\ a bounding box defined by their minimum and maximum coordinates along each axis;
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{\linewidth}
+\includegraphics[width=\linewidth]{figs/domain}
+\caption{}%
+\label{subfig:domain}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{\linewidth}
+\includegraphics[width=\linewidth]{figs/dividing}
+\caption{}%
+\label{subfig:dividing}
+\end{subfigure}
+\caption[Defining and dividing the domain of a voxel model]{(a) Defining and (b) dividing the domain of a voxel model}%
+\label{fig:domain}
+\end{figure}
 
-\item \textbf{dividing the domain} using a structure of many \emph{cells}\marginnote{voxel cells}\index{voxel cells}, usually following a regular or semi-regular pattern that can be defined programmatically (as opposed to explicitly representing the shape of each individual cell), \eg\ a grid defined by the number of cells along each axis;
+\item \textbf{dividing the domain} (Figure~\ref{subfig:dividing}) using a structure of many \emph{cells}\marginnote{voxel cells}\index{voxel cells}, usually following a regular or semi-regular pattern that can be defined programmatically (as opposed to explicitly representing the shape of each individual cell), \eg\ a grid defined by the number of cells along each axis;
 
 \item \textbf{specifying a well-defined order} passing once through each cell of the subdivision, usually also programmatically (as opposed to explicitly numbering each cell), \eg\ the order and direction of iteration of the axes in a grid;
 
@@ -257,6 +284,26 @@ Both strategies (decimation and refinement) can be implemented.
 
 The error associated with each point $p$, denoted error($p$), is calculated by interpolating at location $p$ after $p$ has been temporarily removed from the field, and comparing the value obtained with the real attribute $a$ of $p$, thus error($p) = |a - estimation|$. 
 As shown in Figure~\ref{fig:meshsimplification} for a one-dimensional case, when the error is more than $\epsilon_{\max}$ then the point must be kept, if it is less then the point can be discarded.
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.33\linewidth}
+\includegraphics[width=\linewidth]{figs/simplification-1}
+\caption{}%
+\label{subfig:simplification-1}
+\end{subfigure}%
+\begin{subfigure}[b]{0.33\linewidth}
+\includegraphics[width=\linewidth]{figs/simplification-2}
+\caption{}%
+\label{subfig:simplification-2}
+\end{subfigure}%
+\begin{subfigure}[b]{0.33\linewidth}
+\includegraphics[width=\linewidth]{figs/simplification-3}
+\caption{}%
+\label{subfig:simplification-3}
+\end{subfigure}
+\caption[Decimation of a mesh]{(a) Starting from a 2.5D raster terrain (or full 3D voxel model), (b) we can obtain a 2.5D or 3D b-rep mesh by creating triangles or quads, and (c) decimate it to obtain a simplified vector model.}%
+\label{fig:simplification}
+\end{figure}
 
 The method for 2D fields in GEO1015 uses linear interpolation in triangles, that is after $p$ has been temporarily deleted from DT($S$), the triangulation is updated and the estimation is obtained with the triangle containing location $p$. 
 However, since mentioned earlier, using the DT in 3D for interpolation is not advised (because they contain slivers).
