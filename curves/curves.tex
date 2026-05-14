@@ -687,7 +687,13 @@ B_i(t) &= \frac{1}{2}\left(\begin{array}{ccc}t^2 & t & 1\end{array}\right)
 &= \frac{1}{2}\bigl((1-t)^2 p_i + (1+2t-2t^2) p_{i+1} + t^2 p_{i+2}\bigr).
 \end{align}
 
-% Note that the quadratic b-spline does not pass through the first and last control points---it is an approximating curve rather than an interpolating one, which is a key difference from a quadratic B\'ezier curve.
+Note that the uniform b-spline does not pass through its first and last control points.
+It is an \emph{approximating} curve rather than an \emph{interpolating} one, which is a key difference from a B\'ezier curve.
+In practice, we usually want the curve to start at the first control point and end at the last one.
+This is achieved by repeating the first and last knots \(k\) times (where \(k\) is the degree plus one), producing a \emph{clamped}\marginnote{clamped b-spline}\index{clamped b-spline} (or \emph{open}) uniform b-spline\marginnote{open uniform b-spline}\index{open uniform b-spline}.
+For example, a cubic uniform b-spline with knot vector \((0,1,2,3,4,5,6)\) becomes \((0,0,0,0,1,2,3,4,5,6,6,6,6)\) when clamped.
+The clamped curve interpolates its endpoints while retaining uniform spacing and local control in its interior.
+B-splines used in practice are almost always clamped.
 
 \subsection{NURBS}
 
