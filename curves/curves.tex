@@ -714,11 +714,27 @@ When all weights are equal (conventionally set to 1), the NURBS curve reduces to
 
 One of the most important properties of NURBS is their ability to represent \emph{conic sections}\marginnote{conic section}\index{conic section} (circles, ellipses, parabolas, and hyperbolas) exactly.
 This is impossible with polynomial B\'ezier curves or uniform b-splines, which can only approximate these shapes.
-For example, a full circle can be represented exactly using a NURBS curve of degree 2 with seven control points and a carefully chosen knot vector with rational weights.
+
+\begin{kaobox}[frametitle=\faCog\ Concrete example: a circular arc with NURBS]
+Consider a quarter-circle arc of radius~1 in the first quadrant, from \((1,0)\) to \((0,1)\).
+A quadratic NURBS curve represents it exactly with:
+
+\begin{itemize}
+  \item control points: \(p_0 = (1,0),\ p_1 = (1,1),\ p_2 = (0,1)\);
+  \item weights: \(w_0 = 1,\ w_1 = \sqrt{2}/2,\ w_2 = 1\); and
+  \item knot vector: \((0,0,0,1,1,1)\), which is clamped and uniform.
+\end{itemize}
+
+Evaluating Equation~\eqref{eq:nurbscurve} at any \(t \in [0,1]\) yields a point on the unit circle.
+The weight \(w_1 < 1\) pulls the curve away from \(p_1\) toward the origin, bending what would otherwise be straight segments into a circular arc.
+Increasing \(w_1\) toward~1 straightens the curve toward the control polygon; decreasing it toward~0 pulls it further inward.
+
+A full circle is constructed by joining four such arcs, giving seven control points arranged in a square with alternating weights: \(1\), \(\sqrt{2}/2\), \(1\), \(\sqrt{2}/2\), \(1\), \(\sqrt{2}/2\), \(1\), and knot vector: \((0,0,0,1,1,2,2,3,3,4,4,4)\).
+\end{kaobox}
 
 NURBS have become the industry standard for curve and surface representation in computer-aided design and manufacturing.
 They are used in data exchange formats such as IGES and STEP, and are supported by virtually all major CAD software packages (\eg\ SolidWorks, CATIA, AutoCAD, Rhinoceros 3D).
-Importantly, NURBS subsume both B\'ezier curves and uniform b-splines: a B\'ezier curve is a special case of a NURBS curve where the knot vector has full multiplicity at the endpoints (e.g.\ \((0,0,\ldots,0,1,1,\ldots,1)\)) and all weights are equal.
+Importantly, NURBS subsume both B\'ezier curves and uniform b-splines: a B\'ezier curve is a special case of a NURBS curve where the knot vector has full multiplicity at the endpoints, e.g.\ \((0,0,\ldots,0,1,1,\ldots,1)\), and all weights are equal.
 %%%
 %
 \section{Exercises}
