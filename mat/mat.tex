@@ -53,7 +53,7 @@ Compared to other shape representations, this skeleton structure makes different
 For example, the MAT allows us to split a shape into parts simply by looking at the branches of the skeleton. 
 The resulting shape parts often turn out to be meaningful in practice. 
 Observe for instance that for the gingerbread man in Figure~\ref{fig:gingerman}, its arms, legs, torso and head each have one corresponding branch in its medial axis (compare Figures~\ref{fig:gbm:whole} and~\ref{fig:gbm:maxis}).
-For DTMs for example, equally meaningful decompositions into parts can be made, \eg\ the MAT allows us to decompose a DTM into separate hills, watercourses and other objects on top of the DTM (see Figure~\ref{fig:matterrain}).
+For DSMs for example, equally meaningful decompositions into parts can be made, \eg\ the MAT allows us to decompose a DSM into separate hills, watercourses and other objects on top of the DSM (see Figure~\ref{fig:matterrain}).
 
 \section{Defining the MAT}
 The MAT can be computed both for 2D and 3D objects (compare Figures~\ref{fig:3dmat_2d} and~\ref{fig:3dmat_halfopen}).
@@ -161,7 +161,7 @@ Using the medial geometry we can describe a number of interesting properties of 
 	% \item The feature points of a medial atom at the tip of a medial branch indicate points of minimal of curvature on $\mathcal{B}$. Notice also that the radius of those atoms is inversely proportional to the curvature at its feature points.
 \end{enumerate}
 
-\subsection{Exterior MAT and the MAT of a DTM}
+\subsection{Exterior MAT and the MAT of a DSM}
 The MAT can be divided into an interior part and an exterior part.
 So far we have only looked at the \emph{interior MAT}\marginnote{interior MAT}\index{interior MAT}, which consists of medial balls that reside entirely on the inside of an object.
 However, in many cases it is also possible to define medial balls that reside entirely on the outside of an object.
@@ -172,7 +172,7 @@ An object can only have an exterior MAT if the shape of that object is non-conve
 The separation between inside and outside is very clear and unambiguous for an object with a closed boundary such as the gingerbread man of Figure~\ref{fig:gingerman} or for any perfectly manifold boundary.
 However, for objects that are not completely closed this separation is less clear, as there could be MAT sheets that connect the interior and exterior parts though holes in the boundary surface.
 In some cases with an open boundary a reasonable distinction can still be made.
-For example for a DTM we can follow the convention that the `ground side' of the DTM is the interior, and the `sky side' is the exterior, as follows from Figure~\ref{fig:object_earth}.
+For example for a DSM we can follow the convention that the `ground side' of the DSM is the interior, and the `sky side' is the exterior, as follows from Figure~\ref{fig:object_earth}.
 \begin{figure*}
 	\centering
 	\begin{subfigure}{0.4\linewidth}
@@ -183,13 +183,13 @@ For example for a DTM we can follow the convention that the `ground side' of the
 	\quad
 	\begin{subfigure}{0.57\linewidth}
 		\includegraphics[width=\linewidth]{figs/MAT_hierarchy.pdf}
-		\subcaption{For a terrain the MAT is typically subdivided into open clusters that correspond to features such as hills, buildings and watercourses in the terrain. Shown here is a vertical cross section of a DTM\@. Exterior MAT in light blue, interior MAT in dark blue.}%
+		\subcaption{For a terrain the MAT is typically subdivided into open clusters that correspond to features such as hills, buildings and watercourses in the terrain. Shown here is a vertical cross section of a DSM\@. Exterior MAT in light blue, interior MAT in dark blue.}%
 		\label{fig:matterrain}
 	\end{subfigure}
 	\caption{Defining interior and exterior for an open surface such as a terrain.}
 	\label{fig:intext}
 \end{figure*}
-Following this convention, we can still define the interior and exterior MAT of a DTM, see for instance Figure~\ref{fig:matterrain}.
+Following this convention, we can still define the interior and exterior MAT of a DSM, see for instance Figure~\ref{fig:matterrain}.
 
 \subsection{Medial clusters}
 The interior and exterior MAT can consist of multiple disjoint parts (\eg\ in Figure~\ref{fig:matterrain}).
@@ -197,7 +197,7 @@ For closed objects the interior MAT is always one part, whereas the exterior MAT
 The disjoint parts are called \emph{medial clusters}\marginnote{medial clusters}\index{medial clusters}.
 Each medial cluster is in fact a set of adjacent sheets where each adjacency is also a junction between medial sheets.
 
-For objects with open boundaries like DTMs, there can also be multiple interior medial clusters.
+For objects with open boundaries like DSMs, there can also be multiple interior medial clusters.
 In this case one object on the terrain typically corresponds to one medial cluster (Figure~\ref{fig:matterrain}).
 Figure~\ref{fig:smat_r3d_int} also illustrates how the MAT can thus be used to meaningfully subdivide an object into parts.
 For an input that is simply a surface point cloud that happens to contain several objects, we can detect easily these objects by looking at the medial clusters of its MAT\@.
@@ -400,7 +400,7 @@ Figures~\ref{fig:smat_r3d_sheets_all} and \ref{fig:smat_r3d_ballo_all} show the 
 % Especially the medial bisector is useful, \ie\ it is tangential to the medial sheet and it always points in the direction of decreasing radius in a sheet, usually away from junction curves.
 % It is thus not only similar within one sheet, but also dissimilar for the different sheets that meet at a junction curve.
 % As a result there is little chance that a sheet segment grows into another sheet through a junction curve, leading to well separated sheets (see Figure~\ref{fig:MATmeth}).
-% Region-growing can also be used to segment the MAT of a DTM in its different disjoint medial clusters.
+% Region-growing can also be used to segment the MAT of a DSM in its different disjoint medial clusters.
 % In this case the region-growing condition may be based on a measure for the amount of overlap between nearby medial balls.
 % Because, nearby medial balls within one medial cluster are likely to overlap, whereas medial balls between different clusters are not.
 
@@ -425,7 +425,7 @@ As illustrated in Figures~\ref{fig:mat-instability} and \ref{fig:imaimp:a}, tiny
 	\caption{Instability of the MAT.}
 	\label{fig:mat-instability}
 \end{figure}
-This is especially problematic when $\mathcal{B}$ has some noise as is the case with the typical DTM.
+This is especially problematic when $\mathcal{B}$ has some noise as is the case with the typical DSM.
 The resulting MAT can become so distorted by the spurious branches that it becomes hard to distinguish its main medial structure.
 The main aim of pruning is to remove these spurious branches.
 
